@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-12">
         {/* BRAND */}
         <div className="max-w-xs">
-          <h2 className="text-2xl font-extrabold tracking-wide">HAIRKIFY</h2>
+          <h2 className="text-2xl font-extrabold tracking-wide">HAIRXIFY</h2>
           <p className="text-sm opacity-70 mt-3">
             Connecting clients with beauty professionals — empowering style,
             wellness, and confidence.
@@ -73,7 +73,7 @@ export default function Footer() {
       {/* BOTTOM SECTION */}
       <div className="border-t border-primary pt-6 flex flex-col md:flex-row justify-between text-xs opacity-70 gap-3">
         <p>
-          © 2025 <span className="font-extrabold ">HAIRKIFY</span>. All rights
+          © 2025 <span className="font-extrabold ">HAIRXIFY</span>. All rights
           reserved.
         </p>
 
