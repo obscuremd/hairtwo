@@ -63,7 +63,7 @@ export default function Footer() {
       {/* Divider */}
       <div className="border-t border-white/20 pt-6 text-center text-xs opacity-60 flex flex-col md:flex-row justify-between w-full gap-3">
         <p className="text-primary-c">
-          Copyright © 2025 Hairkify. All rights reserved
+          Copyright © 2025 Hairxify. All rights reserved
         </p>
 
         <p className="">
