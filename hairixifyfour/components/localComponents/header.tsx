@@ -15,7 +15,7 @@ export default function Header() {
       <div className="w-full mx-auto flex justify-between items-center font-semibold">
         {/* Logo */}
         <Link href="/" className="text-xl font-bold">
-          <img src={"/logo.png"} className="w-28 rounded-xl" />
+          <img src={"/Logo.png"} className="w-28 rounded-xl" />
         </Link>
 
         {/* Desktop Nav */}

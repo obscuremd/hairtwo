@@ -10,7 +10,7 @@ export default function Footer() {
         {/* BRAND */}
         <div className="max-w-xs">
           <Link href="/" className="text-xl font-bold">
-            <img src={"/logo.png"} className="w-36 rounded-xl" />
+            <img src={"/Logo.png"} className="w-36 rounded-xl" />
           </Link>
           <p className="text-sm text-tertiary-c opacity-80 mt-3">
             Connecting clients with beauty professionals — empowering style,
