@@ -30,7 +30,7 @@ export function Recommended() {
   };
 
   return (
-    <div className="relative w-full py-5 px-4">
+    <div className="relative w-full py-5">
       <h2 className="text-2xl md:text-3xl font-bold">
         Recommended Stylist Providers
       </h2>

@@ -43,38 +43,47 @@ export default function Header() {
         </nav>
 
         {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden p-2 rounded hover:bg-muted"
+        <Button
+          variant={"secondary"}
+          className="md:hidden"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        </Button>
       </div>
 
       {/* Mobile Nav */}
       {isOpen && (
-        <div className="md:hidden bg-background border-t border-border px-4 py-3 flex flex-col gap-2">
-          <Link href="/" onClick={() => setIsOpen(false)}>
-            <Button variant="secondary" className="w-full justify-start">
+        <div className="md:hidden px-4 py-3 flex flex-col gap-2">
+          <Link href="/find-talent" onClick={() => setIsOpen(false)}>
+            <Button
+              variant={"secondary"}
+              className="px-7 py-3 rounded-full w-full text-start flex justify-start"
+            >
               Find Stylist
             </Button>
           </Link>
           <Link href="/find-talent" onClick={() => setIsOpen(false)}>
-            <Button variant="secondary" className="w-full justify-start">
+            <Button
+              variant={"secondary"}
+              className="px-7 py-3 rounded-full w-full text-start flex justify-start"
+            >
               Marketplace
             </Button>
           </Link>
           <Link href="/find-recruiters" onClick={() => setIsOpen(false)}>
-            <Button variant="secondary" className="w-full justify-start">
+            <Button
+              variant={"secondary"}
+              className="px-7 py-3 rounded-full w-full text-start flex justify-start"
+            >
               Job Seekers
             </Button>
           </Link>
-
-          <div className="flex gap-2 pt-2">
-            <Link href="/auth">
-              <Button>Login / SIgn up</Button>
-            </Link>
-          </div>
+          <Link href="/auth" onClick={() => setIsOpen(false)}>
+            <Button className="bg-primary-c text-secondary-c font-bold px-7 py-3 rounded-full w-full text-start flex justify-start">
+              Login / SIgn up
+            </Button>
+          </Link>
         </div>
       )}
     </header>

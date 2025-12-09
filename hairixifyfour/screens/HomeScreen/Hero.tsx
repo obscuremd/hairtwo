@@ -51,7 +51,7 @@ export default function Hero() {
   }, [media.length]);
 
   return (
-    <main className="relative w-full h-[90vh] md:h-[80vh]">
+    <main className="relative w-full h-[80vh] overflow-hidden">
       <AnimatePresence>
         <motion.div
           key={index} // important

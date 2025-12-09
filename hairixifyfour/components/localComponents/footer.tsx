@@ -80,11 +80,6 @@ export default function Footer() {
           © 2025 <span className="font-extrabold ">HAIRXIFY</span>. All rights
           reserved.
         </p>
-
-        <p>
-          We use cookies to improve your experience. By continuing, you accept
-          our cookie policy.
-        </p>
       </div>
     </footer>
   );
