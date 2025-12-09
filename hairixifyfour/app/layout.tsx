@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Bai_Jamjuree } from "next/font/google";
-import Header from "@/components/localComponents/header";
+import Header, { BottomTabs } from "@/components/localComponents/header";
 import Footer from "@/components/localComponents/footer";
 import { ThemeProvider } from "@/components/ui/themeProvider";
 import Aurora from "@/components/Aurora";
@@ -28,6 +28,9 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <div className="fixed -bottom-1 w-full z-50 md:hidden">
+          <BottomTabs />
+        </div>
       </body>
     </html>
   );

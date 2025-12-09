@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { BriefcaseBusiness, Menu, Search, Store, User, X } from "lucide-react";
 
 export default function Header() {
   const router = useRouter();
@@ -87,5 +87,49 @@ export default function Header() {
         </div>
       )}
     </header>
+  );
+}
+export function BottomTabs() {
+  const router = useRouter();
+
+  return (
+    <nav className="w-full bg-foreground px-5 py-2 flex justify-between">
+      {/* Desktop Nav */}
+      <Link href="/find-talent">
+        <Button
+          variant={"ghost"}
+          className="flex flex-col h-fit text-tertiary-c"
+        >
+          <Search />
+          Find Stylist
+        </Button>
+      </Link>
+      <Link href="/find-talent">
+        <Button
+          variant={"ghost"}
+          className="flex flex-col h-fit text-tertiary-c"
+        >
+          <Store />
+          Marketplace
+        </Button>
+      </Link>
+      <Link href="/find-recruiters">
+        <Button
+          variant={"ghost"}
+          className="flex flex-col h-fit text-tertiary-c"
+        >
+          <BriefcaseBusiness /> Jobs
+        </Button>
+      </Link>
+      <Link href="/auth">
+        <Button
+          variant={"ghost"}
+          className="flex flex-col h-fit text-tertiary-c"
+        >
+          <User />
+          Login
+        </Button>
+      </Link>
+    </nav>
   );
 }
