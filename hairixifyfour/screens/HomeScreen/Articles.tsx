@@ -48,11 +48,11 @@ export default function Article() {
   }, []);
 
   return (
-    <div className="w-full py-4 md:py-14 md:px-4 mx-auto">
-      <h2 className="text-center text-3xl md:text-4xl font-extrabold mb-3">
+    <div className="w-full  md:px-4 mx-auto">
+      <h2 className="text-center text-3xl md:text-4xl font-bold mb-3">
         Articles & News
       </h2>
-      <p className="text-center text-gray-500 md:text-lg mb-8">
+      <p className="text-center text-gray-500 md:text-lg mb-8 font-medium">
         Insights, expert tips, and trends in the beauty & wellness world
       </p>
 

@@ -11,32 +11,32 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="w-full bg-foreground p-5">
-      <div className="w-full mx-auto flex justify-between items-center font-semibold">
+    <header className="w-full bg-foreground py-5 ox-2 md:px-10">
+      <div className="w-full mx-auto flex justify-between items-center font-semibold text-[#1CAB70]">
         {/* Logo */}
         <Link href="/" className="text-xl font-bold">
-          <img src={"/Logo.png"} className="w-28 rounded-xl" />
+          <img src={"/Logo.png"} className="w-40 rounded-xl" />
         </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-4">
           <Link href="/find-talent">
-            <Button variant={"secondary"} className="px-7 py-3 rounded-full">
+            <Button className="bg-[#003226] text-[#1CAB70] font-medium">
               Find Stylist
             </Button>
           </Link>
           <Link href="/find-talent">
-            <Button variant={"secondary"} className="px-7 py-3 rounded-full">
+            <Button className="bg-[#003226] text-[#1CAB70] font-medium">
               Marketplace
             </Button>
           </Link>
           <Link href="/find-recruiters">
-            <Button variant={"secondary"} className="px-7 py-3 rounded-full">
+            <Button className="bg-[#003226] text-[#1CAB70] font-medium">
               Job Seekers
             </Button>
           </Link>
           <Link href="/auth">
-            <Button className="bg-primary-c text-secondary-c font-bold px-7 py-3 rounded-full">
+            <Button className="text-[#003226] bg-[#1CAB70] font-semibold">
               Login / SIgn up
             </Button>
           </Link>
@@ -55,32 +55,35 @@ export default function Header() {
       {/* Mobile Nav */}
       {isOpen && (
         <div className="md:hidden px-4 py-3 flex flex-col gap-2">
-          <Link href="/find-talent" onClick={() => setIsOpen(false)}>
+          <Link href="/find-talent">
             <Button
-              variant={"secondary"}
-              className="px-7 py-3 rounded-full w-full text-start flex justify-start"
+              onClick={() => setIsOpen(false)}
+              className="bg-[#003226] w-full text-[#1CAB70] font-medium"
             >
               Find Stylist
             </Button>
           </Link>
-          <Link href="/find-talent" onClick={() => setIsOpen(false)}>
+          <Link href="/find-talent">
             <Button
-              variant={"secondary"}
-              className="px-7 py-3 rounded-full w-full text-start flex justify-start"
+              onClick={() => setIsOpen(false)}
+              className="bg-[#003226] w-full text-[#1CAB70] font-medium"
             >
               Marketplace
             </Button>
           </Link>
-          <Link href="/find-recruiters" onClick={() => setIsOpen(false)}>
+          <Link href="/find-recruiters">
             <Button
-              variant={"secondary"}
-              className="px-7 py-3 rounded-full w-full text-start flex justify-start"
+              onClick={() => setIsOpen(false)}
+              className="bg-[#003226] w-full text-[#1CAB70] font-medium"
             >
               Job Seekers
             </Button>
           </Link>
-          <Link href="/auth" onClick={() => setIsOpen(false)}>
-            <Button className="bg-primary-c text-secondary-c font-bold px-7 py-3 rounded-full w-full text-start flex justify-start">
+          <Link href="/auth">
+            <Button
+              onClick={() => setIsOpen(false)}
+              className="text-[#003226] w-full bg-[#1CAB70] font-semibold"
+            >
               Login / SIgn up
             </Button>
           </Link>

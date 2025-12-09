@@ -2,24 +2,23 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function SearchScreen() {
   return (
-    <div className="md:w-[80%] w-full py-14 px-4 mx-auto">
-      <h2 className="text-center text-3xl font-extrabold mb-10">
-        Explore Available Stylists & Beauty Services by City
+    <div className="md:w-[80%] w-full py-14 md:px-4 mx-auto">
+      <h2 className="text-center text-2xl md:text-4xl font-bold mb-7">
+        Explore Popular Stylists & Beauty Product by City
       </h2>
 
       <Tabs defaultValue="Service">
-        <div className="p-6 rounded-2xl bg-gradient-to-br from-primary-c/10 to-transparent border border-primary-c/30 space-y-10">
-          <TabsList className="bg-transparent p-1 rounded-xl flex gap-2">
+        <div className="md:p-10 p-5 rounded-2xl bg-linear-to-br from-primary-c/10 to-transparent border border-primary-c/30 space-y-10">
+          <TabsList className="bg-transparent p-1 rounded-xl flex">
             {/* Service Providers Tab */}
             <TabsTrigger
               value="Service"
               className={`
-                data-[state=active]:bg-secondary-c
+                data-[state=active]:bg-[#017C3B]
                 data-[state=active]:text-tertiary-c
                 bg-transparent text-secondary-c
-                rounded-sm md:px-6 md:py-5
+                rounded-sm px-4 py-5
                 md:text-lg
-                data-[state=active]:border-secondary-c
                 transition
               `}
             >
@@ -30,12 +29,11 @@ export default function SearchScreen() {
             <TabsTrigger
               value="Beauty"
               className={`
-                data-[state=active]:bg-secondary-c
+                data-[state=active]:bg-[#017C3B]
                 data-[state=active]:text-tertiary-c
                 bg-transparent text-secondary-c
-                rounded-sm md:px-6 md:py-5
+                rounded-sm px-4 py-5
                 md:text-lg
-                data-[state=active]:border-secondary-c
                 transition
               `}
             >
@@ -44,11 +42,11 @@ export default function SearchScreen() {
           </TabsList>
 
           {/* Location Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-y-3 gap-x-7">
             {locationData.map((data, idx) => (
               <button
                 key={idx}
-                className="bg-white border md:p-2 p-1 rounded-lg hover:border-primary-c hover:text-primary-c text-sm md:text-md transition text-start"
+                className="bg-white py-2 px-4 rounded-lg border-2 hover:border-primary-c hover:text-primary-c text-sm md:text-[12px] font-medium transition text-start"
               >
                 {data}
               </button>
@@ -61,21 +59,24 @@ export default function SearchScreen() {
 }
 
 const locationData = [
-  "Warri",
-  "Yola North",
-  "Wuduli",
-  "Yola South",
-  "Warri North",
   "Warri Central",
-  "Umauhmi south",
-  "Uruanu",
-  "Ukwani",
-  "Ukwa West",
-  "Umu Nneochi",
-  "Egbeda",
-  "Sokoto",
-  "Ukwu East",
-  "Sango Ota",
-  "Shomolu",
-  "Iyana Ipaja",
+  "Warri Central",
+  "Warri Central",
+  "Warri Central",
+  "Lagelu Ogbomosho North",
+  "Lagelu Ogbomosho North",
+  "Lagelu Ogbomosho North",
+  "Lagelu Ogbomosho North",
+  "Lagos Island",
+  "Lagos Island",
+  "Lagos Island",
+  "Lagos Island",
+  "Akoko South Akure East",
+  "Akoko South Akure East",
+  "Akoko South Akure East",
+  "Akoko South Akure East",
+  "Gwagwalada",
+  "Gwagwalada",
+  "Gwagwalada",
+  "Gwagwalada",
 ];

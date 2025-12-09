@@ -28,7 +28,9 @@ const media = [
 
 export function HomeCard1() {
   return (
-    <div className={`md:p-5 py-10 flex flex-col md:flex-row gap-8 `}>
+    <div
+      className={`md:p-5 py-10 flex flex-col md:flex-row gap-15 bg-background rounded-2xl`}
+    >
       <div className="flex flex-col gap-5 md:w-1/2">
         <h3 className=" text-xl md:text-3xl font-bold">
           Discover and Book Beauty and Wellness Professionals Near You!
@@ -66,7 +68,7 @@ export function HomeCard2() {
         <h3 className=" text-3xl md:text-4xl font-bold">
           Shop Top Beauty And Wellness Products
         </h3>
-        <p className="md:text-2xl font-light">
+        <p className="md:text-2xl font-medium">
           No.1 marketplace for all stylist products in Nigeria.
         </p>
         <Button className="bg-secondary-c w-fit">Shop Stylist Products</Button>
@@ -111,20 +113,20 @@ export function HomeCard3() {
 export default function HomeCard4() {
   return (
     <div
-      className={` flex flex-col md:flex-row gap-8 rounded-3xl items-center`}
+      className={` flex flex-col md:flex-row gap-15 rounded-3xl items-center`}
     >
       <img
         src={
           "https://images.unsplash.com/photo-1629397685944-7073f5589754?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fGhhaXIlMjBzYWxvbnxlbnwwfHwwfHx8MA%3D%3D"
         }
         alt="image"
-        className="object-cover w-full md:w-[400px] h-[300px] rounded-3xl"
+        className="object-cover w-full md:w-[500px] h-[300px] rounded-3xl"
       />
       <div className="flex flex-col gap-5">
         <h3 className=" text-2xl md:text-3xl font-bold">
           FInd your dream beauty and wellness Job
         </h3>
-        <p className="text-lg font-medium">
+        <p className="text-md md:text-lg font-medium">
           Explore exciting career opportunities in the beauty and wellness
           industy . whether you&apos;re a stylist ,therapist or beauty expert,
           our platform our company connects you wuth top employers seeking

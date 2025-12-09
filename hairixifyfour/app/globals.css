@@ -83,9 +83,9 @@
   --sidebar-ring: oklch(0.705 0.015 286.067);
 
   /* main colors */
-  --color-primary-c: #35cb7b;
+  --color-primary-c: #068340;
   --color-secondary-c: #004737;
-  --color-tertiary-c: #fffbec;
+  --color-tertiary-c: #ffffff;
 }
 
 .dark {

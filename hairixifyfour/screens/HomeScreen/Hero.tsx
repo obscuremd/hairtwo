@@ -59,7 +59,7 @@ export default function Hero() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -100 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
-          className="absolute inset-0"
+          className="absolute inset-0 bg-linear-to-b from-black/50 to-black/70"
         >
           <Image
             src={media[index].image}
@@ -70,34 +70,38 @@ export default function Hero() {
           />
         </motion.div>
       </AnimatePresence>
-
-      <div className="absolute inset-0 flex flex-col items-center justify-between p-4 text-tertiary-c bg-linear-to-b from-black/50 to-black/70 ">
+      <motion.div
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -100 }}
+        transition={{ duration: 1.2, ease: "easeInOut" }}
+        className="absolute inset-0 bg-black/50 "
+      />
+      <div className="absolute inset-0 flex flex-col items-center justify-between p-4 text-tertiary-c">
         <div className="pt-[30%] md:pt-[10%] w-[90%] md:w-[70%] flex flex-col gap-5 items-center text-center">
-          <h1 className="text-3xl md:text-6xl font-bold">
+          <h1 className="text-3xl md:text-6xl font-semibold">
             Nigeria&apos;s <span className="text-primary-c">No.1</span>
              Free stylists and Beauty marketplace!
           </h1>
-          <p className="text-2xl font-light text-secondary">
-            Discover barbers, stylists, hair salons skin care and wellness
+          <p className="text-xl text-secondary">
+            Discover barbers, stylists, hair salons, skin care and wellness
             professionals near you
           </p>
-          <div className="relative w-full">
+          <div className="relative md:w-[70%] w-full">
             <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-tertiary-c" />
             <Input
               type="text"
-              placeholder="Im looking for ..."
-              className="pl-10 py-6 text-tertiary-c bg-foreground border-0"
+              placeholder="I'm looking for ..."
+              className="pl-10 py-8 text-tertiary-c bg-foreground border-0 text-lg md:text-xl font-semibold"
             />
           </div>
         </div>
-        <div className="w-[30%] md:w-[10%] flex gap-2 items-center">
+        <div className="w-[30%] md:w-[10%] flex gap-2 items-center pb-10">
           {media.map((item, idx) => (
             <div
               key={idx}
-              className={`rounded-full ${
-                index === idx
-                  ? "bg-primary-c w-3/4 h-[6]"
-                  : "bg-secondary w-1/4 h-1"
+              className={`rounded-full w-full ${
+                index === idx ? "bg-primary-c  h-[6]" : "bg-secondary h-1"
               }`}
             />
           ))}

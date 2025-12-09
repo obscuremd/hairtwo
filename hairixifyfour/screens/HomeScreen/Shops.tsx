@@ -112,7 +112,7 @@ export function Trending() {
 
   return (
     <div className="relative w-full py-8 px-4">
-      <h2 className="text-2xl md:text-3xl font-bold">
+      <h2 className="text-2xl md:text-3xl font-bold text-primary-c">
         Trending Beauty Marketplace Products
       </h2>
 

@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Bai_Jamjuree } from "next/font/google";
+import { Bai_Jamjuree, Open_Sans } from "next/font/google";
 import Header, { BottomTabs } from "@/components/localComponents/header";
 import Footer from "@/components/localComponents/footer";
 import { ThemeProvider } from "@/components/ui/themeProvider";
 import Aurora from "@/components/Aurora";
 
 // Load Bai Jamjuree font
-const baiJamjuree = Bai_Jamjuree({
+const OpenSans = Open_Sans({
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${baiJamjuree.className} antialiased relative`}>
+      <body className={`${OpenSans.className} antialiased relative`}>
         <Header />
         {children}
         <Footer />
