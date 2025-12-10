@@ -92,7 +92,7 @@ export default function Hero() {
             <Input
               type="text"
               placeholder="I'm looking for ..."
-              className="pl-10 py-8 text-tertiary-c bg-foreground border-0 text-lg md:text-xl font-semibold"
+              className="pl-10 py-6 md:py-8 text-tertiary-c bg-foreground border-0 text-lg md:text-xl font-semibold"
             />
           </div>
         </div>

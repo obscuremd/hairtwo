@@ -11,11 +11,11 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="w-full bg-foreground py-5 ox-2 md:px-10">
+    <header className="w-full bg-foreground py-5 px-4 md:px-10">
       <div className="w-full mx-auto flex justify-between items-center font-semibold text-[#1CAB70]">
         {/* Logo */}
         <Link href="/" className="text-xl font-bold">
-          <img src={"/Logo.png"} className="w-40 rounded-xl" />
+          <img src={"/Logo.png"} className="md:w-36 w-28 rounded-xl" />
         </Link>
 
         {/* Desktop Nav */}
@@ -96,7 +96,7 @@ export function BottomTabs() {
   const router = useRouter();
 
   return (
-    <nav className="w-full bg-foreground px-5 py-2 flex justify-between">
+    <nav className="w-full bg-zinc-800 px-5 py-2 flex justify-between">
       {/* Desktop Nav */}
       <Link href="/find-talent">
         <Button
