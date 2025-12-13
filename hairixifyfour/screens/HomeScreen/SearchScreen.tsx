@@ -2,7 +2,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function SearchScreen() {
   return (
-    <div className="md:w-[85%] w-full py-14  mx-auto">
+    <div className="md:w-[75%] w-full py-14  mx-auto">
       <h2 className="text-center text-2xl md:text-[2rem] font-bold mb-7">
         Explore Popular Stylists & Beauty Product by City
       </h2>
@@ -46,7 +46,7 @@ export default function SearchScreen() {
             {locationData.map((data, idx) => (
               <button
                 key={idx}
-                className="bg-white py-2 px-4 rounded-lg border-2 hover:border-primary-c hover:text-primary-c text-sm md:text-[12px] font-medium transition text-start"
+                className="bg-white py-2 px-4 rounded-lg border-2 hover:border-primary-c hover:text-primary-c text-sm md:text-md font-medium transition text-start"
               >
                 {data}
               </button>
