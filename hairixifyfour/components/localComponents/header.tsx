@@ -11,7 +11,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="w-full bg-foreground py-5 px-4 md:px-10">
+    <header className="w-full bg-[#09090b] md:h-[70px] md:py-0 flex flex-col md:flex-row items-center p-5 md:px-10">
       <div className="w-full mx-auto flex justify-between items-center font-semibold text-[#1CAB70]">
         {/* Logo */}
         <Link href="/" className="text-xl font-bold">
@@ -21,22 +21,22 @@ export default function Header() {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-4">
           <Link href="/find-talent">
-            <Button className="bg-[#003226] text-[#1CAB70] font-medium">
+            <Button className="bg-[#003226] text-[#3ad688] font-medium">
               Find Stylist
             </Button>
           </Link>
           <Link href="/find-talent">
-            <Button className="bg-[#003226] text-[#1CAB70] font-medium">
+            <Button className="bg-[#003226] text-[#3ad688] font-medium">
               Marketplace
             </Button>
           </Link>
           <Link href="/find-recruiters">
-            <Button className="bg-[#003226] text-[#1CAB70] font-medium">
+            <Button className="bg-[#003226] text-[#3ad688] font-medium">
               Job Seekers
             </Button>
           </Link>
           <Link href="/auth">
-            <Button className="text-[#003226] bg-[#1CAB70] font-semibold">
+            <Button className="text-[#003226] bg-[#3ad688] font-semibold">
               Login / SIgn up
             </Button>
           </Link>
@@ -54,7 +54,7 @@ export default function Header() {
 
       {/* Mobile Nav */}
       {isOpen && (
-        <div className="md:hidden px-4 py-3 flex flex-col gap-2">
+        <div className="md:hidden px-4 py-3 flex flex-col gap-2 w-full">
           <Link href="/find-talent">
             <Button
               onClick={() => setIsOpen(false)}

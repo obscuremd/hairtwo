@@ -21,7 +21,7 @@ export default function Footer() {
         {/* LINKS */}
         <div className="flex flex-col md:flex-row justify-between w-full gap-10">
           <div>
-            <h3 className="text-xl font-bold mb-3 uppercase tracking-wide text-[#3BCB66]">
+            <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
               Company
             </h3>
             <ul className="space-y-2 text-md text-tertiary-c opacity-80">
@@ -33,7 +33,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-xl font-bold mb-3 uppercase tracking-wide text-[#3BCB66]">
+            <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
               Services
             </h3>
             <ul className="space-y-2 text-md text-tertiary-c opacity-80">
@@ -44,7 +44,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-xl font-bold mb-3 uppercase tracking-wide text-[#3BCB66]">
+            <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
               Support
             </h3>
             <ul className="space-y-2 text-md text-tertiary-c opacity-80">
@@ -55,7 +55,7 @@ export default function Footer() {
           </div>
           {/* SOCIALS */}
           <div>
-            <h3 className="text-xl font-bold mb-3 uppercase tracking-wide text-[#3BCB66]">
+            <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
               Follow Us
             </h3>
             <div className="flex items-center gap-3">

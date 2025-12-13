@@ -31,7 +31,7 @@ export function Recommended() {
 
   return (
     <div className="relative w-full py-5">
-      <h2 className="text-2xl md:text-3xl font-bold">
+      <h2 className="text-2xl md:text-[2rem] font-bold">
         Recommended Stylist Providers
       </h2>
 
@@ -112,7 +112,7 @@ export function Trending() {
 
   return (
     <div className="relative w-full py-8 px-4">
-      <h2 className="text-2xl md:text-3xl font-bold text-primary-c">
+      <h2 className="text-2xl md:text-3xl font-bold text-[#058441]">
         Trending Beauty Marketplace Products
       </h2>
 
@@ -193,13 +193,13 @@ function ProductCard({
 
       {/* Category Badge */}
       <div className="absolute top-2 left-2">
-        <span className="bg-primary-c text-white text-[10px] font-semibold px-2 py-1 rounded-full shadow-sm">
+        <span className="bg-[#12ab5a] text-white text-[10px] font-semibold px-2 py-1 rounded-full shadow-sm">
           {category}
         </span>
       </div>
 
       {/* Bottom Content */}
-      <div className="absolute bottom-2 left-2 w-[90%] text-white">
+      <div className="absolute bottom-2 left-2 w-[90%] text-white pb-[20px]">
         <h3 className="text-base font-bold drop-shadow">{primary_text}</h3>
 
         {/* Address row */}
@@ -209,7 +209,7 @@ function ProductCard({
         </div>
 
         {/* Description */}
-        <p className="text-[11px] mt-2 line-clamp-2 opacity-80 drop-shadow">
+        <p className="text-[11px] mt-2 line-clamp-2 opacity-80 drop-shadow ">
           {description}
         </p>
       </div>
