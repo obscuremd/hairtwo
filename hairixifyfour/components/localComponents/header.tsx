@@ -11,7 +11,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="w-full bg-[#09090b] md:h-[70px] md:py-0 flex flex-col md:flex-row items-center p-5 md:px-10">
+    <header className="w-full bg-[#09090b] md:h-[70px] md:py-0 flex flex-col md:flex-row items-center p-5 md:px-[60px]">
       <div className="w-full mx-auto flex justify-between items-center font-semibold text-[#1CAB70]">
         {/* Logo */}
         <Link href="/" className="text-xl font-bold">

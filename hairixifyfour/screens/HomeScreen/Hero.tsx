@@ -63,7 +63,7 @@ export default function Hero() {
   };
 
   return (
-    <main className="relative w-full min-h-[470px] h-[80vh] overflow-hidden bg-black">
+    <main className="relative w-full min-h-[470px] h-[70vh] overflow-hidden bg-black">
       <AnimatePresence initial={false}>
         <motion.div
           key={index}
