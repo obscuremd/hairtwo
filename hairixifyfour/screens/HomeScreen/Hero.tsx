@@ -92,7 +92,7 @@ export default function Hero() {
 
       <div className="absolute inset-0 flex flex-col items-center justify-between p-4 text-tertiary-c">
         <div className=" w-[90%] md:w-[70%] flex flex-col gap-5 items-center justify-center h-full text-center">
-          <h1 className="text-3xl md:text-6xl font-semibold">
+          <h1 className="text-3xl md:text-4xl lg:text-6xl font-semibold">
             Nigeria&apos;s <span className="text-[#3ad688]">No.1</span>
              Free Stylists and Beauty Marketplace!
           </h1>
