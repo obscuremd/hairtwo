@@ -63,7 +63,7 @@ export function HomeCard1() {
 }
 export function HomeCard2() {
   return (
-    <div className="md:px-5 py-10 flex flex-col md:flex-row items-center gap-8 w-full">
+    <div className="px-5 md:px-[60px] py-10 flex flex-col md:flex-row items-end gap-8 w-full h-[900px] bg-[#F3FAF4]">
       <div className="flex flex-col gap-5 md:w-1/3">
         <h3 className="text-2xl md:text-[2rem] font-bold">
           Shop Top Beauty And Wellness Products

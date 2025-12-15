@@ -18,15 +18,12 @@ export default function Home() {
       </div>
 
       {/* Cards with background */}
-      <div className="relative ">
-        {/* background */}
-        <div className="absolute inset-x-0 top-[40vh] bottom-0 bg-[#F3FAF4] -z-10" />
+      {/* background */}
 
-        <div className="w-full px-5 md:px-[60px] space-y-16">
-          <HomeCard1 />
-          <HomeCard2 />
-        </div>
+      <div className="w-full px-5 md:px-[60px] space-y-16 -mb-[20%]">
+        <HomeCard1 />
       </div>
+      <HomeCard2 />
 
       <div className="w-full px-5 md:px-[60px] pt-6 md:pt-16 space-y-16">
         <HomeCard4 />
