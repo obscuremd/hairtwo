@@ -4,22 +4,23 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#002917] text-[#94A49D] px-10 md:px-20 py-20 mt-16">
+    <footer className="w-full bg-[#002917] text-[#94A49D] px-10 py-20 mt-16">
       {/* TOP SECTION */}
-      <div className="flex flex-col md:flex-row items-start gap-10 md:gap-[20%] mb-12 md:pr-32">
+      <div className="flex flex-col md:flex-row items-start gap-10 mb-12 w-full">
         {/* BRAND */}
-        <div className="max-w-xs">
+        <div className="md:w-2/5">
           <Link href="/" className="text-xl font-bold">
             <img src={"/Logo.png"} className="w-36 rounded-xl" />
           </Link>
           <p className="text-sm text-tertiary-c opacity-80 mt-3">
-            Connecting clients with beauty professionals — empowering style,
-            wellness, and confidence.
+            Connecting clients with beauty professionals —
+            <br />
+            empowering style, wellness, and confidence.
           </p>
         </div>
 
         {/* LINKS */}
-        <div className="flex flex-col md:flex-row justify-between w-full gap-10">
+        <div className="flex flex-col md:flex-row  md:w-3/5 gap-20">
           <div>
             <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
               Company

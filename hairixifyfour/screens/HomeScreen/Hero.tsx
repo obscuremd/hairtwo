@@ -40,43 +40,56 @@ export default function Hero() {
     },
   ];
 
-  const [index, setIndex] = useState(0);
+  const [[index, direction], setIndex] = useState<[number, number]>([0, 0]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % media.length);
+      setIndex(([prev]) => [(prev + 1) % media.length, 1]);
     }, 5000);
 
     return () => clearInterval(interval);
   }, [media.length]);
 
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? "100vw" : "-100vw",
+    }),
+    center: {
+      x: 0,
+    },
+    exit: (direction: number) => ({
+      x: direction > 0 ? "-100vw" : "100vw",
+    }),
+  };
+
   return (
-    <main className="relative w-full h-[80vh] overflow-hidden">
-      <AnimatePresence>
+    <main className="relative w-full min-h-[600px] h-[80vh] overflow-hidden bg-black">
+      <AnimatePresence initial={false}>
         <motion.div
-          key={index} // important
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -100 }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
-          className="absolute inset-0 bg-linear-to-b from-black/50 to-black/70"
+          key={index}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            type: "tween",
+            duration: 1.6,
+            ease: [0.4, 0, 0.2, 1], // ultra-smooth (Material curve)
+          }}
+          className="absolute inset-0"
         >
           <Image
             src={media[index].image}
             alt={`hero image ${index}`}
             fill
-            className="object-cover "
+            className="object-cover"
             priority
           />
+          <div className="absolute inset-0 bg-linear-to-b from-black/40 to-black/70" />
         </motion.div>
       </AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0, x: 100 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -100 }}
-        transition={{ duration: 1.2, ease: "easeInOut" }}
-        className="absolute inset-0 bg-black/50 "
-      />
+
       <div className="absolute inset-0 flex flex-col items-center justify-between p-4 text-tertiary-c">
         <div className="pt-[30%] md:pt-[10%] w-[90%] md:w-[70%] flex flex-col gap-5 items-center text-center">
           <h1 className="text-3xl md:text-6xl font-semibold">

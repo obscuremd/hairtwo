@@ -10,13 +10,25 @@ import { Recommended } from "@/screens/HomeScreen/Shops";
 
 export default function Home() {
   return (
-    <div className="min-h-screen items-center justify-center max-w-full relative">
+    <div className="min-h-screen max-w-full relative">
       <Hero />
-      <div className="absolute h-[190vh] md:h-screen w-screen md:w-[95vw] -z-50 bg-[#F3FAF4] bottom-[50%] md:bottom-[50%] md:left-[2%]" />
-      <div className="w-full px-5 md:px-15 space-y-0 md:space-y-16 pt-6 md:pt-16">
+
+      <div className="w-full px-5 md:px-10 pt-6 md:pt-16 space-y-16">
         <Recommended />
-        <HomeCard1 />
-        <HomeCard2 />
+      </div>
+
+      {/* Cards with background */}
+      <div className="relative ">
+        {/* background */}
+        <div className="absolute inset-x-0 top-[40vh] bottom-0 bg-[#F3FAF4] -z-10" />
+
+        <div className="w-full px-5 md:px-10 space-y-16">
+          <HomeCard1 />
+          <HomeCard2 />
+        </div>
+      </div>
+
+      <div className="w-full px-5 md:px-10 pt-6 md:pt-16 space-y-16">
         <HomeCard4 />
         <HomeCard3 />
         <SearchScreen />
