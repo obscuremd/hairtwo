@@ -20,7 +20,7 @@ export default function Footer() {
         </div>
 
         {/* LINKS */}
-        <div className="flex flex-col md:flex-row flex-wrap md:w-3/5 gap-20">
+        <div className="flex flex-col md:flex-row md:w-3/5 gap-20">
           <div>
             <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
               Company
