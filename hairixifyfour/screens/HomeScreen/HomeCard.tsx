@@ -29,7 +29,7 @@ const media = [
 export function HomeCard1() {
   return (
     <div
-      className={`md:p-5 py-10 flex flex-col md:flex-row gap-15 bg-background rounded-2xl relative`}
+      className={`md:p-5 py-10 flex flex-col md:flex-row gap-15 bg-transparent md:bg-background rounded-2xl relative`}
     >
       <div className="flex flex-col gap-5 md:w-1/2">
         <h3 className=" text-xl md:text-3xl font-bold">
