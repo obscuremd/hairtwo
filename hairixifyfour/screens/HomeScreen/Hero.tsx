@@ -100,12 +100,12 @@ export default function Hero() {
             Discover barbers, stylists, hair salons, skin care and wellness
             professionals near you
           </p>
-          <div className="relative md:w-[70%] w-full">
+          <div className="relative md:w-[70%] w-full h-[45px]">
             <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 text-tertiary-c" />
             <Input
               type="text"
               placeholder="I'm looking for ..."
-              className="pl-10 py-6 md:py-8 text-[#898989] bg-[#141416] border-0 text-md md:text-lg font-semibold"
+              className="pl-10 py-6 text-[#898989] bg-[#141416] border-0 text-md md:text-md font-semibold h-[45px]"
             />
           </div>
         </div>
