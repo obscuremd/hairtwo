@@ -4,13 +4,13 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#002917] text-[#94A49D] px-5 md:px-[60px] py-20">
+    <footer className="w-full bg-[#002917] text-[#94A49D] px-5 md:px-[68px] py-[44px] space-y-[44px] mb-14 md:mb-0">
       {/* TOP SECTION */}
-      <div className="flex flex-col md:flex-row items-start gap-10 mb-12 w-full">
+      <div className="flex flex-col md:flex-row items-start gap-10 w-full">
         {/* BRAND */}
         <div className="md:w-2/5">
           <Link href="/" className="text-xl font-bold">
-            <img src={"/Logo.png"} className="w-36 rounded-xl" />
+            <img src={"/Logo.png"} className="w-40 rounded-xl" />
           </Link>
           <p className="text-sm text-tertiary-c opacity-80 mt-3">
             Connecting clients with beauty professionals —
@@ -20,7 +20,7 @@ export default function Footer() {
         </div>
 
         {/* LINKS */}
-        <div className="flex flex-col md:flex-row md:w-3/5 gap-20">
+        <div className="flex flex-col md:flex-row md:w-3/5 gap-10 md:gap-20">
           <div>
             <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
               Company

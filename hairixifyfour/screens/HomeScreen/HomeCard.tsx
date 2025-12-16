@@ -64,8 +64,8 @@ export function HomeCard1() {
 export function HomeCard2() {
   return (
     <div className=" flex flex-col md:flex-row items-center gap-8 w-full pt-[68px]">
-      <div className="space-y-[51px] md:w-1/3">
-        <div className="space-y-[14px]">
+      <div className="space-y-3.5 md:space-y-[51px] md:w-1/3">
+        <div className="space-y-3.5">
           <h3 className="text-xl md:text-[2rem] font-bold">
             Shop Top Beauty And Wellness Products
           </h3>
@@ -83,7 +83,7 @@ export function HomeCard2() {
 }
 export function HomeCard3() {
   return (
-    <div className={`py-[68px] flex flex-col gap-4 w-full`}>
+    <div className={`py-10 md:py-[68px] flex flex-col gap-4 w-full`}>
       <div className="flex flex-col gap-5 justify-center text-center">
         <h3 className="text-xl md:text-[2rem] font-bold">
           Book Trusted Beauty & Wellness Experts in Your Area
@@ -115,7 +115,7 @@ export function HomeCard3() {
 export default function HomeCard4() {
   return (
     <div
-      className={` flex flex-col md:flex-row gap-15 rounded-3xl items-center py-[68px]`}
+      className={` flex flex-col md:flex-row gap-15 rounded-3xl items-center py-10 md:py-[68px]`}
     >
       <img
         src={
