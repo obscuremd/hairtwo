@@ -63,7 +63,7 @@ export function HomeCard1() {
 }
 export function HomeCard2() {
   return (
-    <div className="md:px-5 flex flex-col md:flex-row items-center gap-8 w-full pt-[68px]">
+    <div className=" flex flex-col md:flex-row items-center gap-8 w-full pt-[68px]">
       <div className="space-y-[51px] md:w-1/3">
         <div className="space-y-[14px]">
           <h3 className="text-xl md:text-[2rem] font-bold">
