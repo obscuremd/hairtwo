@@ -13,7 +13,7 @@ export default function Home() {
     <div className="min-h-screen max-w-full relative">
       <Hero />
 
-      <div className="w-full px-5 md:px-[70px] pt-6 md:pt-16 space-y-16">
+      <div className="w-full p-5 md:p-[68px]">
         <Recommended />
       </div>
 
@@ -22,13 +22,13 @@ export default function Home() {
         {/* background */}
         <div className="absolute inset-x-0 top-[40vh] bottom-0 bg-[#F3FAF4] -z-10" />
 
-        <div className="w-full px-5 md:px-[70px] space-y-16">
+        <div className="w-full px-5 md:px-[68px] py-[68px] space-y-[30px]">
           <HomeCard1 />
           <HomeCard2 />
         </div>
       </div>
 
-      <div className="w-full px-5 md:px-[70px] pt-6 md:pt-16 space-y-16">
+      <div className="w-full px-5 md:px-[68px]">
         <HomeCard4 />
         <HomeCard3 />
         <SearchScreen />

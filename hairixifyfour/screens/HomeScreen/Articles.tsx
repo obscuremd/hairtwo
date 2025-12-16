@@ -48,7 +48,7 @@ export default function Article() {
   }, []);
 
   return (
-    <div className="w-full  md:px-4 mx-auto">
+    <div className="w-full  md:px-4 py-[68px] mx-auto">
       <h2 className="text-center text-xl md:text-[2rem] font-bold mb-3">
         Articles & News
       </h2>

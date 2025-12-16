@@ -66,9 +66,30 @@ export default function Hero() {
   };
 
   return (
-    <main className="relative w-full min-h-[470px] h-[70vh] overflow-hidden bg-black">
+    <main className="relative w-full h-[518px] overflow-hidden bg-black">
       <AnimatePresence initial={false}>
         <motion.div
+          key={index}
+          initial={{ x: 30, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -30, opacity: 0 }}
+          transition={{
+            type: "tween",
+            duration: 1.6,
+            ease: [0.4, 0, 0.2, 1], // ultra-smooth (Material curve)
+          }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={media[index].image}
+            alt={`hero image ${index}`}
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-linear-to-b from-black/40 to-black/70" />
+        </motion.div>
+        {/* <motion.div
           key={index}
           custom={direction}
           variants={variants}
@@ -90,12 +111,12 @@ export default function Hero() {
             priority
           />
           <div className="absolute inset-0 bg-linear-to-b from-black/40 to-black/70" />
-        </motion.div>
+        </motion.div> */}
       </AnimatePresence>
 
-      <div className="absolute inset-0 flex flex-col items-center justify-between p-4 text-tertiary-c">
-        <div className=" w-full md:w-[70%] flex flex-col gap-5 items-center justify-center h-full text-center">
-          <h1 className="text-3xl md:text-4xl lg:text-6xl font-semibold">
+      <div className="absolute inset-0 flex flex-col items-center justify-end text-tertiary-c">
+        <div className=" w-full md:w-[70%] flex flex-col gap-5 items-center justify-center text-center">
+          <h1 className="text-3xl md:text-4xl lg:text-6xl font-semibold leading-[113%] ">
             Nigeria&apos;s <span className="text-[#3ad688]">No.1</span>
              Free Stylists and Beauty Marketplace!
           </h1>
@@ -112,7 +133,7 @@ export default function Hero() {
             />
           </div>
         </div>
-        <div className="w-[30%] md:w-[10%] flex gap-2 items-center pb-10">
+        <div className="w-[30%] md:w-[10%] flex gap-2 items-end justify-baseline pt-[24px] pb-[37px] h-[125px]">
           {media.map((item, idx) => (
             <div
               key={idx}

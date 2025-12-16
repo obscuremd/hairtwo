@@ -29,7 +29,7 @@ const media = [
 export function HomeCard1() {
   return (
     <div
-      className={`md:p-5 py-10 flex flex-col md:flex-row gap-15 bg-transparent md:bg-background rounded-2xl relative`}
+      className={`p-5 flex flex-col md:flex-row gap-15 bg-transparent md:bg-background rounded-2xl relative`}
     >
       <div className="flex flex-col gap-5 md:w-1/2">
         <h3 className=" text-xl md:text-3xl font-bold">
@@ -63,14 +63,16 @@ export function HomeCard1() {
 }
 export function HomeCard2() {
   return (
-    <div className="md:px-5 py-10 flex flex-col md:flex-row items-center gap-8 w-full">
-      <div className="flex flex-col gap-5 md:w-1/3">
-        <h3 className="text-xl md:text-[2rem] font-bold">
-          Shop Top Beauty And Wellness Products
-        </h3>
-        <p className="md:text-2xl font-medium">
-          No.1 marketplace for all stylist products in Nigeria.
-        </p>
+    <div className="md:px-5 flex flex-col md:flex-row items-center gap-8 w-full py-[68px]">
+      <div className="space-y-[51px] md:w-1/3">
+        <div className="space-y-[14px]">
+          <h3 className="text-xl md:text-[2rem] font-bold">
+            Shop Top Beauty And Wellness Products
+          </h3>
+          <p className="md:text-2xl font-medium">
+            No.1 marketplace for all stylist products in Nigeria.
+          </p>
+        </div>
         <Button className="bg-secondary-c w-fit">Shop Stylist Products</Button>
       </div>
       <div className="w-full md:w-2/3 flex flex-wrap justify-center gap-2">
@@ -81,7 +83,7 @@ export function HomeCard2() {
 }
 export function HomeCard3() {
   return (
-    <div className={`md:px-5 py-10 flex flex-col gap-4 w-full`}>
+    <div className={`md:px-5 py-[68px] flex flex-col gap-4 w-full`}>
       <div className="flex flex-col gap-5 justify-center text-center">
         <h3 className="text-xl md:text-[2rem] font-bold">
           Book Trusted Beauty & Wellness Experts in Your Area
@@ -113,14 +115,14 @@ export function HomeCard3() {
 export default function HomeCard4() {
   return (
     <div
-      className={` flex flex-col md:flex-row gap-15 rounded-3xl items-center`}
+      className={` flex flex-col md:flex-row gap-15 rounded-3xl items-center py-[68px]`}
     >
       <img
         src={
           "https://images.unsplash.com/photo-1629397685944-7073f5589754?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fGhhaXIlMjBzYWxvbnxlbnwwfHwwfHx8MA%3D%3D"
         }
         alt="image"
-        className="object-cover w-full md:w-[500px] h-[300px] rounded-3xl"
+        className="object-cover w-full md:w-[420px] h-[318px] rounded-3xl"
       />
       <div className="flex flex-col gap-5">
         <h3 className="text-xl md:text-[2rem] font-bold">
