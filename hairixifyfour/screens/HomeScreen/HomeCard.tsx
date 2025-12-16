@@ -83,7 +83,7 @@ export function HomeCard2() {
 }
 export function HomeCard3() {
   return (
-    <div className={`md:px-5 py-[68px] flex flex-col gap-4 w-full`}>
+    <div className={`py-[68px] flex flex-col gap-4 w-full`}>
       <div className="flex flex-col gap-5 justify-center text-center">
         <h3 className="text-xl md:text-[2rem] font-bold">
           Book Trusted Beauty & Wellness Experts in Your Area
