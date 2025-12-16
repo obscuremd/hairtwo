@@ -3,7 +3,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default function SearchScreen() {
   return (
     <div className="w-full md:py-14 md:px-0 lg:px-14 mx-auto">
-      <h2 className="text-center text-2xl md:text-[2rem] font-bold mb-7">
+      <h2 className="text-center text-xl md:text-[2rem] font-bold mb-7">
         Explore Popular Stylists & Beauty Product by City
       </h2>
 

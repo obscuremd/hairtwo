@@ -49,7 +49,7 @@ export default function Article() {
 
   return (
     <div className="w-full  md:px-4 mx-auto">
-      <h2 className="text-center text-2xl md:text-[2rem] font-bold mb-3">
+      <h2 className="text-center text-xl md:text-[2rem] font-bold mb-3">
         Articles & News
       </h2>
       <p className="text-center text-gray-500 md:text-lg mb-8 font-medium">

@@ -31,7 +31,7 @@ export function Recommended() {
 
   return (
     <div className="relative w-full py-5">
-      <h2 className="text-2xl md:text-[2rem] font-bold">
+      <h2 className="text-xl md:text-[2rem] font-bold">
         Recommended Stylist Providers
       </h2>
 
@@ -111,8 +111,8 @@ export function Trending() {
   }, []);
 
   return (
-    <div className="relative w-full py-8 px-4">
-      <h2 className="text-2xl md:text-3xl font-bold text-[#058441]">
+    <div className="relative w-full py-8 md:px-4">
+      <h2 className="text-xl md:text-3xl font-bold text-[#058441]">
         Trending Beauty Marketplace Products
       </h2>
 

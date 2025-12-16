@@ -65,7 +65,7 @@ export function HomeCard2() {
   return (
     <div className="md:px-5 py-10 flex flex-col md:flex-row items-center gap-8 w-full">
       <div className="flex flex-col gap-5 md:w-1/3">
-        <h3 className="text-2xl md:text-[2rem] font-bold">
+        <h3 className="text-xl md:text-[2rem] font-bold">
           Shop Top Beauty And Wellness Products
         </h3>
         <p className="md:text-2xl font-medium">
@@ -83,7 +83,7 @@ export function HomeCard3() {
   return (
     <div className={`md:px-5 py-10 flex flex-col gap-4 w-full`}>
       <div className="flex flex-col gap-5 justify-center text-center">
-        <h3 className="text-2xl md:text-[2rem] font-bold">
+        <h3 className="text-xl md:text-[2rem] font-bold">
           Book Trusted Beauty & Wellness Experts in Your Area
         </h3>
         <p className="text-sm md:text-lg font-medium">
@@ -123,7 +123,7 @@ export default function HomeCard4() {
         className="object-cover w-full md:w-[500px] h-[300px] rounded-3xl"
       />
       <div className="flex flex-col gap-5">
-        <h3 className="text-2xl md:text-[2rem] font-bold">
+        <h3 className="text-xl md:text-[2rem] font-bold">
           FInd your dream beauty and wellness Job
         </h3>
         <p className="text-md md:text-lg font-medium">
