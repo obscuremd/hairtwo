@@ -20,55 +20,59 @@ export default function Footer() {
         </div>
 
         {/* LINKS */}
-        <div className="flex flex-col md:flex-row md:w-3/5 gap-10 md:gap-20">
-          <div>
-            <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
-              Company
-            </h3>
-            <ul className="space-y-2 text-md text-tertiary-c opacity-80">
-              <li>About us</li>
-              <li>Blog</li>
-              <li>Privacy Policy</li>
-              <li>Terms Of Use</li>
-            </ul>
+        <div className="flex flex-col md:flex-row flex-wrap md:w-3/5 gap-10 md:gap-20">
+          <div className="flex flex-row gap-20">
+            <div>
+              <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
+                Company
+              </h3>
+              <ul className="space-y-2 text-md text-tertiary-c opacity-80">
+                <li>About us</li>
+                <li>Blog</li>
+                <li>Privacy Policy</li>
+                <li>Terms Of Use</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
+                Services
+              </h3>
+              <ul className="space-y-2 text-md text-tertiary-c opacity-80">
+                <li>Find Stylists</li>
+                <li>Marketplace</li>
+                <li>Job Seekers</li>
+              </ul>
+            </div>
           </div>
 
-          <div>
-            <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
-              Services
-            </h3>
-            <ul className="space-y-2 text-md text-tertiary-c opacity-80">
-              <li>Find Stylists</li>
-              <li>Marketplace</li>
-              <li>Job Seekers</li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
-              Support
-            </h3>
-            <ul className="space-y-2 text-md text-tertiary-c opacity-80">
-              <li>FAQ</li>
-              <li>Safety Tips</li>
-              <li>Contact Us</li>
-            </ul>
-          </div>
-          {/* SOCIALS */}
-          <div>
-            <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
-              Follow Us
-            </h3>
-            <div className="flex items-center gap-3">
-              <Button variant="default" size="icon">
-                <Instagram className="w-5 h-5" />
-              </Button>
-              <Button variant="default" size="icon">
-                <X className="w-5 h-5" />
-              </Button>
-              <Button variant="default" size="icon">
-                <MessageCircle className="w-5 h-5" />
-              </Button>
+          <div className="flex flex-row gap-20">
+            <div>
+              <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
+                Support
+              </h3>
+              <ul className="space-y-2 text-md text-tertiary-c opacity-80">
+                <li>FAQ</li>
+                <li>Safety Tips</li>
+                <li>Contact Us</li>
+              </ul>
+            </div>
+            {/* SOCIALS */}
+            <div>
+              <h3 className="text-[1.5rem] font-bold mb-3 capitalize tracking-wide text-[#3BCB66]">
+                Follow Us
+              </h3>
+              <div className="flex items-center gap-3">
+                <Button variant="default" size="icon">
+                  <Instagram className="w-5 h-5" />
+                </Button>
+                <Button variant="default" size="icon">
+                  <X className="w-5 h-5" />
+                </Button>
+                <Button variant="default" size="icon">
+                  <MessageCircle className="w-5 h-5" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
