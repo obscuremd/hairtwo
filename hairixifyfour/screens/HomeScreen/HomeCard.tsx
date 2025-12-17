@@ -29,10 +29,10 @@ const media = [
 export function HomeCard1() {
   return (
     <div
-      className={` flex flex-col md:flex-row gap-15 bg-transparent md:bg-background rounded-2xl relative`}
+      className={` flex flex-col md:flex-row gap-15 bg-transparent md:bg-background rounded-4xl relative md:p-[26px]`}
     >
       <div className="flex flex-col gap-5 md:w-1/2">
-        <h3 className=" text-xl md:text-3xl font-bold">
+        <h3 className=" text-xl md:text-[2rem] font-bold">
           Discover and Book Beauty and Wellness Professionals Near You!
         </h3>
         <img
@@ -63,7 +63,7 @@ export function HomeCard1() {
 }
 export function HomeCard2() {
   return (
-    <div className=" flex flex-col md:flex-row items-center gap-8 w-full pt-[68px]">
+    <div className=" flex flex-col md:flex-row items-center gap-8 w-full pt-[68px] md:px-[26px]">
       <div className="space-y-3.5 md:space-y-[51px] md:w-1/3">
         <div className="space-y-3.5">
           <h3 className="text-xl md:text-[2rem] font-bold">
@@ -126,7 +126,7 @@ export default function HomeCard4() {
       />
       <div className="flex flex-col gap-5">
         <h3 className="text-xl md:text-[2rem] font-bold">
-          FInd your dream beauty and wellness Job
+          Find your dream beauty and wellness Job
         </h3>
         <p className="text-md md:text-lg font-medium">
           Explore exciting career opportunities in the beauty and wellness

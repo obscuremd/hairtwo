@@ -21,7 +21,7 @@ export default function Header() {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-4">
           <Link href="/find-talent">
-            <Button className="bg-[#003226] text-[#3ad688] font-medium">
+            <Button className="bg-[#003226] text-[#3ad688] font-medium opa">
               Find Stylist
             </Button>
           </Link>

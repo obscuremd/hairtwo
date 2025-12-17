@@ -2,13 +2,13 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function SearchScreen() {
   return (
-    <div className="w-full py-10 md:py-[68px] md:px-0 lg:px-[142px] mx-auto">
+    <div className="w-full flex flex-col justify-center items-center  py-10 md:py-[68px] mx-auto">
       <h2 className="text-center text-xl md:text-[2rem] font-bold mb-7">
         Explore Popular Stylists & Beauty Product by City
       </h2>
 
       <Tabs defaultValue="Service">
-        <div className="md:p-10 p-5 rounded-2xl bg-linear-to-br from-primary-c/10 to-transparent border border-primary-c/30 space-y-10">
+        <div className="md:w-[1056px] md:p-7 p-5 rounded-2xl bg-linear-to-br from-primary-c/10 to-transparent border border-primary-c/30 space-y-10">
           <TabsList className="bg-transparent p-1 rounded-xl flex">
             {/* Service Providers Tab */}
             <TabsTrigger
@@ -46,7 +46,7 @@ export default function SearchScreen() {
             {locationData.map((data, idx) => (
               <button
                 key={idx}
-                className="bg-white py-2 px-4 rounded-lg border-2 hover:border-primary-c hover:text-primary-c text-xs md:text-sm lg:text-md font-medium transition text-start"
+                className="bg-white py-2 px-2 rounded-lg border-2 hover:border-primary-c hover:text-primary-c text-xs md:text-sm lg:text-[14px] font-medium transition text-start"
               >
                 {data}
               </button>

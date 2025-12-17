@@ -20,9 +20,9 @@ export default function Home() {
       {/* Cards with background */}
       <div className="relative ">
         {/* background */}
-        <div className="absolute inset-x-0 top-[40vh] bottom-0 bg-[#F3FAF4] -z-10" />
+        <div className="absolute inset-x-0 h-[70%] bottom-0 bg-[#F3FAF4] -z-10" />
 
-        <div className="w-full p-5 md:p-[68px] md:space-y-[30px]">
+        <div className="w-full p-5 md:p-[42px] md:space-y-[30px]">
           <HomeCard1 />
           <HomeCard2 />
         </div>

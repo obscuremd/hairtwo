@@ -120,7 +120,7 @@ export default function Hero() {
             Nigeria&apos;s <span className="text-[#3ad688]">No.1</span>
              Free Stylists and Beauty Marketplace!
           </h1>
-          <p className="text-xl text-secondary">
+          <p className="text-xl text-[#bababa]">
             Discover barbers, stylists, hair salons, skin care and wellness
             professionals near you
           </p>
