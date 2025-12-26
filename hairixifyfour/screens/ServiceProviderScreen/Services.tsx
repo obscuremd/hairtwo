@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 export default function Services() {
@@ -17,54 +18,64 @@ export default function Services() {
   const [selectedService, setSelectedService] = useState<any>(null);
 
   return (
-    <div>
-      <div className="flex flex-col md:flex-row justify-between">
-        <p className="text-4xl font-black text-primary-c">Services</p>
-        <Input className="md:w-fit" placeholder="Search for Service . . . |" />
-      </div>
+    <div className="p-5 md:p-[68px] flex flex-col gap-11">
+      <p className="text-xl md:text-[2rem] font-bold">Services</p>
 
       <Dialog open={open} onOpenChange={setOpen}>
         {ServicesData.map((item, index) => (
           <Accordion key={index} type="single" collapsible className="w-full">
             <AccordionItem value={`item-${index}`}>
-              <AccordionTrigger>
-                <Button className="bg-secondary-c font-black">
-                  {item.service} ({item.services.length})
+              <AccordionTrigger className="flex justify-between [&>svg]:hidden">
+                <p className="text-lg md:text-[1.5rem] font-medium">
+                  {item.service}
+                </p>
+
+                <Button
+                  variant="secondary"
+                  className="bg-secondary-c text-secondary font-medium text-md flex items-center gap-2"
+                >
+                  {item.services.length} Services
+                  <ChevronDown
+                    className="h-4 w-4 transition-transform duration-200 
+                    data-[state=open]:rotate-180"
+                  />
                 </Button>
               </AccordionTrigger>
 
-              <AccordionContent className="space-y-3">
-                {item.services.map((service, idx) => (
-                  <div
-                    key={idx}
-                    className="bg-muted p-3 rounded-3xl flex flex-col md:flex-row gap-2 justify-between"
-                  >
-                    <div>
-                      <p className="text-xl font-semibold">{service.title}</p>
-                      <p className="w-[70%] md:min-h-[4em] truncate">
-                        {service.description}
-                      </p>
-                    </div>
+              <AccordionContent className=" pt-3.5 md:pt-[22.5px]">
+                <div className="px-2 md:px-6">
+                  {item.services.map((service, idx) => (
+                    <div
+                      key={idx}
+                      className=" py-6 flex flex-col md:flex-row gap-2 justify-between items-center border-b border-b-[#93A3AA]"
+                    >
+                      <div className="space-y-2">
+                        <p className="text-lg md:text-2xl font-medium">
+                          {service.title}
+                        </p>
+                        <p className="md:w-[70%]">{service.description}</p>
+                      </div>
 
-                    <div className="flex flex-col items-end">
-                      <p>
-                        {service.price === 0 ? "Free" : `$${service.price}`}
-                      </p>
-                      <p>{formatTime(service.time)}</p>
+                      <div className="flex flex-row md:flex-col justify-between md:justify-center items-end w-full">
+                        <p>
+                          {service.price === 0 ? "Free" : `$${service.price}`}
+                        </p>
+                        <p>{formatTime(service.time)}</p>
 
-                      <DialogTrigger asChild>
-                        <Button
-                          onClick={() => {
-                            setSelectedService(service);
-                            setOpen(true);
-                          }}
-                        >
-                          Book
-                        </Button>
-                      </DialogTrigger>
+                        <DialogTrigger asChild>
+                          <Button
+                            onClick={() => {
+                              setSelectedService(service);
+                              setOpen(true);
+                            }}
+                          >
+                            Book
+                          </Button>
+                        </DialogTrigger>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>

@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import TimeScale from "./timeScale";
 import { Input } from "../ui/input";
 import { CheckCheck } from "lucide-react";
+import { DatePicker } from "./datePicker";
 
 export function BookingModal({
   title,
@@ -45,10 +46,7 @@ export function BookingModal({
       )}
 
       {step === 2 && (
-        <Button
-          onClick={handleFinish}
-          className="w-full bg-secondary-c text-primary-c"
-        >
+        <Button onClick={handleFinish} className="w-full bg-secondary-c ">
           Done
         </Button>
       )}
@@ -60,6 +58,7 @@ function Step1({ title, description }: { title: string; description: string }) {
   return (
     <>
       <p>Let’s Schedule You in . . .</p>
+      <DatePicker />
       <TimeScale />
       <div className="bg-muted p-3 rounded-3xl">
         <p className="text-lg font-semibold">{title}</p>
@@ -86,7 +85,11 @@ function Step3() {
     <>
       <CheckCheck className="w-[200px] h-[200px] text-primary-c" />
       <p>Appointment Set</p>
-      <p>Your appointment has been scheduled.</p>
+      <p className="text-center">
+        Your appointment has been scheduled for 11:30 AM – 12:45 PM on November
+        25th, 2025. You will receive an email reminder, and you can also view
+        the details anytime on your dashboard if you’re logged in.
+      </p>
     </>
   );
 }

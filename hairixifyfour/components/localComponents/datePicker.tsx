@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDownIcon } from "lucide-react";
+import { Calendar1, ChevronDownIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -17,7 +17,7 @@ export function DatePicker() {
   const [date, setDate] = React.useState<Date | undefined>(undefined);
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 w-full">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -25,6 +25,7 @@ export function DatePicker() {
             id="date"
             className="w-full justify-between font-normal"
           >
+            <Calendar1 />
             {date ? date.toLocaleDateString() : "Pick a date"}
             <ChevronDownIcon />
           </Button>

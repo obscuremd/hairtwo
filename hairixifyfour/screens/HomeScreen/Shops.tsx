@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 export function Recommended() {
@@ -60,7 +61,9 @@ export function Recommended() {
         className="flex w-full overflow-hidden gap-6 py-4 scroll-smooth"
       >
         {media.map((item, idx) => (
-          <ProductCard key={idx} {...item} />
+          <Link key={idx} href={`/product/${idx}`}>
+            <ProductCard {...item} />
+          </Link>
         ))}
       </div>
     </div>

@@ -6,89 +6,149 @@ import { Input } from "@/components/ui/input";
 import { SearchIcon, Star } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Hero() {
-  const isMobile = window.innerWidth < 768;
-
   const media = [
-    "https://plus.unsplash.com/premium_photo-1669675936121-6d3d42244ab5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2Fsb258ZW58MHx8MHx8fDA%3D",
-    "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8c2Fsb258ZW58MHx8MHx8fDA%3D",
-
-    "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8c2Fsb258ZW58MHx8MHx8fDA%3D",
+    {
+      image:
+        "https://images.unsplash.com/photo-1693755807658-17ce5331aacb?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      primary_text: "Mo's Signatures",
+      secondary_text: "Alimosho, Lagos State",
+      category: "make up",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      primary_text: "Elevated Cutz",
+      secondary_text: "Warri, Delta State",
+      category: "Barber",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      primary_text: "Wellness Spa",
+      secondary_text: "Sango Ota, Ogun State",
+      category: "Skin Care",
+    },
+    {
+      image:
+        "https://plus.unsplash.com/premium_photo-1723867490491-10519f8ed969?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      primary_text: "Wellness Spa",
+      secondary_text: "Sango Ota, Ogun State",
+      category: "Skin Care",
+    },
   ];
 
-  const [index, setIndex] = useState(0);
+  const [[index, direction], setIndex] = useState<[number, number]>([0, 0]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % media.length);
+      setIndex(([prev]) => [(prev + 1) % media.length, 1]);
     }, 5000);
 
     return () => clearInterval(interval);
   }, [media.length]);
 
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? "100vw" : "-100vw",
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      x: direction > 0 ? "-100vw" : "100vw",
+      opacity: 0,
+    }),
+  };
+
   return (
-    <main className="relative w-full h-[90vh] md:h-[80vh]">
-      <AnimatePresence>
+    <main className="relative w-full h-[518px] overflow-hidden bg-black">
+      <AnimatePresence initial={false}>
         <motion.div
-          key={index} // important
-          initial={{ opacity: 0, x: 100, scale: -0.5 }}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
-          exit={{ opacity: 0, x: -100, scale: 0.5 }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
+          key={index}
+          initial={{ x: 30, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -30, opacity: 0 }}
+          transition={{
+            type: "tween",
+            duration: 1.6,
+            ease: [0.4, 0, 0.2, 1], // ultra-smooth (Material curve)
+          }}
           className="absolute inset-0"
         >
           <Image
-            src={media[index]}
+            src={media[index].image}
             alt={`hero image ${index}`}
             fill
-            className="object-cover rounded-3xl"
+            className="object-cover"
             priority
           />
+          <div className="absolute inset-0 bg-linear-to-b from-black/40 to-black/70" />
         </motion.div>
+        {/* <motion.div
+          key={index}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            type: "tween",
+            duration: 1.6,
+            ease: [0.4, 0, 0.2, 1], // ultra-smooth (Material curve)
+          }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={media[index].image}
+            alt={`hero image ${index}`}
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-linear-to-b from-black/40 to-black/70" />
+        </motion.div> */}
       </AnimatePresence>
 
-      <div className="absolute inset-0 flex md:flex-row flex-col gap-5 justify-end md:justify-between md:items-end p-4 rounded-3xl text-tertiary-c bg-linear-to-b from-black/50 to-black/90 ">
-        <div className=" flex flex-col gap-2 ">
-          <h1 className="text-xl md:text-4xl font-bold text-primary-c">
-            Jasmyne Naturalle International
-          </h1>
-          <p className="md:text-lg font-light text-secondary">
-            1, Raji Oba Bus Stop, Alimosho, Lagos
+      <div className="absolute inset-0 flex flex-col gap-3 justify-end text-tertiary-c p-5 md:p-[68px] ">
+        <h1 className="text-xl md:text-[28px] font-semibold leading-[113%] ">
+          Jasmyne Naturalle International
+        </h1>
+        <p className="text-lg text-[#bababa]">
+          1, Raji Oba Bus Stop, Alimosho, Lagos
+        </p>
+
+        <div className="flex gap-2">
+          <p className="text-lg text-[#56F09F] flex gap-2">
+            <Star />
+            4.95
           </p>
-          <div className="flex gap-2 items-center">
-            <div className="flex items-center text-primary-c gap-1">
-              <Star />
-              <p className="text-lg font-semibold ">4.95</p>
-              <p className="text-lg text-nowrap font-light text-tertiary-c">
-                (438 Reviews)
-              </p>
-            </div>
-            <Badge className="h-fit" variant={"secondary"}>
-              Recommended
-            </Badge>
-          </div>
-          <div className="flex gap-2">
-            <Button className="bg-secondary-c text-primary-c">
-              Send A Message
-            </Button>
-            <Button className="bg-secondary-c text-primary-c">
-              Book Your Appointment
-            </Button>
-          </div>
+          <p className="text-lg text-[#bababa]">(438 Reviews)</p>
         </div>
 
-        {!isMobile && (
-          <div className="flex flex-col md:items-end items-start">
-            <p className="text-sm md:text-base">
-              Jasmyne Naturalle International is currently open
-            </p>
-            <Button className="bg-secondary-c text-primary-c">
-              Check their Buisness Hours
-            </Button>
-          </div>
-        )}
+        <div className="w-[30%] md:w-[10%] flex gap-2 items-end justify-baseline">
+          {media.map((item, idx) => (
+            <div
+              key={idx}
+              className={`rounded-full w-full ${
+                index === idx ? "bg-[#4ec63e] h-[6]" : "bg-secondary h-1"
+              }`}
+            />
+          ))}
+        </div>
+        <div className="flex gap-3">
+          <Button className="bg-secondary-c w-fit">
+            Book Your Appointment
+          </Button>
+          <Button variant={"secondary"} className="w-fit">
+            Send a message
+          </Button>
+        </div>
       </div>
     </main>
   );

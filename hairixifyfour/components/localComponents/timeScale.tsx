@@ -51,7 +51,7 @@ export default function TimeScale() {
                   "transition-transform duration-500",
                   index !== current - 1
                     ? " text-lg bg-muted text-muted-foreground"
-                    : "  text-xl bg-secondary-c text-primary-c"
+                    : "  text-xl bg-secondary-c text-secondary"
                 )}
               >
                 {label}
