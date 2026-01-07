@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+
 import { BookingModal } from "@/components/localComponents/bookingModal";
 import {
   Accordion,
@@ -9,7 +10,6 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
@@ -18,68 +18,84 @@ export default function Services() {
   const [selectedService, setSelectedService] = useState<any>(null);
 
   return (
-    <div className="p-5 md:p-[68px] flex flex-col gap-11">
-      <p className="text-xl md:text-[2rem] font-bold">Services</p>
+    <section className="px-5 md:px-[68px] py-12 space-y-10 bg-white">
+      {/* HEADER */}
+
+      <h2 className="text-2xl md:text-4xl font-bold">Services</h2>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        {ServicesData.map((item, index) => (
-          <Accordion key={index} type="single" collapsible className="w-full">
-            <AccordionItem value={`item-${index}`}>
-              <AccordionTrigger className="flex justify-between [&>svg]:hidden">
-                <p className="text-lg md:text-[1.5rem] font-medium">
-                  {item.service}
-                </p>
+        <div className="space-y-6">
+          {ServicesData.map((item, index) => (
+            <div
+              key={index}
+              className="rounded-2xl border border-border bg-card shadow-sm"
+            >
+              <Accordion type="single" collapsible>
+                <AccordionItem value={`item-${index}`} className="border-none">
+                  <AccordionTrigger className="p-4 hover:no-underline">
+                    <div className="flex w-full items-center justify-between">
+                      <p className="text-lg md:text-xl font-semibold">
+                        {item.service}
+                      </p>
 
-                <Button
-                  variant="secondary"
-                  className="bg-secondary-c text-secondary font-medium text-md flex items-center gap-2"
-                >
-                  {item.services.length} Services
-                  <ChevronDown
-                    className="h-4 w-4 transition-transform duration-200 
-                    data-[state=open]:rotate-180"
-                  />
-                </Button>
-              </AccordionTrigger>
-
-              <AccordionContent className=" pt-3.5 md:pt-[22.5px]">
-                <div className="px-2 md:px-6">
-                  {item.services.map((service, idx) => (
-                    <div
-                      key={idx}
-                      className=" py-6 flex flex-col md:flex-row gap-2 justify-between items-center border-b border-b-[#93A3AA]"
-                    >
-                      <div className="space-y-2">
-                        <p className="text-lg md:text-2xl font-medium">
-                          {service.title}
-                        </p>
-                        <p className="md:w-[70%]">{service.description}</p>
-                      </div>
-
-                      <div className="flex flex-row md:flex-col justify-between md:justify-center items-end w-full">
-                        <p>
-                          {service.price === 0 ? "Free" : `$${service.price}`}
-                        </p>
-                        <p>{formatTime(service.time)}</p>
-
-                        <DialogTrigger asChild>
-                          <Button
-                            onClick={() => {
-                              setSelectedService(service);
-                              setOpen(true);
-                            }}
-                          >
-                            Book
-                          </Button>
-                        </DialogTrigger>
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm text-muted-foreground">
+                          {item.services.length} services
+                        </span>
+                        {/* <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" /> */}
                       </div>
                     </div>
-                  ))}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        ))}
+                  </AccordionTrigger>
+
+                  <AccordionContent className="px-5 pb-4">
+                    <div className="divide-y divide-border">
+                      {item.services.map((service, idx) => (
+                        <div
+                          key={idx}
+                          className="py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
+                        >
+                          {/* LEFT */}
+                          <div className="space-y-2 md:max-w-[65%]">
+                            <p className="text-lg font-medium">
+                              {service.title}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {service.description}
+                            </p>
+                          </div>
+
+                          {/* RIGHT */}
+                          <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-3 min-w-[140px]">
+                            <p className="text-lg font-semibold">
+                              {service.price === 0
+                                ? "Free"
+                                : `$${service.price}`}
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              {formatTime(service.time)}
+                            </p>
+
+                            <DialogTrigger asChild>
+                              <Button
+                                className="mt-2 w-fit md:w-auto"
+                                onClick={() => {
+                                  setSelectedService(service);
+                                  setOpen(true);
+                                }}
+                              >
+                                Book now
+                              </Button>
+                            </DialogTrigger>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
+          ))}
+        </div>
 
         {selectedService && (
           <BookingModal
@@ -88,9 +104,11 @@ export default function Services() {
           />
         )}
       </Dialog>
-    </div>
+    </section>
   );
 }
+
+/* ------------------ DATA ------------------ */
 
 const ServicesData = [
   {
@@ -99,30 +117,30 @@ const ServicesData = [
       {
         title: "Virtual Skin Analysis",
         description:
-          "A live 15-min session to evaluate your skin type and suggest recommended products & treatments.",
+          "A live 15-minute consultation to evaluate your skin type and recommend suitable products.",
         price: 0,
-        time: 900, // 15 min
+        time: 900,
       },
       {
         title: "Full Glam Makeup",
         description:
-          "Professional evening & event makeup including lashes, contouring, highlight & finish setting.",
+          "Professional event makeup including contouring, lashes and long-lasting finish.",
         price: 150,
-        time: 5400, // 1h 30min
+        time: 5400,
       },
       {
         title: "Natural Day Makeup",
         description:
-          "Light, fresh and subtle makeup for everyday casual & professional environments.",
+          "Light and subtle makeup for casual outings or professional settings.",
         price: 65,
-        time: 3600, // 1h
+        time: 3600,
       },
       {
         title: "Bridal Luxury Package",
         description:
-          "Includes makeup trial, wedding-day glam, touch-ups, and optional travel services.",
+          "Trial session, wedding-day glam, touch-ups and optional travel service.",
         price: 300,
-        time: 14400, // 4h
+        time: 14400,
       },
     ],
   },
@@ -130,32 +148,32 @@ const ServicesData = [
     service: "Hair Styling",
     services: [
       {
-        title: "Haircut & Style",
+        title: "Haircut & Styling",
         description:
-          "Personalized haircut with blow-dry, professional styling and aftercare recommendations.",
+          "Customized haircut with blow-dry styling and aftercare advice.",
         price: 80,
-        time: 5400, // 1h 30min
+        time: 5400,
       },
       {
         title: "Deep Hair Treatment",
         description:
-          "Restorative hydration service using keratin & protein-rich products to repair damaged hair.",
+          "Keratin-rich treatment to repair damage and restore hydration.",
         price: 55,
-        time: 2700, // 45min
+        time: 2700,
       },
       {
         title: "Full Hair Color",
         description:
-          "Professional coloring including toner & finish — suitable for full coverage or creative tone changes.",
+          "Professional coloring with toner and finishing treatment.",
         price: 120,
-        time: 7200, // 2h
+        time: 7200,
       },
       {
         title: "Loc Maintenance",
         description:
-          "Root retwisting, cleaning, nourishing and shaping for dreadlock upkeep.",
+          "Root retwisting, cleaning and shaping for healthy dreadlocks.",
         price: 95,
-        time: 6000, // 1h 40min
+        time: 6000,
       },
     ],
   },
@@ -165,42 +183,42 @@ const ServicesData = [
       {
         title: "Aromatherapy Massage",
         description:
-          "Relaxing full-body massage with customized fragrance oils enhancing relaxation & stress relief.",
+          "Relaxing full-body massage using customized essential oils.",
         price: 110,
-        time: 5400, // 1h 30min
+        time: 5400,
       },
       {
-        title: "Steam Facial Treatment",
+        title: "Steam Facial",
         description:
-          "Deep-pore cleansing, exfoliation, steam extraction and finishing serum treatment.",
+          "Deep cleansing facial with exfoliation, steam extraction and serum.",
         price: 70,
-        time: 3600, // 1h
+        time: 3600,
       },
       {
         title: "Hot Stone Therapy",
         description:
-          "Heated basalt stones applied across the body to relieve muscle tension and promote circulation.",
+          "Heated stone massage to relieve muscle tension and improve circulation.",
         price: 140,
-        time: 7200, // 2h
+        time: 7200,
       },
       {
-        title: "Relaxation Foot Reflexology",
+        title: "Foot Reflexology",
         description:
-          "A restorative reflexology session stimulating nerve pathways through targeted pressure points.",
+          "Targeted pressure therapy to stimulate relaxation and balance.",
         price: 60,
-        time: 2700, // 45min
+        time: 2700,
       },
     ],
   },
 ];
 
+/* ------------------ UTILS ------------------ */
+
 function formatTime(seconds: number) {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
 
-  let result = "";
-  if (hours > 0) result += `${hours}h `;
-  if (minutes > 0) result += `${minutes}mins`;
-
-  return result.trim();
+  if (hours && minutes) return `${hours}h ${minutes}mins`;
+  if (hours) return `${hours}h`;
+  return `${minutes}mins`;
 }

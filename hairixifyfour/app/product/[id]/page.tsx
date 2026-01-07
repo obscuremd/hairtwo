@@ -1,7 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import About from "@/screens/ServiceProviderScreen/About";
 import Blog from "@/screens/ServiceProviderScreen/Blog";
+import Description from "@/screens/ServiceProviderScreen/Description";
 import Hero from "@/screens/ServiceProviderScreen/Hero";
 import Reviews from "@/screens/ServiceProviderScreen/Reviews";
 import Services from "@/screens/ServiceProviderScreen/Services";
@@ -11,15 +13,13 @@ export default function index() {
 
   return (
     <div className="">
-      <Hero />
-      {/* <div className="space-y-2 p-5 md:p-[68px] bg-[#F3FAF4]">
-        <p className="text-xl md:text-[2rem] font-bold">About Us</p>
-        <p className="md:text-lg font-medium">
-          For any kind of make up - Owanbe, video/photoshoot, traditional,
-          registry/court - We got your covered.
-        </p>
-      </div> */}
-      <Services />
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-5">
+        <div>
+          <Hero />
+          <Services />
+        </div>
+        <About />
+      </div>
       <Reviews />
       <Blog />
     </div>

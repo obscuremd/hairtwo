@@ -24,7 +24,7 @@ export default function Reviews() {
           </div>
           <p className=" text-lg md:text-[1.5rem] font-bold">4.95 / 5</p>
         </div>
-        <p className="md:text-lg font-medium">
+        <p className="text-sm font-medium w-full md:w-[50%]">
           Hairixify guarantees that reviews with the &quot;Verified Hairixify
           user&quot; tag have been added by registered Hairixify users who have
           had an appointment with the provider.
