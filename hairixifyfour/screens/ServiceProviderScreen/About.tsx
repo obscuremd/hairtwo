@@ -13,7 +13,7 @@ export default function About() {
   const mapImage = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=15&size=600x300&markers=color:red%7C${latitude},${longitude}&key=${apiKey}`;
 
   return (
-    <div className=" p-5 md:p-[48px]">
+    <div className=" p-5 md:pr-[48px] md:py-[68px]">
       {/* MAP */}
       <div className="space-y-10 bg-muted p-5 rounded-2xl">
         <Link

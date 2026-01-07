@@ -65,6 +65,7 @@ export default function Hero() {
   return (
     <section className="relative w-full px-4 pt-4 md:pl-[68px] md:pt-[68px]">
       {/* ---------- MAIN IMAGE ---------- */}
+
       <div className="relative h-[360px] sm:h-[420px] md:h-[520px] w-full overflow-hidden rounded-xl bg-black">
         <AnimatePresence mode="wait">
           <motion.div
@@ -101,7 +102,7 @@ export default function Hero() {
       </div>
 
       {/* ---------- THUMBNAILS ---------- */}
-      <div className=" relative mt-4 bg-black/90 rounded-xl px-4 py-4 ">
+      <div className=" relative mt-4 bg-black/90 rounded-xl w-full h-[120px] flex items-center px-5">
         {/* CHEVRONS */}
         {thumbIndex > 0 && (
           <button
@@ -132,7 +133,7 @@ export default function Hero() {
               <button
                 key={idx}
                 onClick={() => selectImage(idx)}
-                className={`relative h-[80px] sm:h-[90px] w-[100px] sm:w-[120px] md:w-[140px]
+                className={`relative h-[80px] sm:h-[90px] w-[120px]
                 shrink-0 rounded-lg overflow-hidden transition-all
                 ${
                   idx === index

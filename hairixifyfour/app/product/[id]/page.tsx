@@ -13,8 +13,8 @@ export default function index() {
 
   return (
     <div className="">
-      <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-5">
-        <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-">
+        <div className="">
           <Hero />
           <Services />
         </div>
