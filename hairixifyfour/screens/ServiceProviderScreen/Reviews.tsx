@@ -16,33 +16,39 @@ export default function Reviews() {
   return (
     <div className="p-5 md:p-[68px]">
       <div className="space-y-10">
-        <div>
-          <p className=" text-xl md:text-[2rem] font-bold ">Reviews (436)</p>
+        <div className="flex flex-col gap-5 md:flex-row justify-between">
+          <div>
+            <p className=" text-xl md:text-[1.5rem] font-bold ">
+              Reviews (436)
+            </p>
 
-          <div className="flex items-center gap-2">
-            <div className="text-primary-c flex gap-1">
-              <StarSolid className="w-4 h-4" />
-              <StarSolid className="w-4 h-4" />
-              <StarSolid className="w-4 h-4" />
-              <StarSolid className="w-4 h-4" />
-              <Star className="w-4 h-4" />
+            <div className="flex items-center gap-2">
+              <div className="text-primary-c flex gap-1">
+                <StarSolid className="w-4 h-4" />
+                <StarSolid className="w-4 h-4" />
+                <StarSolid className="w-4 h-4" />
+                <StarSolid className="w-4 h-4" />
+                <Star className="w-4 h-4" />
+              </div>
+              <p className="text-md font-bold">4.95 / 5</p>
+              <p className="text-sm font-medium">(1,238 Reviews)</p>
             </div>
-            <p className="text-md font-bold">4.95 / 5</p>
-            <p className="text-sm font-medium">(1,238 Reviews)</p>
           </div>
+          <p className="text-md font-semibold text-primary-c">Write a Review</p>
         </div>
 
         <div className="rounded-2xl border border-border bg-card shadow-sm p-6 flex flex-col md:flex-row gap-6 md:gap-10">
           {/* LEFT: Rating Summary */}
           <div className="flex flex-col items-start justify-center gap-2 min-w-[140px]">
-            <p className="text-4xl font-bold leading-none">4.95</p>
+            <p className="text-[3rem] font-bold leading-none">4.95</p>
 
             <div className="flex items-center gap-1 text-primary-c">
-              <StarSolid />
-              <StarSolid />
-              <StarSolid />
-              <StarSolid />
-              <Star />
+              <StarSolid className="w-4 h-4" />
+              <StarSolid className="w-4 h-4" />
+              <StarSolid className="w-4 h-4" />
+              <StarSolid className="w-4 h-4" />
+
+              <Star className="w-4 h-4" />
             </div>
 
             <p className="text-sm font-medium text-muted-foreground whitespace-nowrap">
@@ -70,9 +76,9 @@ export default function Reviews() {
                 <Progress value={item.value} className="h-2" />
 
                 {/* Percentage */}
-                <span className="w-10 text-right text-muted-foreground">
+                {/* <span className="w-10 text-right text-muted-foreground">
                   {item.value}%
-                </span>
+                </span> */}
               </div>
             ))}
           </div>
@@ -93,7 +99,7 @@ function ReviewCard({ review }: { review: any }) {
     <div className="rounded-xl border border-border bg-card p-5 shadow-sm space-y-4">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <div className="relative w-[30px] h-[30px]">
+        <div className="relative w-[40px] h-[40px]">
           <Image
             src={review.image}
             alt={review.name}
@@ -107,7 +113,11 @@ function ReviewCard({ review }: { review: any }) {
           {/* Stars */}
           <div className="flex gap-1 text-primary-c text-xs">
             {Array.from({ length: 5 }).map((_, i) =>
-              i < review.rating ? <StarSolid key={i} /> : <Star key={i} />
+              i < review.rating ? (
+                <StarSolid key={i} className="w-4 h-4" />
+              ) : (
+                <Star key={i} className="w-4 h-4" />
+              )
             )}
           </div>
         </div>
