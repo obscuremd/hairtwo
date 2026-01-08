@@ -2,8 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import About from "@/screens/ServiceProviderScreen/About";
-import Blog from "@/screens/ServiceProviderScreen/Blog";
-import Description from "@/screens/ServiceProviderScreen/Description";
+import Amenities from "@/screens/ServiceProviderScreen/Amenities";
 import Hero from "@/screens/ServiceProviderScreen/Hero";
 import Reviews from "@/screens/ServiceProviderScreen/Reviews";
 import Services from "@/screens/ServiceProviderScreen/Services";
@@ -13,15 +12,17 @@ export default function index() {
 
   return (
     <div className="">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr] gap-">
-        <div className="">
+      <div className="flex flex-col md:flex-row gap-5">
+        <div className=" md:w-4/6">
           <Hero />
           <Services />
+          <Amenities />
         </div>
-        <About />
+        <div className="md:w-2/6">
+          <About />
+        </div>
       </div>
       <Reviews />
-      <Blog />
     </div>
   );
 }
