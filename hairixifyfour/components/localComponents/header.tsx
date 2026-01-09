@@ -20,7 +20,7 @@ export default function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-4">
-          <Link href="/find-talent">
+          <Link href="/find-stylist">
             <Button className="bg-[#003226] text-[#3ad688] font-medium opa">
               Find Stylist
             </Button>
@@ -55,7 +55,7 @@ export default function Header() {
       {/* Mobile Nav */}
       {isOpen && (
         <div className="md:hidden px-4 py-3 flex flex-col gap-2 w-full">
-          <Link href="/find-talent">
+          <Link href="/find-stylist">
             <Button
               onClick={() => setIsOpen(false)}
               className="bg-[#003226] w-full text-[#1CAB70] font-medium"

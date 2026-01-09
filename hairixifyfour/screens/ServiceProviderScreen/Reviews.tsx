@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
-import { Input } from "@/components/ui/input";
+
 import { Progress } from "@/components/ui/progress";
 import { Star, StarSolid } from "iconoir-react";
 import Image from "next/image";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export default function Reviews() {
   return (
@@ -21,18 +22,6 @@ export default function Reviews() {
             <p className=" text-xl md:text-[1.5rem] font-bold ">
               Reviews (436)
             </p>
-
-            <div className="flex items-center gap-2">
-              <div className="text-primary-c flex gap-1">
-                <StarSolid className="w-4 h-4" />
-                <StarSolid className="w-4 h-4" />
-                <StarSolid className="w-4 h-4" />
-                <StarSolid className="w-4 h-4" />
-                <Star className="w-4 h-4" />
-              </div>
-              <p className="text-md font-bold">4.95 / 5</p>
-              <p className="text-sm font-medium">(1,238 Reviews)</p>
-            </div>
           </div>
           <p className="text-md font-semibold text-primary-c">Write a Review</p>
         </div>
@@ -89,6 +78,30 @@ export default function Reviews() {
             <ReviewCard key={index} review={item} />
           ))}
         </div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                2
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );
@@ -96,7 +109,7 @@ export default function Reviews() {
 
 function ReviewCard({ review }: { review: any }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-5 shadow-sm space-y-4">
+    <div className="rounded-xl border border-border bg-card p-5 shadow-sm space-y-3">
       {/* Header */}
       <div className="flex items-center gap-3">
         <div className="relative w-[40px] h-[40px]">
@@ -136,51 +149,6 @@ function ReviewCard({ review }: { review: any }) {
 }
 
 const reviews = [
-  {
-    name: "Sophia Turner",
-    image:
-      "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&auto=format&fit=crop&q=60",
-    rating: 5,
-    date: "Mar 12, 2024",
-    review:
-      "I finally found a stylist who understands my hair type — best experience ever!. I discovered my favorite braids artist here — I’m not going anywhere else!",
-  },
-  {
-    name: "Marcus Lee",
-    image:
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=60",
-    rating: 4,
-    date: "Feb 28, 2024",
-    review:
-      "Booking an appointment was incredibly easy. Browsing styles and pricing saved me so much time. I finally found a stylist who understands my hair type — best experience ever!",
-  },
-  {
-    name: "Nadia Hassan",
-    image:
-      "https://images.unsplash.com/photo-1530785602389-07594beb8b73?w=600&auto=format&fit=crop&q=60",
-    rating: 5,
-    date: "Jan 19, 2024",
-    review:
-      "I discovered my favorite braids artist here — I’m not going anywhere else!",
-  },
-  {
-    name: "James Carter",
-    image:
-      "https://images.unsplash.com/photo-1614284692214-0e99ac4bcfa8?w=600&auto=format&fit=crop&q=60",
-    rating: 4,
-    date: "Jan 3, 2024",
-    review:
-      "Reading real customer reviews helped me confidently choose the right barber.",
-  },
-  {
-    name: "Daniela Rossi",
-    image:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&auto=format&fit=crop&q=60",
-    rating: 5,
-    date: "Dec 21, 2023",
-    review:
-      "Everything feels premium — from booking to the final service. Highly recommended.",
-  },
   {
     name: "Aisha Bello",
     image:

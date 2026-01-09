@@ -36,14 +36,6 @@ export default function About() {
           </div>
         </Link>
 
-        <div className="">
-          <p className="text-md font-bold md:text-lg">Profile Info </p>
-          <p className="text-sm font-medium text-muted-foreground">
-            For any kind of make up — Owanbe, video/photoshoot, traditional,
-            registry/court — we’ve got you covered.
-          </p>
-        </div>
-
         <div className="space-y-2">
           <p className="text-md font-bold md:text-lg">Contact Info</p>
           <div className="text-sm font-medium text-muted-foreground flex items-center gap-2">
