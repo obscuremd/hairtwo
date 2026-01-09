@@ -4,7 +4,7 @@ import { articleData } from "@/lib/dummyData";
 import { Calendar, Heart, Tag } from "lucide-react";
 import { useEffect, useRef } from "react";
 
-export default function Article() {
+export default function Blog({ category }: { category: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
 
@@ -52,11 +52,8 @@ export default function Article() {
   return (
     <div className="w-full py-10 md:py-[68px] mx-auto">
       <h2 className="text-center text-xl md:text-[2rem] font-bold mb-3">
-        Articles & News
+        {category} Blogs & Articles
       </h2>
-      <p className="text-center text-gray-500 md:text-lg mb-8 font-medium">
-        Insights, expert tips, and trends in the beauty & wellness world
-      </p>
 
       <div
         ref={scrollRef}
