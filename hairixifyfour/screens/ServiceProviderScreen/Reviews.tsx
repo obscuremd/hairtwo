@@ -17,7 +17,7 @@ export default function Reviews() {
   return (
     <div className="p-5 md:p-[68px]">
       <div className="space-y-10">
-        <div className="flex flex-col gap-5 md:flex-row justify-between">
+        <div className="flex justify-between">
           <div>
             <p className=" text-xl md:text-[1.5rem] font-bold ">Reviews</p>
           </div>
