@@ -97,7 +97,7 @@ export default function Header() {
       {/* Mobile Nav */}
       {isOpen && (
         <div className="md:hidden px-4 py-3 flex flex-col gap-2 w-full">
-          <Link href="/find-stylist">
+          <Link href="/find-stylist/barbershop">
             <Button
               onClick={() => setIsOpen(false)}
               className="bg-[#003226] w-full text-[#1CAB70] font-medium"
