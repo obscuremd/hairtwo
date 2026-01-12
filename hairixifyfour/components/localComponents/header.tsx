@@ -211,7 +211,7 @@ function StylistContent() {
                 <p className="text-sm font-semibold leading-none group-hover:text-[#3ad688]">
                   {item.title}
                 </p>
-                <p className="text-xs text-muted-foreground leading-snug group-hover:text-[#3ad688]/40">
+                <p className="text-xs text-muted-foreground leading-snug group-hover:text-[#4ef1a0]">
                   {item.description}
                 </p>
               </div>
