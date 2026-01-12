@@ -376,3 +376,301 @@ export const articleData = [
     likes: 24,
   },
 ];
+
+export const vendors = [
+  {
+    id: "herszn-lash-bar",
+    name: "HERSZN Lash Bar",
+    image:
+      "https://images.unsplash.com/photo-1632345031435-8727f6897d53?w=600&auto=format&fit=crop&q=60",
+    rating: 5.0,
+    reviews: 40,
+    distance: "6.7 mi",
+    location: "2909 Hillcroft St, Houston",
+    services: [
+      {
+        id: "lash-trial",
+        name: "Lash Trial Run",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "35 min",
+        price: 25,
+      },
+      {
+        id: "lash-removal",
+        name: "Lash Removal",
+        description: "Safe removal using special gel that dissolves adhesives.",
+        duration: "30 min",
+        price: 50,
+      },
+      {
+        id: "new-client",
+        name: "New Client Discount Rate",
+        description: "Exclusive discounted full set for new clients.",
+        duration: "2h",
+        price: 145,
+      },
+    ],
+  },
+
+  {
+    id: "glow-aura-beauty",
+    name: "Glow Aura Beauty",
+    image:
+      "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=600&auto=format&fit=crop&q=60",
+    rating: 4.8,
+    reviews: 112,
+    distance: "3.2 mi",
+    location: "Midtown, Houston",
+    services: [
+      {
+        id: "classic-lashes",
+        name: "Classic Lash Set",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "1h 30m",
+        price: 95,
+      },
+      {
+        id: "hybrid-lashes",
+        name: "Hybrid Lash Set",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "2h",
+        price: 120,
+      },
+    ],
+  },
+
+  {
+    id: "urban-edge-barbers",
+    name: "Urban Edge Barbers",
+    image:
+      "https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?w=600&auto=format&fit=crop&q=60",
+    rating: 4.6,
+    reviews: 86,
+    distance: "1.9 mi",
+    location: "Downtown Houston",
+    services: [
+      {
+        id: "mens-haircut",
+        name: "Men’s Haircut",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "45 min",
+        price: 40,
+      },
+      {
+        id: "beard-trim",
+        name: "Beard Trim & Shape",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "30 min",
+        price: 25,
+      },
+    ],
+  },
+
+  {
+    id: "silk-touch-spa",
+    name: "Silk Touch Spa",
+    image:
+      "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3BhfGVufDB8fDB8fHww",
+    rating: 4.9,
+    reviews: 210,
+    distance: "5.1 mi",
+    location: "River Oaks, Houston",
+    services: [
+      {
+        id: "deep-tissue",
+        name: "Deep Tissue Massage",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "1h",
+        price: 110,
+      },
+      {
+        id: "hot-stone",
+        name: "Hot Stone Therapy",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "1h 30m",
+        price: 150,
+      },
+    ],
+  },
+
+  {
+    id: "browhaus-studio",
+    name: "BrowHaus Studio",
+    image:
+      "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&auto=format&fit=crop&q=60",
+    rating: 4.7,
+    reviews: 74,
+    distance: "2.4 mi",
+    location: "Galleria Area",
+    services: [
+      {
+        id: "brow-shaping",
+        name: "Brow Shaping",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "25 min",
+        price: 30,
+      },
+      {
+        id: "brow-lamination",
+        name: "Brow Lamination",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "1h",
+        price: 85,
+      },
+    ],
+  },
+
+  {
+    id: "polished-nails",
+    name: "Polished Nail Lounge",
+    image:
+      "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&auto=format&fit=crop&q=60",
+    rating: 4.5,
+    reviews: 132,
+    distance: "4.6 mi",
+    location: "Memorial, Houston",
+    services: [
+      {
+        id: "gel-manicure",
+        name: "Gel Manicure",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "45 min",
+        price: 55,
+      },
+      {
+        id: "spa-pedicure",
+        name: "Spa Pedicure",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "1h",
+        price: 70,
+      },
+    ],
+  },
+
+  {
+    id: "fade-factory",
+    name: "Fade Factory",
+    image:
+      "https://images.unsplash.com/photo-1647140655214-e4a2d914971f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YmFyYmVyc2hvcHxlbnwwfHwwfHx8MA%3D%3D",
+    rating: 4.8,
+    reviews: 98,
+    distance: "3.9 mi",
+    location: "Third Ward, Houston",
+    services: [
+      {
+        id: "skin-fade",
+        name: "Skin Fade",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "50 min",
+        price: 45,
+      },
+      {
+        id: "kids-cut",
+        name: "Kids Haircut",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "30 min",
+        price: 30,
+      },
+    ],
+  },
+
+  {
+    id: "radiant-skin-clinic",
+    name: "Radiant Skin Clinic",
+    image:
+      "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHNraW5jYXJlfGVufDB8fDB8fHww",
+    rating: 4.9,
+    reviews: 156,
+    distance: "6.0 mi",
+    location: "Westchase, Houston",
+    services: [
+      {
+        id: "chemical-peel",
+        name: "Chemical Peel",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "45 min",
+        price: 130,
+      },
+      {
+        id: "hydrating-facial",
+        name: "Hydrating Facial",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "1h",
+        price: 95,
+      },
+    ],
+  },
+
+  {
+    id: "elite-makeup-bar",
+    name: "Elite Makeup Bar",
+    image:
+      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWFrZXVwfGVufDB8fDB8fHww",
+    rating: 4.7,
+    reviews: 61,
+    distance: "2.8 mi",
+    location: "Montrose, Houston",
+    services: [
+      {
+        id: "soft-glam",
+        name: "Soft Glam Makeup",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "1h",
+        price: 85,
+      },
+      {
+        id: "bridal-glam",
+        name: "Bridal Glam",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "2h",
+        price: 180,
+      },
+    ],
+  },
+
+  {
+    id: "lux-hair-studio",
+    name: "LUX Hair Studio",
+    image:
+      "https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&auto=format&fit=crop&q=60",
+    rating: 4.6,
+    reviews: 119,
+    distance: "5.4 mi",
+    location: "Sugar Land, TX",
+    services: [
+      {
+        id: "silk-press",
+        name: "Silk Press",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "1h 30m",
+        price: 90,
+      },
+      {
+        id: "protective-style",
+        name: "Protective Styling",
+        description:
+          "Perfect for clients with sensitive eyes or trying lashes for the first time.",
+        duration: "2h",
+        price: 150,
+      },
+    ],
+  },
+];
