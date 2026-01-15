@@ -145,7 +145,7 @@ export function StylistHeader() {
 
   return (
     <header className="w-full bg-[#09090b] flex flex-col gap-5 items-center p-5 md:px-[60px] md:py-5">
-      <div className="w-full flex gap-2">
+      <div className="w-full flex flex-col md:flex-row gap-2">
         <div className="relative w-full h-[45px]">
           <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
           <Input
@@ -154,21 +154,23 @@ export function StylistHeader() {
             className="pl-10 py-6 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
           />
         </div>
-        <div className="relative w-full h-[45px]">
-          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
-          <Input
-            type="text"
-            placeholder="Where"
-            className="pl-10 py-6 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
-          />
-        </div>
-        <div className="relative w-1/3 h-[45px]">
-          <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
-          <Input
-            type="text"
-            placeholder="When"
-            className="pl-10 py-6 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
-          />
+        <div className="flex gap-2 w-full">
+          <div className="relative w-full h-[45px]">
+            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
+            <Input
+              type="text"
+              placeholder="Where"
+              className="pl-10 py-6 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
+            />
+          </div>
+          <div className="relative w-full md:w-1/3 h-[45px]">
+            <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
+            <Input
+              type="text"
+              placeholder="When"
+              className="pl-10 py-6 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
+            />
+          </div>
         </div>
       </div>
       {/* Categories */}
