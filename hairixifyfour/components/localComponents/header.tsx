@@ -9,6 +9,7 @@ import {
   Brush,
   Clock,
   Dumbbell,
+  Eye,
   HandFist,
   MapPin,
   Menu,
@@ -28,22 +29,15 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "../ui/navigation-menu";
-import {
-  ScissorAlt,
-  FaceId,
-  UserStar,
-  Spark,
-  SpockHandGesture,
-  GraduationCap,
-  Eye,
-  HotAirBalloon,
-  Pin,
-  Droplet,
-  Flower,
-  UserCircle,
-  PharmacyCrossCircle,
-} from "iconoir-react";
+
 import { Input } from "../ui/input";
+import { stylistCategories } from "@/lib/dummyData";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 export default function Header() {
   const isMobile = useIsMobile();
@@ -59,18 +53,19 @@ export default function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <NavigationMenu className="hidden md:flex items-center gap-4">
-          <NavigationMenuList className="hidden md:flex items-center gap-4">
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="bg-[#003226] text-[#3ad688] font-medium">
+        <div className="hidden md:flex items-center gap-4">
+          <Dialog>
+            <DialogTrigger>
+              <Button className="bg-[#003226] text-[#3ad688] font-medium">
                 Find Stylist
-              </NavigationMenuTrigger>
+              </Button>
+            </DialogTrigger>
 
-              <NavigationMenuContent>
-                <StylistContent />
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          </NavigationMenuList>
+            <DialogContent>
+              <StylistContent />
+            </DialogContent>
+          </Dialog>
+
           <Link href="/find-talent">
             <Button className="bg-[#003226] text-[#3ad688] font-medium">
               Marketplace
@@ -86,55 +81,58 @@ export default function Header() {
               Login / SIgn up
             </Button>
           </Link>
-        </NavigationMenu>
-
-        {/* Mobile Menu Toggle */}
-        <Button
-          variant={"secondary"}
-          className="md:hidden"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </Button>
-      </div>
-
-      {/* Mobile Nav */}
-      {isOpen && (
-        <div className="md:hidden px-4 py-3 flex flex-col gap-2 w-full">
-          <Link href="/find-stylist/barbershop">
-            <Button
-              onClick={() => setIsOpen(false)}
-              className="bg-[#003226] w-full text-[#1CAB70] font-medium"
-            >
-              Find Stylist
-            </Button>
-          </Link>
-          <Link href="/find-talent">
-            <Button
-              onClick={() => setIsOpen(false)}
-              className="bg-[#003226] w-full text-[#1CAB70] font-medium"
-            >
-              Marketplace
-            </Button>
-          </Link>
-          <Link href="/find-recruiters">
-            <Button
-              onClick={() => setIsOpen(false)}
-              className="bg-[#003226] w-full text-[#1CAB70] font-medium"
-            >
-              Job Seekers
-            </Button>
-          </Link>
-          <Link href="/auth">
-            <Button
-              onClick={() => setIsOpen(false)}
-              className="text-[#003226] w-full bg-[#1CAB70] font-semibold "
-            >
-              Login / SIgn up
-            </Button>
-          </Link>
         </div>
-      )}
+        {/* Mobile Menu Toggle */}
+        <DropdownMenu>
+          <DropdownMenuTrigger className="md:hidden">
+            <Button variant={"secondary"} onClick={() => setIsOpen(!isOpen)}>
+              {isOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </Button>
+          </DropdownMenuTrigger>
+
+          {/* Mobile Nav */}
+          <DropdownMenuContent className="md:hidden w-screen bg-black backdrop-blur-xl border-0">
+            <div className=" px-4 py-3 flex flex-col gap-2 w-full">
+              <Link href="/find-stylist/barbershop">
+                <Button
+                  onClick={() => setIsOpen(false)}
+                  className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                >
+                  Find Stylist
+                </Button>
+              </Link>
+              <Link href="/find-talent">
+                <Button
+                  onClick={() => setIsOpen(false)}
+                  className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                >
+                  Marketplace
+                </Button>
+              </Link>
+              <Link href="/find-recruiters">
+                <Button
+                  onClick={() => setIsOpen(false)}
+                  className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                >
+                  Job Seekers
+                </Button>
+              </Link>
+              <Link href="/auth">
+                <Button
+                  onClick={() => setIsOpen(false)}
+                  className="text-[#003226] w-full bg-[#1CAB70] font-semibold "
+                >
+                  Login / SIgn up
+                </Button>
+              </Link>
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </header>
   );
 }
@@ -251,7 +249,7 @@ function StylistContent() {
   return (
     <div
       className="
-        w-[520px]
+        w-full
         max-h-[420px]
         overflow-y-auto
         p-5
@@ -262,12 +260,13 @@ function StylistContent() {
         scrollbar-track-transparent
       "
     >
+      <p className="text-center text-2xl font-bold pb-5">Stylists</p>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {stylistCategories.map((item, index) => (
-          <NavigationMenuLink asChild key={index}>
-            <Link
-              href={item.href}
-              className="
+          <Link
+            key={index}
+            href={item.href}
+            className="
                 group flex flex-col items-center text-center gap-3
                 rounded-xl border border-border bg-white p-4
                 transition-all duration-200
@@ -277,115 +276,17 @@ function StylistContent() {
                 focus-visible:ring-2
                 focus-visible:ring-[#3ad688]/50
               "
-            >
-              <p className="text-sm font-medium text-foreground transition-colors group-hover:text-[#3ad688] flex flex-col items-center gap-2">
-                <span className="text-4xl">{item.icon}</span>{" "}
-                {/* Bigger icon */}
-                {item.title}
-              </p>
-            </Link>
-          </NavigationMenuLink>
+          >
+            <div className="text-4xl group-hover:text-[#3ad688]">
+              {item.icon}
+            </div>
+            <p className="text-xs font-medium text-foreground transition-colors group-hover:text-[#3ad688] flex flex-col items-center gap-2">
+              {/* Bigger icon */}
+              {item.title}
+            </p>
+          </Link>
         ))}
       </div>
     </div>
   );
 }
-
-const stylistCategories = [
-  {
-    title: "Aesthetics",
-    description: "Non-surgical beauty treatments and skin enhancements.",
-    icon: <Spark />,
-    href: "/find-stylist/aesthetics",
-  },
-  {
-    title: "Barbershop",
-    description: "Professional grooming, fades, and classic cuts.",
-    icon: <ScissorAlt />,
-    href: "/find-stylist/barbershop",
-  },
-  {
-    title: "Beauty Training Centre",
-    description: "Learn professional beauty and cosmetology skills.",
-    icon: <GraduationCap />,
-    href: "/find-stylist/training",
-  },
-  {
-    title: "Braids & Locs",
-    description: "Protective styling, braiding, and dreadlocks.",
-    icon: <Brush />,
-    href: "/find-stylist/braids",
-  },
-  {
-    title: "Eyebrows & Lashes",
-    description: "Brow shaping, microblading, and lash extensions.",
-    icon: <Eye />,
-    href: "/find-stylist/lashes",
-  },
-  {
-    title: "Hair Salon",
-    description: "Cuts, coloring, styling, and hair treatments.",
-    icon: <HotAirBalloon />,
-    href: "/find-stylist/hair-salon",
-  },
-  {
-    title: "Health & Fitness",
-    description: "Personal trainers, wellness, and body fitness.",
-    icon: <Dumbbell />,
-    href: "/find-stylist/fitness",
-  },
-  {
-    title: "Makeup",
-    description: "Event, bridal, and everyday makeup services.",
-    icon: <FaceId />,
-    href: "/find-stylist/makeup",
-  },
-  {
-    title: "Massage",
-    description: "Relaxation, deep tissue, and therapeutic massage.",
-    icon: <Spark />,
-    href: "/find-stylist/massage",
-  },
-  {
-    title: "Nail Salon",
-    description: "Manicure, pedicure, and nail art services.",
-    icon: <HandFist />,
-    href: "/find-stylist/nails",
-  },
-  {
-    title: "Piercing",
-    description: "Safe and professional body piercing services.",
-    icon: <Pin />,
-    href: "/find-stylist/piercing",
-  },
-  {
-    title: "Skin Care",
-    description: "Facials, skin treatments, and consultations.",
-    icon: <Droplet />,
-    href: "/find-stylist/skincare",
-  },
-  {
-    title: "Spa",
-    description: "Luxury spa treatments and relaxation packages.",
-    icon: <Flower />,
-    href: "/find-stylist/spa",
-  },
-  {
-    title: "Tattoo Shops",
-    description: "Professional tattoo artists and studios.",
-    icon: <TabletSmartphoneIcon />,
-    href: "/find-stylist/tattoos",
-  },
-  {
-    title: "Teeth Whitening",
-    description: "Cosmetic teeth brightening services.",
-    icon: <UserCircle />,
-    href: "/find-stylist/teeth",
-  },
-  {
-    title: "Therapy Centre",
-    description: "Mental, physical, and wellness therapy services.",
-    icon: <PharmacyCrossCircle />,
-    href: "/find-stylist/therapy",
-  },
-];

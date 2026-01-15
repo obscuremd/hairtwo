@@ -674,3 +674,117 @@ export const vendors = [
     ],
   },
 ];
+
+import { Brush, Dumbbell, HandFist, TabletSmartphoneIcon } from "lucide-react";
+import {
+  ScissorAlt,
+  FaceId,
+  Spark,
+  GraduationCap,
+  Eye,
+  HotAirBalloon,
+  Pin,
+  Droplet,
+  Flower,
+  UserCircle,
+  PharmacyCrossCircle,
+} from "iconoir-react";
+
+export const stylistCategories = [
+  {
+    title: "Aesthetics",
+    description: "Non-surgical beauty treatments and skin enhancements.",
+    icon: <Spark />,
+    href: "/find-stylist/aesthetics",
+  },
+  {
+    title: "Barbershop",
+    description: "Professional grooming, fades, and classic cuts.",
+    icon: <ScissorAlt />,
+    href: "/find-stylist/barbershop",
+  },
+  {
+    title: "Beauty Training Centre",
+    description: "Learn professional beauty and cosmetology skills.",
+    icon: <GraduationCap />,
+    href: "/find-stylist/training",
+  },
+  {
+    title: "Braids & Locs",
+    description: "Protective styling, braiding, and dreadlocks.",
+    icon: <Brush />,
+    href: "/find-stylist/braids",
+  },
+  {
+    title: "Eyebrows & Lashes",
+    description: "Brow shaping, microblading, and lash extensions.",
+    icon: <Eye />,
+    href: "/find-stylist/lashes",
+  },
+  {
+    title: "Hair Salon",
+    description: "Cuts, coloring, styling, and hair treatments.",
+    icon: <HotAirBalloon />,
+    href: "/find-stylist/hair-salon",
+  },
+  {
+    title: "Health & Fitness",
+    description: "Personal trainers, wellness, and body fitness.",
+    icon: <Dumbbell />,
+    href: "/find-stylist/fitness",
+  },
+  {
+    title: "Makeup",
+    description: "Event, bridal, and everyday makeup services.",
+    icon: <FaceId />,
+    href: "/find-stylist/makeup",
+  },
+  {
+    title: "Massage",
+    description: "Relaxation, deep tissue, and therapeutic massage.",
+    icon: <Spark />,
+    href: "/find-stylist/massage",
+  },
+  {
+    title: "Nail Salon",
+    description: "Manicure, pedicure, and nail art services.",
+    icon: <HandFist />,
+    href: "/find-stylist/nails",
+  },
+  {
+    title: "Piercing",
+    description: "Safe and professional body piercing services.",
+    icon: <Pin />,
+    href: "/find-stylist/piercing",
+  },
+  {
+    title: "Skin Care",
+    description: "Facials, skin treatments, and consultations.",
+    icon: <Droplet />,
+    href: "/find-stylist/skincare",
+  },
+  {
+    title: "Spa",
+    description: "Luxury spa treatments and relaxation packages.",
+    icon: <Flower />,
+    href: "/find-stylist/spa",
+  },
+  {
+    title: "Tattoo Shops",
+    description: "Professional tattoo artists and studios.",
+    icon: <TabletSmartphoneIcon />,
+    href: "/find-stylist/tattoos",
+  },
+  {
+    title: "Teeth Whitening",
+    description: "Cosmetic teeth brightening services.",
+    icon: <UserCircle />,
+    href: "/find-stylist/teeth",
+  },
+  {
+    title: "Therapy Centre",
+    description: "Mental, physical, and wellness therapy services.",
+    icon: <PharmacyCrossCircle />,
+    href: "/find-stylist/therapy",
+  },
+];
