@@ -252,34 +252,35 @@ function StylistContent() {
         w-[520px]
         max-h-[420px]
         overflow-y-auto
-        p-4
+        p-5
+        rounded-2xl
+        bg-background
         scrollbar-thin
         scrollbar-thumb-muted
         scrollbar-track-transparent
       "
     >
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {stylistCategories.map((item, index) => (
           <NavigationMenuLink asChild key={index}>
             <Link
               href={item.href}
-              className=" group flex gap-3 rounded-xl border-2 border-border bg-background p-4 transition hover:bg-muted/50 hover:border-[#3ad688] "
+              className="
+                group flex flex-col items-center text-center gap-3
+                rounded-xl border border-border bg-white p-4
+                transition-all duration-200
+                hover:border-[#3ad688]
+                hover:shadow-sm
+                focus-visible:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-[#3ad688]/50
+              "
             >
-              {/* Icon */}
-              <div className=" flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted text-[#003226] transition group-hover:bg-[#3ad688] ">
-                {item.icon}
-              </div>
-
-              {/* Text */}
-
-              <div className="space-y-1 ">
-                <p className="text-sm font-semibold leading-none group-hover:text-[#3ad688]">
-                  {item.title}
-                </p>
-                <p className="text-xs text-muted-foreground leading-snug group-hover:text-[#4ef1a0]">
-                  {item.description}
-                </p>
-              </div>
+              <p className="text-sm font-medium text-foreground transition-colors group-hover:text-[#3ad688] flex flex-col items-center gap-2">
+                <span className="text-4xl">{item.icon}</span>{" "}
+                {/* Bigger icon */}
+                {item.title}
+              </p>
             </Link>
           </NavigationMenuLink>
         ))}
