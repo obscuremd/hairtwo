@@ -3,7 +3,9 @@
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Share } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Heart } from "iconoir-react";
 
 export default function Hero() {
   const media = [
@@ -86,6 +88,15 @@ export default function Hero() {
             <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/80" />
           </motion.div>
         </AnimatePresence>
+
+        <div className="absolute top-2 right-2 text-white max-w-[90%] flex gap-2">
+          <Button variant={"secondary"}>
+            <Share />
+          </Button>
+          <Button variant={"secondary"}>
+            <Heart />
+          </Button>
+        </div>
 
         {/* TEXT */}
         <div className="absolute bottom-5 left-5 md:left-10 text-white max-w-[90%]">

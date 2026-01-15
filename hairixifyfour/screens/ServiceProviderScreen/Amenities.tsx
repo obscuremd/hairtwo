@@ -2,7 +2,7 @@ import { Car, Community, CreditCard, Puzzle, Wifi } from "iconoir-react";
 
 export default function Amenities() {
   return (
-    <div className="p-5 md:p-[68px] space-y-10">
+    <div className="p-5 md:px-[68px] space-y-10">
       <p className=" text-xl md:text-[2rem] font-bold ">Amenities</p>
       <div className=" grid grid-cols-2 gap-10">
         <div className="flex gap-5 text-md">

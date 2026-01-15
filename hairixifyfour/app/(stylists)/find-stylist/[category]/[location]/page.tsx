@@ -49,35 +49,24 @@ export default function Page() {
         </div>
 
         {/* Controls */}
-        <div className="flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between">
-          {/* Search */}
-          <div className="w-full lg:max-w-md">
-            <Input
-              placeholder="Search for a business or service"
-              className="h-11"
-            />
-          </div>
+        <div className="flex flex-wrap gap-3">
+          <Button variant="secondary" className=" gap-2">
+            <Filter />
+            Filters
+          </Button>
 
-          {/* Filters & Sort */}
-          <div className="flex flex-wrap gap-3">
-            <Button variant="secondary" className=" gap-2">
-              <Filter />
-              Filters
-            </Button>
-
-            <Select>
-              <SelectTrigger className="h-11 w-[200px]">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="recommended">Recommended</SelectItem>
-                  <SelectItem value="distance">Distance</SelectItem>
-                  <SelectItem value="reviews">Highest Reviews</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+          <Select>
+            <SelectTrigger className="h-11 w-[200px]">
+              <SelectValue placeholder="Sort by" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="recommended">Recommended</SelectItem>
+                <SelectItem value="distance">Distance</SelectItem>
+                <SelectItem value="reviews">Highest Reviews</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Results */}
@@ -86,7 +75,7 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="p-5 md:p-[68px] mx-auto space-y-6">
+      <div className="p-5 md:px-[68px] mx-auto space-y-6">
         {vendors.map((vendor) => (
           <VendorCard key={vendor.id} {...vendor} />
         ))}

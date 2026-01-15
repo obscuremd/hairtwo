@@ -2,15 +2,18 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   BriefcaseBusiness,
   Brush,
+  Clock,
   Dumbbell,
   HandFist,
+  MapPin,
   Menu,
   Search,
+  SearchIcon,
   Store,
   TabletSmartphoneIcon,
   User,
@@ -40,6 +43,7 @@ import {
   UserCircle,
   PharmacyCrossCircle,
 } from "iconoir-react";
+import { Input } from "../ui/input";
 
 export default function Header() {
   const isMobile = useIsMobile();
@@ -77,8 +81,8 @@ export default function Header() {
               Job Seekers
             </Button>
           </Link>
-          <Link href="/auth">
-            <Button className="text-[#003226] bg-[#3ad688] font-semibold">
+          <Link href="/auth" className="ml-4">
+            <Button className="text-[#003226] bg-[#3ad688] font-bold">
               Login / SIgn up
             </Button>
           </Link>
@@ -124,13 +128,74 @@ export default function Header() {
           <Link href="/auth">
             <Button
               onClick={() => setIsOpen(false)}
-              className="text-[#003226] w-full bg-[#1CAB70] font-semibold"
+              className="text-[#003226] w-full bg-[#1CAB70] font-semibold "
             >
               Login / SIgn up
             </Button>
           </Link>
         </div>
       )}
+    </header>
+  );
+}
+
+export function StylistHeader() {
+  const { category } = useParams<{ category?: string }>();
+  const activeCategory = category?.toLowerCase();
+
+  return (
+    <header className="w-full bg-[#09090b] flex flex-col gap-5 items-center p-5 md:px-[60px] md:py-5">
+      <div className="w-full flex gap-2">
+        <div className="relative w-full h-[45px]">
+          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
+          <Input
+            type="text"
+            placeholder="Search Services or Buisnesses"
+            className="pl-10 py-6 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
+          />
+        </div>
+        <div className="relative w-full h-[45px]">
+          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
+          <Input
+            type="text"
+            placeholder="Where"
+            className="pl-10 py-6 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
+          />
+        </div>
+        <div className="relative w-1/3 h-[45px]">
+          <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
+          <Input
+            type="text"
+            placeholder="When"
+            className="pl-10 py-6 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
+          />
+        </div>
+      </div>
+      {/* Categories */}
+      <div className="flex gap-10 overflow-x-auto w-full py-2">
+        {stylistCategories.map((item, index) => {
+          const hrefCategory = item.href.split("/").pop()?.toLowerCase();
+
+          const isActive = hrefCategory === activeCategory;
+          return (
+            <Link key={index} href={item.href}>
+              <Button
+                className={`
+              flex items-center gap-2 rounded-none px-4 py-2 text-sm
+              bg-transparent border-b-2 transition
+              ${
+                isActive
+                  ? "border-primary-c text-[#3ad688]"
+                  : "border-transparent text-muted-foreground hover:border-gray-300"
+              }
+            `}
+              >
+                {item.title}
+              </Button>
+            </Link>
+          );
+        })}
+      </div>
     </header>
   );
 }

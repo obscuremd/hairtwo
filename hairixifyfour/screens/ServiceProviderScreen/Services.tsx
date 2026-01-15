@@ -71,7 +71,10 @@ function Service() {
             key={index}
             className="rounded-2xl border border-border bg-card shadow-sm"
           >
-            <Accordion type="single" collapsible defaultValue={`item-0`}>
+            <Accordion
+              type="multiple"
+              defaultValue={["item-0", "item-1", "item-2", "item-3"]}
+            >
               <AccordionItem value={`item-${index}`} className="border-none">
                 <AccordionTrigger className="p-4 hover:no-underline">
                   <div className="flex w-full items-center justify-between">
@@ -114,7 +117,7 @@ function Service() {
 
                           <DialogTrigger asChild>
                             <Button
-                              className="mt-2 w-fit md:w-auto"
+                              className="mt-2 w-fit md:w-auto bg-secondary-c"
                               onClick={() => {
                                 setSelectedService(service);
                                 setOpen(true);

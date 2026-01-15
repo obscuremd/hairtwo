@@ -81,7 +81,7 @@ export default function VendorCard({
                   href={`/book/${id}?service=${service.id}`}
                   className="inline-block mt-2 text-xs font-medium text-primary-c hover:underline"
                 >
-                  <Button>Book</Button>
+                  <Button className="bg-secondary-c">Book</Button>
                 </Link>
               </div>
             </div>
