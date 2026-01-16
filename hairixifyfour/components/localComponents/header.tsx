@@ -238,7 +238,7 @@ export function StylistCategories() {
 
   return (
     // OUTER WRAPPER (controls shape & background)
-    <div className="w-full md:w-[70%] bg-[#09090b] rounded-b-3xl overflow-hidden">
+    <div className="w-full md:w-[70%] bg-[#09090b] rounded-b-4xl overflow-hidden px-5">
       {/* SCROLL CONTAINER */}
       <div
         className="
