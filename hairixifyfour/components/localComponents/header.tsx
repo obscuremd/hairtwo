@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   BriefcaseBusiness,
@@ -39,142 +39,216 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Separator } from "../ui/separator";
+import { AnimatePresence, motion, Variants } from "motion/react";
 
 export default function Header() {
   const isMobile = useIsMobile();
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const [showCategories, setShowCategories] = useState(false);
+  const hideTimeout = useRef<NodeJS.Timeout | null>(null);
+  const openCategories = () => {
+    if (hideTimeout.current) clearTimeout(hideTimeout.current);
+    setShowCategories(true);
+  };
+
+  const scheduleClose = () => {
+    hideTimeout.current = setTimeout(() => {
+      setShowCategories(false);
+    }, 2000); // 10 seconds
+  };
+  const shouldShowCategories = (isMobile && pathname !== "/") || showCategories;
+
+  const categoryVariants: Variants = {
+    hidden: {
+      opacity: 0,
+      y: -12,
+      pointerEvents: "none",
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      pointerEvents: "auto",
+      transition: {
+        duration: 0.25,
+        ease: "easeOut",
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -12,
+      pointerEvents: "none",
+      transition: {
+        duration: 0.2,
+        ease: "easeIn",
+      },
+    },
+  };
 
   return (
-    <header className="w-full bg-[#09090b] md:h-[70px] md:py-0 flex flex-col md:flex-row items-center p-5 md:px-[60px]">
-      <div className="w-full mx-auto flex justify-between items-center font-semibold text-[#1CAB70]">
-        {/* Logo */}
-        <Link href="/" className="text-xl font-bold">
-          <img src={"/Logo.png"} className="md:w-36 w-28 rounded-xl" />
-        </Link>
+    <div className="relative">
+      <header className="w-full bg-[#09090b] md:h-[70px] md:py-0 flex flex-col md:flex-row items-center p-5 md:px-[60px]">
+        <div className="w-full mx-auto flex justify-between items-center font-semibold text-[#1CAB70]">
+          {/* Logo */}
+          <Link href="/" className="text-xl font-bold">
+            <img src={"/Logo.png"} className="md:w-36 w-28 rounded-xl" />
+          </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-4">
-          <Dialog>
-            <DialogTrigger>
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-4">
+            <Button
+              onMouseEnter={openCategories}
+              onMouseLeave={scheduleClose}
+              className="bg-[#003226] text-[#3ad688] font-medium"
+            >
+              Find Stylist
+            </Button>
+
+            <Link href="/find-talent">
               <Button className="bg-[#003226] text-[#3ad688] font-medium">
-                Find Stylist
+                Marketplace
               </Button>
-            </DialogTrigger>
+            </Link>
+            <Link href="/find-recruiters">
+              <Button className="bg-[#003226] text-[#3ad688] font-medium">
+                Job Seekers
+              </Button>
+            </Link>
+            <div className="w-[0.5px] h-[25px] bg-[#3ad688] mx-4" />
+            <Link href="/auth">
+              <Button className="text-[#003226] bg-[#3ad688] font-bold">
+                Login / SIgn up
+              </Button>
+            </Link>
+          </div>
+          {/* Mobile Menu Toggle */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="md:hidden">
+              <Button variant={"secondary"} onClick={() => setIsOpen(!isOpen)}>
+                {isOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </Button>
+            </DropdownMenuTrigger>
 
-            <DialogContent>
-              <StylistContent />
-            </DialogContent>
-          </Dialog>
-
-          <Link href="/find-talent">
-            <Button className="bg-[#003226] text-[#3ad688] font-medium">
-              Marketplace
-            </Button>
-          </Link>
-          <Link href="/find-recruiters">
-            <Button className="bg-[#003226] text-[#3ad688] font-medium">
-              Job Seekers
-            </Button>
-          </Link>
-          <div className="w-[0.5px] h-[25px] bg-[#3ad688]" />
-          <Link href="/auth">
-            <Button className="text-[#003226] bg-[#3ad688] font-bold">
-              Login / SIgn up
-            </Button>
-          </Link>
+            {/* Mobile Nav */}
+            <DropdownMenuContent className="md:hidden w-screen bg-black backdrop-blur-xl border-0">
+              <div className=" px-4 py-3 flex flex-col gap-2 w-full">
+                <Link href="/find-stylist/barbershop">
+                  <Button
+                    onClick={() => setIsOpen(false)}
+                    className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                  >
+                    Find Stylist
+                  </Button>
+                </Link>
+                <Link href="/find-talent">
+                  <Button
+                    onClick={() => setIsOpen(false)}
+                    className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                  >
+                    Marketplace
+                  </Button>
+                </Link>
+                <Link href="/find-recruiters">
+                  <Button
+                    onClick={() => setIsOpen(false)}
+                    className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                  >
+                    Job Seekers
+                  </Button>
+                </Link>
+                <Link href="/auth">
+                  <Button
+                    onClick={() => setIsOpen(false)}
+                    className="text-[#003226] w-full bg-[#1CAB70] font-semibold "
+                  >
+                    Login / SIgn up
+                  </Button>
+                </Link>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-        {/* Mobile Menu Toggle */}
-        <DropdownMenu>
-          <DropdownMenuTrigger className="md:hidden">
-            <Button variant={"secondary"} onClick={() => setIsOpen(!isOpen)}>
-              {isOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
-            </Button>
-          </DropdownMenuTrigger>
-
-          {/* Mobile Nav */}
-          <DropdownMenuContent className="md:hidden w-screen bg-black backdrop-blur-xl border-0">
-            <div className=" px-4 py-3 flex flex-col gap-2 w-full">
-              <Link href="/find-stylist/barbershop">
-                <Button
-                  onClick={() => setIsOpen(false)}
-                  className="bg-[#003226] w-full text-[#1CAB70] font-medium"
-                >
-                  Find Stylist
-                </Button>
-              </Link>
-              <Link href="/find-talent">
-                <Button
-                  onClick={() => setIsOpen(false)}
-                  className="bg-[#003226] w-full text-[#1CAB70] font-medium"
-                >
-                  Marketplace
-                </Button>
-              </Link>
-              <Link href="/find-recruiters">
-                <Button
-                  onClick={() => setIsOpen(false)}
-                  className="bg-[#003226] w-full text-[#1CAB70] font-medium"
-                >
-                  Job Seekers
-                </Button>
-              </Link>
-              <Link href="/auth">
-                <Button
-                  onClick={() => setIsOpen(false)}
-                  className="text-[#003226] w-full bg-[#1CAB70] font-semibold "
-                >
-                  Login / SIgn up
-                </Button>
-              </Link>
-            </div>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </header>
+      </header>
+      {pathname !== "/" && <SearchFilters />}
+      <AnimatePresence>
+        {shouldShowCategories && (
+          <motion.div
+            variants={categoryVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onMouseEnter={!isMobile ? openCategories : undefined}
+            onMouseLeave={!isMobile ? scheduleClose : undefined}
+            className="
+        md:absolute md:top-full z-10 w-full flex justify-center
+        md:rounded-2xl
+      "
+          >
+            <StylistCategories />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
-export function StylistHeader() {
+export function SearchFilters() {
   const { category } = useParams<{ category?: string }>();
   const activeCategory = category?.toLowerCase();
 
   return (
-    <header className="w-full flex flex-col items-center">
-      <div className="w-full flex flex-col md:flex-row gap-2 bg-[#09090b]  p-5 md:px-[60px] pb-5 pt-1">
-        <div className="relative w-full h-[45px]">
-          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
+    <div className="w-full flex flex-col md:flex-row gap-2 bg-[#09090b]  p-5 md:px-[60px] pb-5 pt-1">
+      <div className="relative w-full h-[35px]">
+        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
+        <Input
+          type="text"
+          placeholder="Search Services or Buisnesses"
+          className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[35px]"
+        />
+      </div>
+      <div className="flex gap-2 md:w-1/2">
+        <div className="relative w-full h-[35px]">
+          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
           <Input
             type="text"
-            placeholder="Search Services or Buisnesses"
-            className="pl-10 -py-2 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
+            placeholder="Where"
+            className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[35px]"
           />
         </div>
-        <div className="flex gap-2 md:w-1/2">
-          <div className="relative w-full h-[45px]">
-            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
-            <Input
-              type="text"
-              placeholder="Where"
-              className="pl-10 -py-2 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
-            />
-          </div>
-          <div className="relative w-full h-[45px]">
-            <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
-            <Input
-              type="text"
-              placeholder="When"
-              className="pl-10 -py-2 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
-            />
-          </div>
+        <div className="relative w-full h-[35px]">
+          <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
+          <Input
+            type="text"
+            placeholder="When"
+            className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[35px]"
+          />
         </div>
       </div>
-      {/* Categories */}
-      <div className="w-full md:w-[70%] flex gap-2 md:gap-6 overflow-x-auto p-3 -mt-2 scrollbar-thin scrollbar-thumb-muted bg-[#09090b] rounded-b-2xl">
+    </div>
+  );
+}
+export function StylistCategories() {
+  const { category } = useParams<{ category?: string }>();
+  const activeCategory = category?.toLowerCase();
+
+  return (
+    // OUTER WRAPPER (controls shape & background)
+    <div className="w-full md:w-[70%] bg-[#09090b] rounded-b-2xl overflow-hidden">
+      {/* SCROLL CONTAINER */}
+      <div
+        className="
+          flex gap-2 md:gap-6
+          overflow-x-auto
+          px-3 py-3
+          scrollbar-thin scrollbar-thumb-muted
+          scrollbar-track-transparent
+        "
+        style={{ scrollbarGutter: "stable" }}
+      >
         {stylistCategories.map((item, index) => {
           const hrefCategory = item.href.split("/").pop()?.toLowerCase();
           const isActive = hrefCategory === activeCategory;
@@ -183,28 +257,23 @@ export function StylistHeader() {
             <Link key={index} href={item.href} className="shrink-0">
               <div
                 className={`
-            group flex flex-col items-center justify-between
-            w-[84px] min-h-[76px] px-2 pb-2
-            text-xs font-medium transition
-            border-b-2
-            ${
-              isActive
-                ? "border-[#3ad688] text-[#3ad688]"
-                : "border-transparent text-muted-foreground hover:border-muted"
-            }
-          `}
+                  group flex flex-col items-center justify-between
+                  w-[84px] min-h-[76px] px-2 pb-1
+                  text-xs font-medium transition
+                  ${isActive ? "text-[#3ad688]" : "text-muted-foreground"}
+                `}
               >
                 {/* Icon */}
                 <div
                   className={`
-              flex h-10 w-10 items-center justify-center rounded-lg
-              transition-all duration-200
-              ${
-                isActive
-                  ? "bg-[#1CAB70] text-white"
-                  : "bg-[#003226] text-[#3ad688] group-hover:bg-muted/70"
-              }
-            `}
+                    flex h-10 w-10 items-center justify-center rounded-lg
+                    transition-all duration-200
+                    ${
+                      isActive
+                        ? "bg-[#1CAB70] text-white"
+                        : "bg-[#003226] text-[#3ad688] group-hover:bg-[#003226]/60"
+                    }
+                  `}
                 >
                   {item.icon}
                 </div>
@@ -212,10 +281,9 @@ export function StylistHeader() {
                 {/* Label */}
                 <span
                   className={`
-              mt-1 text-center leading-tight
-              line-clamp-2
-              ${isActive ? "text-[#3ad688]" : "group-hover:text-muted"}
-            `}
+                    mt-1 text-center leading-tight line-clamp-2
+                    ${isActive ? "text-[#3ad688]" : "group-hover:text-muted"}
+                  `}
                 >
                   {item.title}
                 </span>
@@ -224,7 +292,7 @@ export function StylistHeader() {
           );
         })}
       </div>
-    </header>
+    </div>
   );
 }
 
@@ -270,51 +338,5 @@ export function BottomTabs() {
         </Button>
       </Link>
     </nav>
-  );
-}
-
-function StylistContent() {
-  return (
-    <div
-      className="
-        w-full
-        max-h-[420px]
-        overflow-y-auto
-        p-5
-        rounded-2xl
-        bg-background
-        scrollbar-thin
-        scrollbar-thumb-muted
-        scrollbar-track-transparent
-      "
-    >
-      <p className="text-center text-2xl font-bold pb-5">Stylists</p>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        {stylistCategories.map((item, index) => (
-          <Link
-            key={index}
-            href={item.href}
-            className="
-                group flex flex-col items-center text-center gap-3
-                rounded-xl border border-border bg-white p-4
-                transition-all duration-200
-                hover:border-[#3ad688]
-                hover:shadow-sm
-                focus-visible:outline-none
-                focus-visible:ring-2
-                focus-visible:ring-[#3ad688]/50
-              "
-          >
-            <div className="text-4xl group-hover:text-[#3ad688]">
-              {item.icon}
-            </div>
-            <p className="text-xs font-medium text-foreground transition-colors group-hover:text-[#3ad688] flex flex-col items-center gap-2">
-              {/* Bigger icon */}
-              {item.title}
-            </p>
-          </Link>
-        ))}
-      </div>
-    </div>
   );
 }
