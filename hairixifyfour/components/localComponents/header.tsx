@@ -38,6 +38,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Separator } from "../ui/separator";
 
 export default function Header() {
   const isMobile = useIsMobile();
@@ -76,7 +77,8 @@ export default function Header() {
               Job Seekers
             </Button>
           </Link>
-          <Link href="/auth" className="ml-4">
+          <div className="w-[0.5px] h-[25px] bg-[#3ad688]" />
+          <Link href="/auth">
             <Button className="text-[#003226] bg-[#3ad688] font-bold">
               Login / SIgn up
             </Button>
@@ -142,56 +144,82 @@ export function StylistHeader() {
   const activeCategory = category?.toLowerCase();
 
   return (
-    <header className="w-full bg-[#09090b] flex flex-col gap-5 items-center p-5 md:px-[60px] md:py-5">
-      <div className="w-full flex flex-col md:flex-row gap-2">
+    <header className="w-full flex flex-col items-center">
+      <div className="w-full flex flex-col md:flex-row gap-2 bg-[#09090b]  p-5 md:px-[60px] pb-5 pt-1">
         <div className="relative w-full h-[45px]">
           <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
           <Input
             type="text"
             placeholder="Search Services or Buisnesses"
-            className="pl-10 py-6 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
+            className="pl-10 -py-2 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
           />
         </div>
-        <div className="flex gap-2 w-full">
+        <div className="flex gap-2 md:w-1/2">
           <div className="relative w-full h-[45px]">
             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
             <Input
               type="text"
               placeholder="Where"
-              className="pl-10 py-6 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
+              className="pl-10 -py-2 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
             />
           </div>
-          <div className="relative w-full md:w-1/3 h-[45px]">
+          <div className="relative w-full h-[45px]">
             <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
             <Input
               type="text"
               placeholder="When"
-              className="pl-10 py-6 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
+              className="pl-10 -py-2 text-[#898989] bg-white border-0 text-md md:text-md h-[45px]"
             />
           </div>
         </div>
       </div>
       {/* Categories */}
-      <div className="flex gap-10 overflow-x-auto w-full py-2">
+      <div className="w-full md:w-[70%] flex gap-2 md:gap-6 overflow-x-auto p-3 -mt-2 scrollbar-thin scrollbar-thumb-muted bg-[#09090b] rounded-b-2xl">
         {stylistCategories.map((item, index) => {
           const hrefCategory = item.href.split("/").pop()?.toLowerCase();
-
           const isActive = hrefCategory === activeCategory;
+
           return (
-            <Link key={index} href={item.href}>
-              <Button
+            <Link key={index} href={item.href} className="shrink-0">
+              <div
                 className={`
-              flex items-center gap-2 rounded-none px-4 py-2 text-sm
-              bg-transparent border-b-2 transition
+            group flex flex-col items-center justify-between
+            w-[84px] min-h-[76px] px-2 pb-2
+            text-xs font-medium transition
+            border-b-2
+            ${
+              isActive
+                ? "border-[#3ad688] text-[#3ad688]"
+                : "border-transparent text-muted-foreground hover:border-muted"
+            }
+          `}
+              >
+                {/* Icon */}
+                <div
+                  className={`
+              flex h-10 w-10 items-center justify-center rounded-lg
+              transition-all duration-200
               ${
                 isActive
-                  ? "border-primary-c text-[#3ad688]"
-                  : "border-transparent text-muted-foreground hover:border-gray-300"
+                  ? "bg-[#1CAB70] text-white"
+                  : "bg-[#003226] text-[#3ad688] group-hover:bg-muted/70"
               }
             `}
-              >
-                {item.title}
-              </Button>
+                >
+                  {item.icon}
+                </div>
+
+                {/* Label */}
+                <span
+                  className={`
+              mt-1 text-center leading-tight
+              line-clamp-2
+              ${isActive ? "text-[#3ad688]" : "group-hover:text-muted"}
+            `}
+                >
+                  {item.title}
+                </span>
+              </div>
             </Link>
           );
         })}
