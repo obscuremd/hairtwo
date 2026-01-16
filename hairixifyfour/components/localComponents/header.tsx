@@ -40,6 +40,7 @@ import {
 } from "../ui/dropdown-menu";
 import { Separator } from "../ui/separator";
 import { AnimatePresence, motion, Variants } from "motion/react";
+import { Filter } from "iconoir-react";
 
 export default function Header() {
   const isMobile = useIsMobile();
@@ -220,10 +221,10 @@ export function SearchFilters() {
           />
         </div>
         <div className="relative w-full h-[35px]">
-          <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
+          <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
           <Input
             type="text"
-            placeholder="When"
+            placeholder="Filter"
             className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[35px]"
           />
         </div>
@@ -237,7 +238,7 @@ export function StylistCategories() {
 
   return (
     // OUTER WRAPPER (controls shape & background)
-    <div className="w-full md:w-[70%] bg-[#09090b] rounded-b-2xl overflow-hidden">
+    <div className="w-full md:w-[70%] bg-[#09090b] rounded-b-3xl overflow-hidden">
       {/* SCROLL CONTAINER */}
       <div
         className="
