@@ -39,36 +39,13 @@ export default function Page() {
     <div>
       <div className="p-5 pt-10 md:p-[68px] md:pt-[50px] space-y-6">
         {/* Header */}
-        <div className="flex flex-col md:flex-row gap-5 justify-between">
-          <div className="space-y-1">
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-              {cleanCategory} Near Me in {cleanLocation}
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Browse top-rated providers, compare services, and book instantly
-            </p>
-          </div>
-
-          {/* Controls */}
-          <div className="flex flex-wrap gap-3">
-            <Button variant="secondary" className=" gap-2">
-              <Filter />
-              Filters
-            </Button>
-
-            <Select>
-              <SelectTrigger className="h-11 w-[200px]">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="recommended">Recommended</SelectItem>
-                  <SelectItem value="distance">Distance</SelectItem>
-                  <SelectItem value="reviews">Highest Reviews</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+            {cleanCategory} Near Me in {cleanLocation}
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Browse top-rated providers, compare services, and book instantly
+          </p>
         </div>
 
         {/* Results */}

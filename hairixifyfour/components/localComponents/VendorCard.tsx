@@ -44,7 +44,7 @@ export default function VendorCard({
       {/* Right: Vendor Info */}
       <div className="flex-1 space-y-4 w-full md:w-4/6">
         {/* Header */}
-        <div className="flex flex-col md:flex-row gap-5 justify-between items-start">
+        <div className="flex flex-col md:flex-row gap-5 justify-between items-start md:items-center">
           <div>
             <h3 className="text-2xl font-bold">{name}</h3>
             <p className="text-sm text-gray-500">
@@ -52,8 +52,9 @@ export default function VendorCard({
             </p>
           </div>
 
-          <div className="bg-[#12ab5a] text-white text-[10px] font-semibold px-2 py-1 rounded-full shadow-sm flex items-center gap-2">
+          <div className=" text-[#12ab5a] text-[10px] font-semibold px-2 py-1 rounded-full flex items-center gap-[5px]">
             <p className="text-sm font-bold">{rating.toFixed(1)}</p>
+            <div className="h-1 w-1 bg-[#12ab5a] rounded-full" />
             <p className="text-xs">({reviews} reviews)</p>
           </div>
         </div>
