@@ -50,21 +50,6 @@ export default function Hero() {
     return () => clearInterval(interval);
   }, [media.length]);
 
-  const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? "100vw" : "-100vw",
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-    },
-    exit: (direction: number) => ({
-      x: direction > 0 ? "-100vw" : "100vw",
-      opacity: 0,
-    }),
-  };
-
   return (
     <main className="relative w-full h-[518px] overflow-hidden bg-black">
       <AnimatePresence initial={false}>

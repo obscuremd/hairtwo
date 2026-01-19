@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
 
 type Service = {
   id: string;
@@ -8,6 +9,8 @@ type Service = {
   description?: string;
   duration: string;
   price: number;
+  discount?: number;
+  discountedPrice?: number;
 };
 
 type VendorCardProps = {
@@ -62,26 +65,46 @@ export default function VendorCard({
               key={service.id}
               className="flex justify-between items-start border-t pt-3"
             >
-              <div>
+              <div className="space-y-1">
                 <p className="text-sm font-medium">{service.name}</p>
                 {service.description && (
                   <p className="text-xs text-gray-500 line-clamp-2">
                     {service.description}
                   </p>
                 )}
+                {service.discount && (
+                  <Badge className="text-[#004737] bg-[#12ab594a]">
+                    Save up to {service.discount}%
+                  </Badge>
+                )}
               </div>
 
-              <div className="text-right">
-                <p className="text-sm font-semibold">
-                  ${service.price.toFixed(2)}
-                </p>
+              <div className="flex flex-col items-end">
+                <div className="flex gap-2">
+                  {/* Original price */}
+                  <p
+                    className={` ${service.discountedPrice ? "line-through text-muted-foreground text-sm" : "text-sm font-semibold"}`}
+                  >
+                    {service.price === 0 ? "Free" : `$${service.price}`}
+                  </p>
+
+                  {/* Discounted price (only show if it exists) */}
+                  {service.discountedPrice !== undefined && (
+                    <p className="text-sm font-semibold">
+                      {service.discountedPrice === 0
+                        ? "Free"
+                        : `$${service.discountedPrice}`}
+                    </p>
+                  )}
+                </div>
+
                 <p className="text-xs text-gray-400">{service.duration}</p>
 
                 <Link
                   href={`/book/${id}?service=${service.id}`}
                   className="inline-block mt-2 text-xs font-medium text-primary-c hover:underline"
                 >
-                  <Button className="bg-secondary-c">Book</Button>
+                  <Button className="bg-secondary-c h-8">Book</Button>
                 </Link>
               </div>
             </div>

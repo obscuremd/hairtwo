@@ -6,6 +6,7 @@ import Amenities from "@/screens/ServiceProviderScreen/Amenities";
 import Hero from "@/screens/ServiceProviderScreen/Hero";
 import Reviews from "@/screens/ServiceProviderScreen/Reviews";
 import Services from "@/screens/ServiceProviderScreen/Services";
+import { SimilarStylist } from "@/screens/ServiceProviderScreen/SimilarStylist";
 
 export default function index() {
   const isMobile = window.innerWidth < 768;
@@ -23,6 +24,7 @@ export default function index() {
         </div>
       </div>
       <Reviews />
+      <SimilarStylist />
     </div>
   );
 }

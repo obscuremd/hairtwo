@@ -5,9 +5,12 @@ import Link from "next/link";
 export default function Location({ category }: { category: string }) {
   return (
     <div className="w-full flex flex-col justify-center items-center gap-10 mx-auto">
-      <h2 className="text-center text-xl md:text-[2rem] font-bold">
-        Explore {category} Provider by City
-      </h2>
+      <div className="flex justify-between w-full">
+        <h2 className="text-center text-xl md:text-[2rem] font-bold">
+          Explore {category} Provider by City
+        </h2>
+        <Button className="bg-secondary-c w-fit">Use My Location</Button>
+      </div>
 
       {/* Location Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-7 w-full">
@@ -23,7 +26,6 @@ export default function Location({ category }: { category: string }) {
           </Link>
         ))}
       </div>
-      <Button className="bg-secondary-c w-fit">Use My Location</Button>
     </div>
   );
 }

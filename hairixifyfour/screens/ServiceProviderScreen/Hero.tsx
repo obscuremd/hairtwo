@@ -69,13 +69,17 @@ export default function Hero() {
       {/* ---------- MAIN IMAGE ---------- */}
 
       <div className="relative h-[360px] sm:h-[420px] md:h-[520px] w-full overflow-hidden rounded-xl bg-black">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
           <motion.div
             key={index}
-            initial={{ opacity: 0, scale: 1.03 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.03 }}
-            transition={{ duration: 1.1, ease: "easeInOut" }}
+            initial={{ x: 30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -30, opacity: 0 }}
+            transition={{
+              type: "tween",
+              duration: 1.6,
+              ease: [0.4, 0, 0.2, 1], // ultra-smooth (Material curve)
+            }}
             className="absolute inset-0"
           >
             <Image

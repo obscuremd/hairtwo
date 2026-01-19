@@ -89,11 +89,68 @@ export default function Header() {
   return (
     <div className="relative">
       <header className="w-full bg-[#09090b] md:h-[70px] md:py-0 flex flex-col md:flex-row items-center p-5 md:px-[60px]">
-        <div className="w-full mx-auto flex justify-between items-center font-semibold text-[#1CAB70]">
+        <div className="w-full mx-auto flex flex-col md:flex-row justify-between items-center font-semibold text-[#1CAB70]">
           {/* Logo */}
-          <Link href="/" className="text-xl font-bold">
-            <img src={"/Logo.png"} className="md:w-36 w-28 rounded-xl" />
-          </Link>
+          <div className="flex justify-between md:w-fit w-full pb-2 md:pb-0">
+            <Link href="/" className="text-xl font-bold md:w-36 w-28">
+              <img src={"/Logo.png"} className="md:w-36 w-28 rounded-xl" />
+            </Link>
+            {/* Mobile Menu Toggle */}
+            <DropdownMenu>
+              <DropdownMenuTrigger className="md:hidden">
+                <Button
+                  variant={"secondary"}
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  {isOpen ? (
+                    <X className="h-6 w-6" />
+                  ) : (
+                    <Menu className="h-6 w-6" />
+                  )}
+                </Button>
+              </DropdownMenuTrigger>
+
+              {/* Mobile Nav */}
+              <DropdownMenuContent className="md:hidden w-screen bg-black backdrop-blur-xl border-0">
+                <div className=" px-4 py-3 flex flex-col gap-2 w-full">
+                  <Link href="/find-stylist/barbershop">
+                    <Button
+                      onClick={() => setIsOpen(false)}
+                      className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                    >
+                      Find Stylist
+                    </Button>
+                  </Link>
+                  <Link href="/find-talent">
+                    <Button
+                      onClick={() => setIsOpen(false)}
+                      className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                    >
+                      Marketplace
+                    </Button>
+                  </Link>
+                  <Link href="/find-recruiters">
+                    <Button
+                      onClick={() => setIsOpen(false)}
+                      className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                    >
+                      Job Seekers
+                    </Button>
+                  </Link>
+                  <Link href="/auth">
+                    <Button
+                      onClick={() => setIsOpen(false)}
+                      className="text-[#003226] w-full bg-[#1CAB70] font-semibold "
+                    >
+                      Login / SIgn up
+                    </Button>
+                  </Link>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
+          {pathname !== "/" && <SearchFilters />}
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-4">
@@ -122,59 +179,9 @@ export default function Header() {
               </Button>
             </Link>
           </div>
-          {/* Mobile Menu Toggle */}
-          <DropdownMenu>
-            <DropdownMenuTrigger className="md:hidden">
-              <Button variant={"secondary"} onClick={() => setIsOpen(!isOpen)}>
-                {isOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
-              </Button>
-            </DropdownMenuTrigger>
-
-            {/* Mobile Nav */}
-            <DropdownMenuContent className="md:hidden w-screen bg-black backdrop-blur-xl border-0">
-              <div className=" px-4 py-3 flex flex-col gap-2 w-full">
-                <Link href="/find-stylist/barbershop">
-                  <Button
-                    onClick={() => setIsOpen(false)}
-                    className="bg-[#003226] w-full text-[#1CAB70] font-medium"
-                  >
-                    Find Stylist
-                  </Button>
-                </Link>
-                <Link href="/find-talent">
-                  <Button
-                    onClick={() => setIsOpen(false)}
-                    className="bg-[#003226] w-full text-[#1CAB70] font-medium"
-                  >
-                    Marketplace
-                  </Button>
-                </Link>
-                <Link href="/find-recruiters">
-                  <Button
-                    onClick={() => setIsOpen(false)}
-                    className="bg-[#003226] w-full text-[#1CAB70] font-medium"
-                  >
-                    Job Seekers
-                  </Button>
-                </Link>
-                <Link href="/auth">
-                  <Button
-                    onClick={() => setIsOpen(false)}
-                    className="text-[#003226] w-full bg-[#1CAB70] font-semibold "
-                  >
-                    Login / SIgn up
-                  </Button>
-                </Link>
-              </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </header>
-      {pathname !== "/" && <SearchFilters />}
+
       <AnimatePresence>
         {shouldShowCategories && (
           <motion.div
@@ -202,30 +209,30 @@ export function SearchFilters() {
   const activeCategory = category?.toLowerCase();
 
   return (
-    <div className="w-full flex flex-col md:flex-row gap-2 bg-[#09090b]  p-5 md:px-[60px] pb-5 pt-1">
-      <div className="relative w-full h-[35px]">
+    <div className="w-full md:w-1/3 flex flex-col md:flex-row gap-2 bg-[#09090b]  items-center">
+      <div className="relative w-full h-[40px]">
         <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
         <Input
           type="text"
-          placeholder="Search Services or Buisnesses"
-          className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[35px]"
+          placeholder="Search Services Providers"
+          className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[40px]"
         />
       </div>
-      <div className="flex gap-2 md:w-1/2">
-        <div className="relative w-full h-[35px]">
+      <div className="w-full flex gap-2">
+        <div className="relative w-full h-[40px]">
           <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
           <Input
             type="text"
             placeholder="Where"
-            className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[35px]"
+            className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[40px]"
           />
         </div>
-        <div className="relative w-full h-[35px]">
+        <div className="relative w-full h-[40px]">
           <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
           <Input
             type="text"
             placeholder="Filter"
-            className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[35px]"
+            className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[40px]"
           />
         </div>
       </div>
