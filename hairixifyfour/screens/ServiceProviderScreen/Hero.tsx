@@ -83,7 +83,9 @@ export default function Hero() {
             className="absolute inset-0"
           >
             <Image
-              src={media[index]}
+              src={
+                "https://images.unsplash.com/photo-1693755807658-17ce5331aacb?q=80&w=1171&auto=format&fit=crop"
+              }
               alt={`hero-${index}`}
               fill
               className="object-cover"
@@ -104,11 +106,11 @@ export default function Hero() {
 
         {/* TEXT */}
         <div className="absolute bottom-5 left-5 md:left-10 text-white max-w-[90%]">
-          <p className="text-xs uppercase tracking-wide text-white/70">
-            Barber
+          <p className="w-fit bg-[#12ab5a] text-white text-[10px] font-semibold px-2 py-1 rounded-full capitalize">
+            Condition: Used
           </p>
           <h1 className="mt-1 text-xl sm:text-2xl md:text-4xl font-bold leading-tight">
-            Jasmyne Naturalle International
+            SDD Vietnam Bone Straight
           </h1>
           <p className="mt-1 text-xs sm:text-sm text-white/80">
             1, Raji Oba Bus Stop, Alimosho, Lagos

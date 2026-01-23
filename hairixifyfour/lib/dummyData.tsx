@@ -113,6 +113,350 @@ export const shopMedia = [
       "Top-tier barbers offering hair-detailing, straight-razor lining, beard tinting and aesthetic grooming service.",
   },
 ];
+export const recommendedData = [
+  {
+    id: "1",
+    image:
+      "https://plus.unsplash.com/premium_photo-1682096515837-81ef4d728980?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2lnfGVufDB8fDB8fHww",
+    title: "Bust Down wing",
+    price: 120000,
+    location: "Lagos, Nigeria",
+    condition: "used",
+  },
+  {
+    id: "2",
+    image:
+      "https://images.unsplash.com/photo-1663582816182-15cf69d87665?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2lnfGVufDB8fDB8fHww",
+    title: "Taper Fade Wig",
+    price: 85000,
+    location: "Accra, Ghana",
+    condition: "used",
+  },
+  {
+    id: "3",
+    image:
+      "https://plus.unsplash.com/premium_photo-1684407616442-8d5a1b7c978e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWFrZXVwfGVufDB8fDB8fHww",
+    title: "Make Up Kit",
+    price: 210000,
+    location: "Nairobi, Kenya",
+    condition: "used",
+  },
+  {
+    id: "4",
+    image:
+      "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWFrZXVwfGVufDB8fDB8fHww",
+    title: "Foundation starter Kit",
+    price: 64000,
+    location: "Cape Town, South Africa",
+    condition: "brand new",
+  },
+  {
+    id: "5",
+    image:
+      "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFnc3xlbnwwfHwwfHx8MA%3D%3D",
+    title: "Gucci Bag",
+    price: 42000,
+    location: "Abuja, Nigeria",
+    condition: "used",
+  },
+  {
+    id: "1",
+    image:
+      "https://plus.unsplash.com/premium_photo-1682096515837-81ef4d728980?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2lnfGVufDB8fDB8fHww",
+    title: "Bust Down wing",
+    price: 120000,
+    location: "Lagos, Nigeria",
+    condition: "used",
+  },
+  {
+    id: "2",
+    image:
+      "https://images.unsplash.com/photo-1663582816182-15cf69d87665?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2lnfGVufDB8fDB8fHww",
+    title: "Taper Fade Wig",
+    price: 85000,
+    location: "Accra, Ghana",
+    condition: "used",
+  },
+  {
+    id: "3",
+    image:
+      "https://plus.unsplash.com/premium_photo-1684407616442-8d5a1b7c978e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWFrZXVwfGVufDB8fDB8fHww",
+    title: "Make Up Kit",
+    price: 210000,
+    location: "Nairobi, Kenya",
+    condition: "used",
+  },
+  {
+    id: "4",
+    image:
+      "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWFrZXVwfGVufDB8fDB8fHww",
+    title: "Foundation starter Kit",
+    price: 64000,
+    location: "Cape Town, South Africa",
+    condition: "brand new",
+  },
+  {
+    id: "5",
+    image:
+      "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFnc3xlbnwwfHwwfHx8MA%3D%3D",
+    title: "Gucci Bag",
+    price: 42000,
+    location: "Abuja, Nigeria",
+    condition: "used",
+  },
+];
+export const generalData = [
+  {
+    id: "1",
+    image:
+      "https://plus.unsplash.com/premium_photo-1682096515837-81ef4d728980?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2lnfGVufDB8fDB8fHww",
+    title: "Bust Down wing",
+    price: 120000,
+    location: "Lagos, Nigeria",
+    condition: "used",
+  },
+  {
+    id: "2",
+    image:
+      "https://images.unsplash.com/photo-1663582816182-15cf69d87665?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2lnfGVufDB8fDB8fHww",
+    title: "Taper Fade Wig",
+    price: 85000,
+    location: "Accra, Ghana",
+    condition: "used",
+  },
+  {
+    id: "3",
+    image:
+      "https://plus.unsplash.com/premium_photo-1684407616442-8d5a1b7c978e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWFrZXVwfGVufDB8fDB8fHww",
+    title: "Make Up Kit",
+    price: 210000,
+    location: "Nairobi, Kenya",
+    condition: "used",
+  },
+  {
+    id: "4",
+    image:
+      "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWFrZXVwfGVufDB8fDB8fHww",
+    title: "Foundation starter Kit",
+    price: 64000,
+    location: "Cape Town, South Africa",
+    condition: "brand new",
+  },
+  {
+    id: "5",
+    image:
+      "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFnc3xlbnwwfHwwfHx8MA%3D%3D",
+    title: "Gucci Bag",
+    price: 42000,
+    location: "Abuja, Nigeria",
+    condition: "used",
+  },
+  {
+    id: "1",
+    image:
+      "https://plus.unsplash.com/premium_photo-1682096515837-81ef4d728980?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2lnfGVufDB8fDB8fHww",
+    title: "Bust Down wing",
+    price: 120000,
+    location: "Lagos, Nigeria",
+    condition: "used",
+  },
+  {
+    id: "2",
+    image:
+      "https://images.unsplash.com/photo-1663582816182-15cf69d87665?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2lnfGVufDB8fDB8fHww",
+    title: "Taper Fade Wig",
+    price: 85000,
+    location: "Accra, Ghana",
+    condition: "used",
+  },
+  {
+    id: "3",
+    image:
+      "https://plus.unsplash.com/premium_photo-1684407616442-8d5a1b7c978e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWFrZXVwfGVufDB8fDB8fHww",
+    title: "Make Up Kit",
+    price: 210000,
+    location: "Nairobi, Kenya",
+    condition: "used",
+  },
+  {
+    id: "4",
+    image:
+      "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWFrZXVwfGVufDB8fDB8fHww",
+    title: "Foundation starter Kit",
+    price: 64000,
+    location: "Cape Town, South Africa",
+    condition: "brand new",
+  },
+  {
+    id: "5",
+    image:
+      "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFnc3xlbnwwfHwwfHx8MA%3D%3D",
+    title: "Gucci Bag",
+    price: 42000,
+    location: "Abuja, Nigeria",
+    condition: "used",
+  },
+  {
+    id: "p-001",
+    image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519",
+    title: "Luxury Body Wave Wig",
+    price: 185000,
+    location: "Lekki, Lagos",
+    condition: "brand new",
+  },
+  {
+    id: "p-002",
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348",
+    title: "Professional Makeup Brush Set",
+    price: 52000,
+    location: "Ikeja, Lagos",
+    condition: "brand new",
+  },
+  {
+    id: "p-003",
+    image: "https://images.unsplash.com/photo-1583241800698-9c2b42b96a49",
+    title: "Hair Clipper Pro X",
+    price: 74000,
+    location: "Ibadan, Nigeria",
+    condition: "used",
+  },
+  {
+    id: "p-004",
+    image: "https://images.unsplash.com/photo-1621188988909-fbef0a4f9c32",
+    title: "Vanity Makeup Mirror with LED",
+    price: 96000,
+    location: "Asaba, Nigeria",
+    condition: "brand new",
+  },
+  {
+    id: "p-005",
+    image: "https://images.unsplash.com/photo-1585386959984-a41552231692",
+    title: "Human Hair Closure 5x5",
+    price: 110000,
+    location: "Benin City, Nigeria",
+    condition: "brand new",
+  },
+  {
+    id: "p-006",
+    image: "https://images.unsplash.com/photo-1618354691249-b3c4b5c3f8b1",
+    title: "Salon Hair Dryer",
+    price: 68000,
+    location: "Owerri, Nigeria",
+    condition: "used",
+  },
+  {
+    id: "p-007",
+    image: "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+    title: "Designer Leather Handbag",
+    price: 195000,
+    location: "Victoria Island, Lagos",
+    condition: "used",
+  },
+  {
+    id: "p-008",
+    image: "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6",
+    title: "Acrylic Nail Starter Kit",
+    price: 48000,
+    location: "Uyo, Nigeria",
+    condition: "brand new",
+  },
+  {
+    id: "p-009",
+    image: "https://images.unsplash.com/photo-1580910051074-7f2f31a95d75",
+    title: "Professional Ring Light 18”",
+    price: 72000,
+    location: "Surulere, Lagos",
+    condition: "used",
+  },
+  {
+    id: "p-010",
+    image: "https://images.unsplash.com/photo-1588167056547-c183313da47c",
+    title: "Makeup Storage Organizer",
+    price: 35000,
+    location: "Abeokuta, Nigeria",
+    condition: "brand new",
+  },
+  {
+    id: "p-011",
+    image: "https://images.unsplash.com/photo-1629198735660-e39ea73f8e5a",
+    title: "Straight Hair Wig 20 inch",
+    price: 132000,
+    location: "Yaba, Lagos",
+    condition: "used",
+  },
+  {
+    id: "p-012",
+    image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae",
+    title: "Electric Facial Cleansing Brush",
+    price: 29000,
+    location: "Ilorin, Nigeria",
+    condition: "brand new",
+  },
+  {
+    id: "p-013",
+    image: "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd",
+    title: "Portable Barber Chair",
+    price: 250000,
+    location: "Akure, Nigeria",
+    condition: "used",
+  },
+  {
+    id: "p-014",
+    image: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9",
+    title: "Matte Lipstick Collection",
+    price: 41000,
+    location: "Onitsha, Nigeria",
+    condition: "brand new",
+  },
+  {
+    id: "p-015",
+    image: "https://images.unsplash.com/photo-1607082349566-187342175e2f",
+    title: "Makeup Artist Travel Case",
+    price: 88000,
+    location: "Ado-Ekiti, Nigeria",
+    condition: "used",
+  },
+  {
+    id: "p-016",
+    image: "https://images.unsplash.com/photo-1585238342028-4bbc6b7b8e25",
+    title: "Luxury Perfume Set",
+    price: 97000,
+    location: "Ikot Ekpene, Nigeria",
+    condition: "brand new",
+  },
+  {
+    id: "p-017",
+    image: "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6",
+    title: "UV Nail Lamp",
+    price: 26000,
+    location: "Calabar, Nigeria",
+    condition: "used",
+  },
+  {
+    id: "p-018",
+    image: "https://images.unsplash.com/photo-1588466585717-f8041aec7875",
+    title: "Hair Styling Tool Kit",
+    price: 54000,
+    location: "Lokoja, Nigeria",
+    condition: "brand new",
+  },
+  {
+    id: "p-019",
+    image: "https://images.unsplash.com/photo-1617957743094-5c6c2d6b3b6d",
+    title: "Cosmetic Mini Fridge",
+    price: 120000,
+    location: "Gwarinpa, Abuja",
+    condition: "used",
+  },
+  {
+    id: "p-020",
+    image: "https://images.unsplash.com/photo-1593032465175-481ac7f401b7",
+    title: "Luxury Hair Care Gift Box",
+    price: 67000,
+    location: "Jabi, Abuja",
+    condition: "brand new",
+  },
+];
 
 export const CATEGORY_DATA = {
   aesthetics: {
@@ -696,22 +1040,35 @@ export const vendors = [
   },
 ];
 
-import { Brush, Dumbbell, HandFist, TabletSmartphoneIcon } from "lucide-react";
+import {
+  Brush,
+  Dumbbell,
+  HandFist,
+  TabletSmartphoneIcon,
+  Scissors,
+  SprayCan,
+  Sparkles,
+  Droplet,
+  Eye,
+  Heart,
+  Smile,
+  Hand,
+  Package,
+  HeartPulse,
+} from "lucide-react";
 import {
   ScissorAlt,
   FaceId,
   Spark,
   GraduationCap,
-  Eye,
   HotAirBalloon,
   Pin,
-  Droplet,
   Flower,
   UserCircle,
   PharmacyCrossCircle,
 } from "iconoir-react";
 
-export const stylistCategories = [
+export const stylistDropdownData = [
   {
     title: "Aesthetics",
     description: "Non-surgical beauty treatments and skin enhancements.",
@@ -809,3 +1166,163 @@ export const stylistCategories = [
     href: "/find-stylist/therapy",
   },
 ];
+
+export const marketplaceDropdownData = [
+  {
+    title: "Hair Styling Accessories",
+    icon: <Sparkles />,
+    href: "/marketplace/hair-styling-accessories",
+  },
+  {
+    title: "Hair Cutting Tools",
+    icon: <Scissors />,
+    href: "/marketplace/hair-cutting-tools",
+  },
+  {
+    title: "Hair Care Products",
+    icon: <Droplet />,
+    href: "/marketplace/hair-care-products",
+  },
+  {
+    title: "Hair Beauty",
+    icon: <Brush />,
+    href: "/marketplace/hair-beauty",
+  },
+  {
+    title: "Fragrances",
+    icon: <Droplet />,
+    href: "/marketplace/fragrances",
+  },
+  {
+    title: "Feminine Care",
+    icon: <Heart />,
+    href: "/marketplace/feminine-care",
+  },
+  {
+    title: "Facial Care",
+    icon: <Smile />,
+    href: "/marketplace/facial-care",
+  },
+  {
+    title: "Eye Care",
+    icon: <Eye />,
+    href: "/marketplace/eye-care",
+  },
+  {
+    title: "Contraceptives",
+    icon: <Package />,
+    href: "/marketplace/contraceptives",
+  },
+  {
+    title: "Beauty Care",
+    icon: <Sparkles />,
+    href: "/marketplace/beauty-care",
+  },
+  {
+    title: "Beauty Accessories",
+    icon: <Hand />,
+    href: "/marketplace/beauty-accessories",
+  },
+];
+
+export const jobsDropdownData = [
+  {
+    title: "Wigs & Hair Extensions",
+    icon: <Brush />,
+    href: "/jobs/wigs-and-extensions",
+  },
+  {
+    title: "Styling Tools & Appliances",
+    icon: <Scissors />,
+    href: "/jobs/styling-tools",
+  },
+  {
+    title: "Skin Care",
+    icon: <Sparkles />,
+    href: "/jobs/skin-care",
+  },
+  {
+    title: "Sexual Wellness",
+    icon: <HeartPulse />,
+    href: "/jobs/sexual-wellness",
+  },
+  {
+    title: "Piercing, Tattoo & Body Art",
+    icon: <HandFist />,
+    href: "/jobs/body-art",
+  },
+  {
+    title: "Oral Care",
+    icon: <Smile />,
+    href: "/jobs/oral-care",
+  },
+  {
+    title: "Nail, Hand & Foot Care",
+    icon: <SprayCan />,
+    href: "/jobs/nail-care",
+  },
+  {
+    title: "Massage Tools & Equipment",
+    icon: <Hand />,
+    href: "/jobs/massage-tools",
+  },
+  {
+    title: "Makeup Tools & Accessories",
+    icon: <Droplet />,
+    href: "/jobs/makeup-tools",
+  },
+  {
+    title: "Makeup",
+    icon: <Sparkles />,
+    href: "/jobs/makeup",
+  },
+];
+
+export const marketplaceTypes = [
+  { title: "all", count: 200 },
+  { title: "beauty accessories", count: 48 },
+  { title: "beauty care", count: 32 },
+  { title: "facial care", count: 29 },
+  { title: "fragrances", count: 41 },
+  { title: "hair beauty", count: 54 },
+  { title: "haircare products", count: 38 },
+  { title: "makeup", count: 62 },
+  { title: "nail, hands & foot care", count: 27 },
+  { title: "skincare", count: 45 },
+  { title: "wigs & hair extensions", count: 19 },
+];
+
+export const states = [
+  {
+    state: "Lagos",
+    cities: ["Ikeja", "Lekki", "Yaba", "Surulere"],
+  },
+  {
+    state: "Abuja",
+    cities: ["Gwarinpa", "Wuse", "Maitama"],
+  },
+  {
+    state: "Rivers",
+    cities: ["Port Harcourt"],
+  },
+];
+
+export const brands = [
+  "L’Oréal",
+  "Maybelline",
+  "MAC",
+  "Fenty Beauty",
+  "Nivea",
+  "Dove",
+  "Shea Moisture",
+];
+
+export const conditions = ["all", "new", "used"];
+export const warranties = [
+  "all",
+  "no warranty",
+  "1 week",
+  "2 weeks",
+  "1 month",
+];
+export const genders = ["all", "male", "female", "unisex"];

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,24 +21,18 @@ import {
   X,
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "../ui/navigation-menu";
 
 import { Input } from "../ui/input";
-import { stylistCategories } from "@/lib/dummyData";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import {
+  jobsDropdownData,
+  marketplaceDropdownData,
+  stylistDropdownData,
+} from "@/lib/dummyData";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Separator } from "../ui/separator";
 import { AnimatePresence, motion, Variants } from "motion/react";
 import { Filter } from "iconoir-react";
 
@@ -47,7 +41,12 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const [showCategories, setShowCategories] = useState(false);
+  const [type, setType] = useState<"stylist" | "marketplace" | "jobs" | null>(
+    null,
+  );
+
   const hideTimeout = useRef<NodeJS.Timeout | null>(null);
+
   const openCategories = () => {
     if (hideTimeout.current) clearTimeout(hideTimeout.current);
     setShowCategories(true);
@@ -89,89 +88,35 @@ export default function Header() {
   return (
     <div className="relative">
       <header className="w-full bg-[#09090b] md:h-[70px] md:py-0 flex flex-col md:flex-row items-center p-5 md:px-[60px]">
-        <div className="w-full mx-auto flex flex-col md:flex-row justify-between items-center font-semibold text-[#1CAB70]">
+        <div className="w-full mx-auto flex justify-between items-center font-semibold text-[#1CAB70]">
           {/* Logo */}
-          <div className="flex justify-between md:w-fit w-full pb-2 md:pb-0">
-            <Link href="/" className="text-xl font-bold md:w-36 w-28">
-              <img src={"/Logo.png"} className="md:w-36 w-28 rounded-xl" />
-            </Link>
-            {/* Mobile Menu Toggle */}
-            <DropdownMenu>
-              <DropdownMenuTrigger className="md:hidden">
-                <Button
-                  variant={"secondary"}
-                  onClick={() => setIsOpen(!isOpen)}
-                >
-                  {isOpen ? (
-                    <X className="h-6 w-6" />
-                  ) : (
-                    <Menu className="h-6 w-6" />
-                  )}
-                </Button>
-              </DropdownMenuTrigger>
-
-              {/* Mobile Nav */}
-              <DropdownMenuContent className="md:hidden w-screen bg-black backdrop-blur-xl border-0">
-                <div className=" px-4 py-3 flex flex-col gap-2 w-full">
-                  <Link href="/find-stylist/barbershop">
-                    <Button
-                      onClick={() => setIsOpen(false)}
-                      className="bg-[#003226] w-full text-[#1CAB70] font-medium"
-                    >
-                      Find Stylist
-                    </Button>
-                  </Link>
-                  <Link href="/find-talent">
-                    <Button
-                      onClick={() => setIsOpen(false)}
-                      className="bg-[#003226] w-full text-[#1CAB70] font-medium"
-                    >
-                      Marketplace
-                    </Button>
-                  </Link>
-                  <Link href="/find-recruiters">
-                    <Button
-                      onClick={() => setIsOpen(false)}
-                      className="bg-[#003226] w-full text-[#1CAB70] font-medium"
-                    >
-                      Job Seekers
-                    </Button>
-                  </Link>
-                  <Link href="/auth">
-                    <Button
-                      onClick={() => setIsOpen(false)}
-                      className="text-[#003226] w-full bg-[#1CAB70] font-semibold "
-                    >
-                      Login / SIgn up
-                    </Button>
-                  </Link>
-                </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-
-          {pathname !== "/" && <SearchFilters />}
-
+          <Link href="/" className="text-xl font-bold md:w-36 w-28">
+            <img src={"/Logo.png"} className="md:w-36 w-28 rounded-xl" />
+          </Link>
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-4">
             <Button
-              onMouseEnter={openCategories}
+              onMouseEnter={() => [openCategories(), setType("stylist")]}
               onMouseLeave={scheduleClose}
               className="bg-[#003226] text-[#3ad688] font-medium"
             >
               Find Stylist
             </Button>
 
-            <Link href="/find-talent">
-              <Button className="bg-[#003226] text-[#3ad688] font-medium">
-                Marketplace
-              </Button>
-            </Link>
-            <Link href="/find-recruiters">
-              <Button className="bg-[#003226] text-[#3ad688] font-medium">
-                Job Seekers
-              </Button>
-            </Link>
+            <Button
+              onMouseEnter={() => [openCategories(), setType("marketplace")]}
+              onMouseLeave={scheduleClose}
+              className="bg-[#003226] text-[#3ad688] font-medium"
+            >
+              Marketplace
+            </Button>
+            <Button
+              onMouseEnter={() => [openCategories(), setType("jobs")]}
+              onMouseLeave={scheduleClose}
+              className="bg-[#003226] text-[#3ad688] font-medium"
+            >
+              Job Seekers
+            </Button>
             <div className="w-[0.5px] h-[25px] bg-[#3ad688] mx-4" />
             <Link href="/auth">
               <Button className="text-[#003226] bg-[#3ad688] font-bold">
@@ -179,8 +124,59 @@ export default function Header() {
               </Button>
             </Link>
           </div>
+          {/* Mobile Menu Toggle */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="md:hidden">
+              <Button variant={"secondary"} onClick={() => setIsOpen(!isOpen)}>
+                {isOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+
+            {/* Mobile Nav */}
+            <DropdownMenuContent className="md:hidden w-screen bg-black backdrop-blur-xl border-0">
+              <div className=" px-4 py-3 flex flex-col gap-2 w-full">
+                <Link href="/find-stylist/barbershop">
+                  <Button
+                    onClick={() => setIsOpen(false)}
+                    className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                  >
+                    Find Stylist
+                  </Button>
+                </Link>
+                <Link href="/find-talent">
+                  <Button
+                    onClick={() => setIsOpen(false)}
+                    className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                  >
+                    Marketplace
+                  </Button>
+                </Link>
+                <Link href="/find-recruiters">
+                  <Button
+                    onClick={() => setIsOpen(false)}
+                    className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                  >
+                    Job Seekers
+                  </Button>
+                </Link>
+                <Link href="/auth">
+                  <Button
+                    onClick={() => setIsOpen(false)}
+                    className="text-[#003226] w-full bg-[#1CAB70] font-semibold "
+                  >
+                    Login / SIgn up
+                  </Button>
+                </Link>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </header>
+      {pathname !== "/" && <SearchFilters />}
 
       <AnimatePresence>
         {shouldShowCategories && (
@@ -196,7 +192,15 @@ export default function Header() {
         md:rounded-2xl
       "
           >
-            <StylistCategories />
+            <Dropdown
+              data={
+                type === "stylist"
+                  ? stylistDropdownData
+                  : type === "marketplace"
+                    ? marketplaceDropdownData
+                    : jobsDropdownData
+              }
+            />
           </motion.div>
         )}
       </AnimatePresence>
@@ -209,7 +213,7 @@ export function SearchFilters() {
   const activeCategory = category?.toLowerCase();
 
   return (
-    <div className="w-full md:w-1/3 flex flex-col md:flex-row gap-2 bg-[#09090b]  items-center">
+    <div className="w-full bg-[#09090b] md:h-[70px] md:py-0 gap-2 md:gap-5 flex flex-col md:flex-row items-center p-5 md:px-[60px]">
       <div className="relative w-full h-[40px]">
         <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
         <Input
@@ -218,7 +222,7 @@ export function SearchFilters() {
           className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[40px]"
         />
       </div>
-      <div className="w-full flex gap-2">
+      <div className="md:w-1/2 flex gap-2 md:gap-5">
         <div className="relative w-full h-[40px]">
           <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
           <Input
@@ -239,7 +243,13 @@ export function SearchFilters() {
     </div>
   );
 }
-export function StylistCategories() {
+
+interface dropdownTypes {
+  title: string;
+  icon: ReactNode;
+  href: string;
+}
+export function Dropdown({ data }: { data: dropdownTypes[] }) {
   const { category } = useParams<{ category?: string }>();
   const activeCategory = category?.toLowerCase();
 
@@ -257,7 +267,7 @@ export function StylistCategories() {
         "
         style={{ scrollbarGutter: "stable" }}
       >
-        {stylistCategories.map((item, index) => {
+        {data.map((item, index) => {
           const hrefCategory = item.href.split("/").pop()?.toLowerCase();
           const isActive = hrefCategory === activeCategory;
 
