@@ -1326,3 +1326,110 @@ export const warranties = [
   "1 month",
 ];
 export const genders = ["all", "male", "female", "unisex"];
+
+export const jobData = [
+  {
+    image:
+      "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=600&auto=format&fit=crop&q=60",
+    title: "Senior Hair Stylist",
+    salary: "$120,000 – $180,000",
+    position: "Full-time",
+    qualifications: "Certified Stylist",
+    experience: "3+ years experience",
+    jobType: "On-site",
+    category: "Hair Styling",
+    datePosted: "2 days ago",
+    views: 214,
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&auto=format&fit=crop&q=60",
+    title: "Professional Makeup Artist",
+    salary: "$80,000 – $120,000",
+    position: "Contract",
+    qualifications: "Professional Certificate",
+    experience: "2+ years experience",
+    jobType: "Freelance",
+    category: "Makeup",
+    datePosted: "4 days ago",
+    views: 167,
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=600&auto=format&fit=crop&q=60",
+    title: "Salon Manager",
+    salary: "$200,000 – $250,000",
+    position: "Full-time",
+    qualifications: "Salon Management",
+    experience: "5+ years experience",
+    jobType: "On-site",
+    category: "Management",
+    datePosted: "1 week ago",
+    views: 321,
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&auto=format&fit=crop&q=60",
+    title: "Massage Therapist",
+    salary: "$70,000 – $100,000",
+    position: "Part-time",
+    qualifications: "Licensed Therapist",
+    experience: "1+ year experience",
+    jobType: "On-site",
+    category: "Massage Therapy",
+    datePosted: "3 days ago",
+    views: 98,
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=600&auto=format&fit=crop&q=60",
+    title: "Senior Hair Stylist",
+    salary: "$120,000 – $180,000",
+    position: "Full-time",
+    qualifications: "Certified Stylist",
+    experience: "3+ years experience",
+    jobType: "On-site",
+    category: "Hair Styling",
+    datePosted: "2 days ago",
+    views: 214,
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&auto=format&fit=crop&q=60",
+    title: "Professional Makeup Artist",
+    salary: "$80,000 – $120,000",
+    position: "Contract",
+    qualifications: "Professional Certificate",
+    experience: "2+ years experience",
+    jobType: "Freelance",
+    category: "Makeup",
+    datePosted: "4 days ago",
+    views: 167,
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=600&auto=format&fit=crop&q=60",
+    title: "Salon Manager",
+    salary: "$200,000 – $250,000",
+    position: "Full-time",
+    qualifications: "Salon Management",
+    experience: "5+ years experience",
+    jobType: "On-site",
+    category: "Management",
+    datePosted: "1 week ago",
+    views: 321,
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&auto=format&fit=crop&q=60",
+    title: "Massage Therapist",
+    salary: "$70,000 – $100,000",
+    position: "Part-time",
+    qualifications: "Licensed Therapist",
+    experience: "1+ year experience",
+    jobType: "On-site",
+    category: "Massage Therapy",
+    datePosted: "3 days ago",
+    views: 98,
+  },
+];

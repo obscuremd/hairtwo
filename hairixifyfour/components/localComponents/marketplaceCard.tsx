@@ -20,13 +20,17 @@ export function MarketplaceCard({
     <motion.div
       whileHover={{ y: -6 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="w-[220px] rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-lg cursor-pointer"
+      className="w-full rounded-2xl overflow-hidden bg-white border shadow-sm hover:shadow-lg cursor-pointer"
     >
       {/* Image */}
-      <div className="relative h-[160px] w-full">
-        <img src={image} alt={title} className="w-full h-full object-cover" />
+      <div className="relative aspect-[4/3] w-full overflow-hidden">
+        <img
+          src={image}
+          alt={title}
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
 
-        {/* Category Badge */}
+        {/* Condition Badge */}
         <span className="absolute top-2 left-2 bg-[#12ab5a] text-white text-[10px] font-semibold px-2 py-1 rounded-full capitalize">
           {condition}
         </span>
@@ -40,7 +44,7 @@ export function MarketplaceCard({
         </p>
 
         {/* Title */}
-        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">
+        <h3 className="text-sm font-medium text-gray-900 line-clamp-2">
           {title}
         </h3>
 

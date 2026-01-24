@@ -3,15 +3,21 @@
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Share } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Heart } from "iconoir-react";
 
 export default function Hero() {
   const media = [
-    "https://images.unsplash.com/photo-1693755807658-17ce5331aacb?q=80&w=1171&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=2070&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?q=80&w=1170&auto=format&fit=crop",
-    "https://plus.unsplash.com/premium_photo-1723867490491-10519f8ed969?q=80&w=1170&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1559599101-f09722fb4948?q=80&w=1170&auto=format&fit=crop",
+    "https://plus.unsplash.com/premium_photo-1682096515837-81ef4d728980?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2lnfGVufDB8fDB8fHww",
+
+    "https://images.unsplash.com/photo-1663582816182-15cf69d87665?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2lnfGVufDB8fDB8fHww",
+
+    "https://plus.unsplash.com/premium_photo-1684407616442-8d5a1b7c978e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWFrZXVwfGVufDB8fDB8fHww",
+
+    "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWFrZXVwfGVufDB8fDB8fHww",
+
+    "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFnc3xlbnwwfHwwfHx8MA%3D%3D",
   ];
 
   const HERO_INTERVAL = 4000;
@@ -67,13 +73,17 @@ export default function Hero() {
       {/* ---------- MAIN IMAGE ---------- */}
 
       <div className="relative h-[360px] sm:h-[420px] md:h-[520px] w-full overflow-hidden rounded-xl bg-black">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
           <motion.div
             key={index}
-            initial={{ opacity: 0, scale: 1.03 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.03 }}
-            transition={{ duration: 1.1, ease: "easeInOut" }}
+            initial={{ x: 30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -30, opacity: 0 }}
+            transition={{
+              type: "tween",
+              duration: 1.6,
+              ease: [0.4, 0, 0.2, 1], // ultra-smooth (Material curve)
+            }}
             className="absolute inset-0"
           >
             <Image
@@ -87,13 +97,22 @@ export default function Hero() {
           </motion.div>
         </AnimatePresence>
 
+        <div className="absolute top-2 right-2 text-white max-w-[90%] flex gap-2">
+          <Button variant={"secondary"}>
+            <Share />
+          </Button>
+          <Button variant={"secondary"}>
+            <Heart />
+          </Button>
+        </div>
+
         {/* TEXT */}
         <div className="absolute bottom-5 left-5 md:left-10 text-white max-w-[90%]">
-          <p className="text-xs uppercase tracking-wide text-white/70">
-            Barber
+          <p className="w-fit bg-[#12ab5a] text-white text-[10px] font-semibold px-2 py-1 rounded-full capitalize">
+            Condition: Used
           </p>
           <h1 className="mt-1 text-xl sm:text-2xl md:text-4xl font-bold leading-tight">
-            Jasmyne Naturalle International
+            SDD Vietnam Bone Straight
           </h1>
           <p className="mt-1 text-xs sm:text-sm text-white/80">
             1, Raji Oba Bus Stop, Alimosho, Lagos

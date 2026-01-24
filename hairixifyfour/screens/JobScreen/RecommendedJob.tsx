@@ -1,11 +1,12 @@
 "use client";
 import { MarketplaceCard } from "@/components/localComponents/marketplaceCard";
-import { recommendedData, shopMedia } from "@/lib/dummyData";
+import { jobData, recommendedData, shopMedia } from "@/lib/dummyData";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState } from "react";
+import { JobCard } from "./JobCard";
 
-export function Recommended() {
+export function RecommendedJob() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollPos, setScrollPos] = useState(0);
 
@@ -34,7 +35,7 @@ export function Recommended() {
     <div className="relative w-full p-5 md:p-[68px] md:pt-0">
       <div className="w-full flex justify-between items-center">
         <h2 className="text-xl md:text-[2rem] font-bold capitalize">
-          Recommended Products
+          Similar Jobs
         </h2>
         <h2 className="text-md font-semibold text-primary-c">Show More</h2>
       </div>
@@ -63,12 +64,10 @@ export function Recommended() {
         ref={scrollRef}
         className="flex w-full overflow-hidden gap-6 py-4 scroll-smooth"
       >
-        {recommendedData.map((item, idx) => (
-          <Link key={idx} href={`/marketplace/product/${idx}`}>
-            <div className="w-[220px]">
-              <MarketplaceCard {...item} />
-            </div>
-          </Link>
+        {jobData.map((job, idx) => (
+          <div key={idx} className="shrink-0 w-[300px] md:w-[500px]">
+            <JobCard {...job} />
+          </div>
         ))}
       </div>
     </div>
