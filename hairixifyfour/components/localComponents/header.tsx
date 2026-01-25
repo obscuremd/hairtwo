@@ -320,7 +320,7 @@ export function BottomTabs() {
   return (
     <nav className="w-full bg-zinc-800 px-5 py-2 flex justify-between">
       {/* Desktop Nav */}
-      <Link href="/find-talent">
+      <Link href="/find-stylist/aesthetics">
         <Button
           variant={"ghost"}
           className="flex flex-col h-fit text-tertiary-c"
@@ -329,7 +329,7 @@ export function BottomTabs() {
           Find Stylist
         </Button>
       </Link>
-      <Link href="/find-talent">
+      <Link href="/marketplace/hair-styling-accessories">
         <Button
           variant={"ghost"}
           className="flex flex-col h-fit text-tertiary-c"
@@ -338,7 +338,7 @@ export function BottomTabs() {
           Marketplace
         </Button>
       </Link>
-      <Link href="/find-recruiters">
+      <Link href="/jobs/wigs-and-extensions">
         <Button
           variant={"ghost"}
           className="flex flex-col h-fit text-tertiary-c"
