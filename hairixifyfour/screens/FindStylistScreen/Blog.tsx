@@ -50,7 +50,7 @@ export default function Blog({ category }: { category: string }) {
   }, []);
 
   return (
-    <div className="w-full py-10 md:py-[68px] mx-auto">
+    <div className="w-full pb-10 md:pb-[68px] mx-auto">
       <h2 className="text-center text-xl md:text-[2rem] font-bold mb-3">
         Blogs & Articles
       </h2>

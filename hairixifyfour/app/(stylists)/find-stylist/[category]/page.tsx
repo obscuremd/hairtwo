@@ -14,8 +14,8 @@ export default function Page() {
   const data = CATEGORY_DATA[category as keyof typeof CATEGORY_DATA];
 
   return (
-    <section className="p-5 md:p-[68px] space-y-[68px] md:space-y-[136px]">
-      <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-7 md:gap-14 items-center">
+    <section className="p-5 md:p-[68px] space-y-[68px] md:space-y-[68px]">
+      <div className="mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-7 md:gap-14">
         {/* TEXT */}
         <div className="space-y-6">
           <h1 className="text-3xl md:text-5xl font-bold capitalize leading-tight">
