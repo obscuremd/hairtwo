@@ -117,184 +117,155 @@ export const recommendedData = [
   {
     id: "1",
     image:
-      "https://plus.unsplash.com/premium_photo-1682096515837-81ef4d728980?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2lnfGVufDB8fDB8fHww",
+      "https://plus.unsplash.com/premium_photo-1682096515837-81ef4d728980?w=600&auto=format&fit=crop&q=60",
     title: "Bust Down wing",
     price: 120000,
     location: "Lagos, Nigeria",
     condition: "used",
+    plan: "gold",
   },
   {
     id: "2",
     image:
-      "https://images.unsplash.com/photo-1663582816182-15cf69d87665?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2lnfGVufDB8fDB8fHww",
+      "https://images.unsplash.com/photo-1663582816182-15cf69d87665?w=600&auto=format&fit=crop&q=60",
     title: "Taper Fade Wig",
     price: 85000,
     location: "Accra, Ghana",
     condition: "used",
+    plan: "free",
   },
   {
     id: "3",
     image:
-      "https://plus.unsplash.com/premium_photo-1684407616442-8d5a1b7c978e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWFrZXVwfGVufDB8fDB8fHww",
+      "https://plus.unsplash.com/premium_photo-1684407616442-8d5a1b7c978e?w=600&auto=format&fit=crop&q=60",
     title: "Make Up Kit",
     price: 210000,
     location: "Nairobi, Kenya",
     condition: "used",
+    plan: "silver",
   },
   {
     id: "4",
     image:
-      "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWFrZXVwfGVufDB8fDB8fHww",
+      "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=60",
     title: "Foundation starter Kit",
     price: 64000,
     location: "Cape Town, South Africa",
     condition: "brand new",
+    plan: "bronze",
   },
   {
     id: "5",
     image:
-      "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFnc3xlbnwwfHwwfHx8MA%3D%3D",
+      "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&auto=format&fit=crop&q=60",
     title: "Gucci Bag",
     price: 42000,
     location: "Abuja, Nigeria",
     condition: "used",
+    plan: "free",
   },
   {
     id: "1",
     image:
-      "https://plus.unsplash.com/premium_photo-1682096515837-81ef4d728980?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2lnfGVufDB8fDB8fHww",
+      "https://plus.unsplash.com/premium_photo-1682096515837-81ef4d728980?w=600&auto=format&fit=crop&q=60",
     title: "Bust Down wing",
     price: 120000,
     location: "Lagos, Nigeria",
     condition: "used",
+    plan: "gold",
   },
   {
     id: "2",
     image:
-      "https://images.unsplash.com/photo-1663582816182-15cf69d87665?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2lnfGVufDB8fDB8fHww",
+      "https://images.unsplash.com/photo-1663582816182-15cf69d87665?w=600&auto=format&fit=crop&q=60",
     title: "Taper Fade Wig",
     price: 85000,
     location: "Accra, Ghana",
     condition: "used",
+    plan: "free",
   },
   {
     id: "3",
     image:
-      "https://plus.unsplash.com/premium_photo-1684407616442-8d5a1b7c978e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWFrZXVwfGVufDB8fDB8fHww",
+      "https://plus.unsplash.com/premium_photo-1684407616442-8d5a1b7c978e?w=600&auto=format&fit=crop&q=60",
     title: "Make Up Kit",
     price: 210000,
     location: "Nairobi, Kenya",
     condition: "used",
+    plan: "silver",
   },
   {
     id: "4",
     image:
-      "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWFrZXVwfGVufDB8fDB8fHww",
+      "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=60",
     title: "Foundation starter Kit",
     price: 64000,
     location: "Cape Town, South Africa",
     condition: "brand new",
+    plan: "bronze",
   },
   {
     id: "5",
     image:
-      "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFnc3xlbnwwfHwwfHx8MA%3D%3D",
+      "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&auto=format&fit=crop&q=60",
     title: "Gucci Bag",
     price: 42000,
     location: "Abuja, Nigeria",
     condition: "used",
+    plan: "free",
   },
 ];
+
 export const generalData = [
   {
     id: "1",
     image:
-      "https://plus.unsplash.com/premium_photo-1682096515837-81ef4d728980?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2lnfGVufDB8fDB8fHww",
+      "https://plus.unsplash.com/premium_photo-1682096515837-81ef4d728980?w=600&auto=format&fit=crop&q=60",
     title: "Bust Down wing",
     price: 120000,
     location: "Lagos, Nigeria",
     condition: "used",
+    plan: "gold",
   },
   {
     id: "2",
     image:
-      "https://images.unsplash.com/photo-1663582816182-15cf69d87665?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2lnfGVufDB8fDB8fHww",
+      "https://images.unsplash.com/photo-1663582816182-15cf69d87665?w=600&auto=format&fit=crop&q=60",
     title: "Taper Fade Wig",
     price: 85000,
     location: "Accra, Ghana",
     condition: "used",
+    plan: "free",
   },
   {
     id: "3",
     image:
-      "https://plus.unsplash.com/premium_photo-1684407616442-8d5a1b7c978e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWFrZXVwfGVufDB8fDB8fHww",
+      "https://plus.unsplash.com/premium_photo-1684407616442-8d5a1b7c978e?w=600&auto=format&fit=crop&q=60",
     title: "Make Up Kit",
     price: 210000,
     location: "Nairobi, Kenya",
     condition: "used",
+    plan: "silver",
   },
   {
     id: "4",
     image:
-      "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWFrZXVwfGVufDB8fDB8fHww",
+      "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=60",
     title: "Foundation starter Kit",
     price: 64000,
     location: "Cape Town, South Africa",
     condition: "brand new",
+    plan: "bronze",
   },
   {
     id: "5",
     image:
-      "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFnc3xlbnwwfHwwfHx8MA%3D%3D",
+      "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&auto=format&fit=crop&q=60",
     title: "Gucci Bag",
     price: 42000,
     location: "Abuja, Nigeria",
     condition: "used",
-  },
-  {
-    id: "1",
-    image:
-      "https://plus.unsplash.com/premium_photo-1682096515837-81ef4d728980?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2lnfGVufDB8fDB8fHww",
-    title: "Bust Down wing",
-    price: 120000,
-    location: "Lagos, Nigeria",
-    condition: "used",
-  },
-  {
-    id: "2",
-    image:
-      "https://images.unsplash.com/photo-1663582816182-15cf69d87665?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2lnfGVufDB8fDB8fHww",
-    title: "Taper Fade Wig",
-    price: 85000,
-    location: "Accra, Ghana",
-    condition: "used",
-  },
-  {
-    id: "3",
-    image:
-      "https://plus.unsplash.com/premium_photo-1684407616442-8d5a1b7c978e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWFrZXVwfGVufDB8fDB8fHww",
-    title: "Make Up Kit",
-    price: 210000,
-    location: "Nairobi, Kenya",
-    condition: "used",
-  },
-  {
-    id: "4",
-    image:
-      "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bWFrZXVwfGVufDB8fDB8fHww",
-    title: "Foundation starter Kit",
-    price: 64000,
-    location: "Cape Town, South Africa",
-    condition: "brand new",
-  },
-  {
-    id: "5",
-    image:
-      "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFnc3xlbnwwfHwwfHx8MA%3D%3D",
-    title: "Gucci Bag",
-    price: 42000,
-    location: "Abuja, Nigeria",
-    condition: "used",
+    plan: "free",
   },
   {
     id: "p-001",
@@ -303,6 +274,7 @@ export const generalData = [
     price: 185000,
     location: "Lekki, Lagos",
     condition: "brand new",
+    plan: "gold",
   },
   {
     id: "p-002",
@@ -311,6 +283,7 @@ export const generalData = [
     price: 52000,
     location: "Ikeja, Lagos",
     condition: "brand new",
+    plan: "bronze",
   },
   {
     id: "p-003",
@@ -319,6 +292,7 @@ export const generalData = [
     price: 74000,
     location: "Ibadan, Nigeria",
     condition: "used",
+    plan: "silver",
   },
   {
     id: "p-004",
@@ -327,6 +301,7 @@ export const generalData = [
     price: 96000,
     location: "Asaba, Nigeria",
     condition: "brand new",
+    plan: "gold",
   },
   {
     id: "p-005",
@@ -335,6 +310,7 @@ export const generalData = [
     price: 110000,
     location: "Benin City, Nigeria",
     condition: "brand new",
+    plan: "silver",
   },
   {
     id: "p-006",
@@ -343,6 +319,7 @@ export const generalData = [
     price: 68000,
     location: "Owerri, Nigeria",
     condition: "used",
+    plan: "bronze",
   },
   {
     id: "p-007",
@@ -351,6 +328,7 @@ export const generalData = [
     price: 195000,
     location: "Victoria Island, Lagos",
     condition: "used",
+    plan: "gold",
   },
   {
     id: "p-008",
@@ -359,6 +337,7 @@ export const generalData = [
     price: 48000,
     location: "Uyo, Nigeria",
     condition: "brand new",
+    plan: "free",
   },
   {
     id: "p-009",
@@ -367,6 +346,7 @@ export const generalData = [
     price: 72000,
     location: "Surulere, Lagos",
     condition: "used",
+    plan: "silver",
   },
   {
     id: "p-010",
@@ -375,6 +355,7 @@ export const generalData = [
     price: 35000,
     location: "Abeokuta, Nigeria",
     condition: "brand new",
+    plan: "free",
   },
   {
     id: "p-011",
@@ -383,6 +364,7 @@ export const generalData = [
     price: 132000,
     location: "Yaba, Lagos",
     condition: "used",
+    plan: "gold",
   },
   {
     id: "p-012",
@@ -391,6 +373,7 @@ export const generalData = [
     price: 29000,
     location: "Ilorin, Nigeria",
     condition: "brand new",
+    plan: "bronze",
   },
   {
     id: "p-013",
@@ -399,6 +382,7 @@ export const generalData = [
     price: 250000,
     location: "Akure, Nigeria",
     condition: "used",
+    plan: "gold",
   },
   {
     id: "p-014",
@@ -407,6 +391,7 @@ export const generalData = [
     price: 41000,
     location: "Onitsha, Nigeria",
     condition: "brand new",
+    plan: "silver",
   },
   {
     id: "p-015",
@@ -415,6 +400,7 @@ export const generalData = [
     price: 88000,
     location: "Ado-Ekiti, Nigeria",
     condition: "used",
+    plan: "bronze",
   },
   {
     id: "p-016",
@@ -423,6 +409,7 @@ export const generalData = [
     price: 97000,
     location: "Ikot Ekpene, Nigeria",
     condition: "brand new",
+    plan: "silver",
   },
   {
     id: "p-017",
@@ -431,6 +418,7 @@ export const generalData = [
     price: 26000,
     location: "Calabar, Nigeria",
     condition: "used",
+    plan: "free",
   },
   {
     id: "p-018",
@@ -439,6 +427,7 @@ export const generalData = [
     price: 54000,
     location: "Lokoja, Nigeria",
     condition: "brand new",
+    plan: "bronze",
   },
   {
     id: "p-019",
@@ -447,6 +436,7 @@ export const generalData = [
     price: 120000,
     location: "Gwarinpa, Abuja",
     condition: "used",
+    plan: "gold",
   },
   {
     id: "p-020",
@@ -455,6 +445,7 @@ export const generalData = [
     price: 67000,
     location: "Jabi, Abuja",
     condition: "brand new",
+    plan: "silver",
   },
 ];
 

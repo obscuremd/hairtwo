@@ -9,7 +9,7 @@ export default function About() {
       {/* PRICE */}
       <div className="bg-white rounded-2xl border p-5 space-y-3">
         <p className="text-sm font-medium text-muted-foreground">Price</p>
-        <p className="text-3xl font-bold text-[#14ca69]">$300,000</p>
+        <p className="text-3xl font-bold text-[#14ca69]">₦300,000</p>
       </div>
 
       {/* SELLER INFO */}

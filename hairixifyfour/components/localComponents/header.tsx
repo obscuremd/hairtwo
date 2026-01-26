@@ -117,9 +117,8 @@ export default function Header() {
             >
               Job Seekers
             </Button>
-            <div className="w-[0.5px] h-[25px] bg-[#3ad688] mx-4" />
             <Link href="/auth">
-              <Button className="text-[#003226] bg-[#3ad688] font-bold">
+              <Button className="text-md text-[#003226] bg-[#3ad688] font-bold">
                 Login / SIgn up
               </Button>
             </Link>
