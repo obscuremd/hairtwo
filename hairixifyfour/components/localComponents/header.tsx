@@ -86,45 +86,56 @@ export default function Header() {
   };
 
   return (
-    <div className="relative">
-      <header className="w-full bg-[#09090b] md:h-[70px] md:py-0 flex flex-col md:flex-row items-center p-5 md:px-[60px]">
+    <div className="">
+      <header className="relative w-full bg-[#09090b] md:h-[70px] md:py-0 flex flex-col md:flex-row items-center p-5 md:px-[60px]">
         <div className="w-full mx-auto flex justify-between items-center font-semibold text-[#1CAB70]">
           {/* Logo */}
           <Link href="/" className="text-xl font-bold md:w-36 w-28">
             <img src={"/Logo.png"} className="md:w-36 w-28 rounded-xl" />
           </Link>
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-4">
-            <Button
-              onMouseEnter={() => [openCategories(), setType("stylist")]}
-              onMouseLeave={scheduleClose}
-              className="bg-[#003226] text-[#3ad688] font-medium"
-            >
-              Find Stylist
-            </Button>
-
-            <Button
-              onMouseEnter={() => [openCategories(), setType("marketplace")]}
-              onMouseLeave={scheduleClose}
-              className="bg-[#003226] text-[#3ad688] font-medium"
-            >
-              Marketplace
-            </Button>
-            <Button
-              onMouseEnter={() => [openCategories(), setType("jobs")]}
-              onMouseLeave={scheduleClose}
-              className="bg-[#003226] text-[#3ad688] font-medium"
-            >
-              Job Seekers
-            </Button>
-            <Link href="/auth">
-              <Button className="text-md text-[#003226] bg-[#3ad688] font-bold">
-                Login / SIgn up
+          <div className="hidden md:flex justify-between items-center w-full">
+            <div className="space-x-10 flex items-center justify-center w-full">
+              <Button
+                variant={"ghost"}
+                onMouseEnter={() => [openCategories(), setType("stylist")]}
+                onMouseLeave={scheduleClose}
+                className="border border-transparent text-white font-medium hover:bg-[#ffffff15] hover:text-[#3ad688] hover:border-[#3ad688] "
+              >
+                Find Stylist
               </Button>
-            </Link>
+
+              <Button
+                variant={"ghost"}
+                onMouseEnter={() => [openCategories(), setType("marketplace")]}
+                onMouseLeave={scheduleClose}
+                className="border border-transparent text-white font-medium hover:bg-[#ffffff15] hover:text-[#3ad688] hover:border-[#3ad688]"
+              >
+                Marketplace
+              </Button>
+              <Button
+                variant={"ghost"}
+                onMouseEnter={() => [openCategories(), setType("jobs")]}
+                onMouseLeave={scheduleClose}
+                className="border border-transparent text-white font-medium hover:bg-[#ffffff15] hover:text-[#3ad688] hover:border-[#3ad688] "
+              >
+                Job Seekers
+              </Button>
+            </div>
+
+            <div className="border-2 rounded-lg border-[#3ad688] flex space-x-2">
+              <Link href="/auth">
+                <Button className=" font-medium">Login </Button>
+              </Link>
+              <Link href="/auth">
+                <Button className="text-[#003226] bg-[#3ad688] font-medium">
+                  Sign up
+                </Button>
+              </Link>
+            </div>
           </div>
           {/* Mobile Menu Toggle */}
-          <DropdownMenu>
+          <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
             <DropdownMenuTrigger className="md:hidden">
               <Button variant={"secondary"} onClick={() => setIsOpen(!isOpen)}>
                 {isOpen ? (
@@ -136,73 +147,85 @@ export default function Header() {
             </DropdownMenuTrigger>
 
             {/* Mobile Nav */}
-            <DropdownMenuContent className="md:hidden w-screen bg-black backdrop-blur-xl border-0">
+            <DropdownMenuContent className="md:hidden w-screen bg-[#000000dd] border-0">
               <div className=" px-4 py-3 flex flex-col gap-2 w-full">
                 <Link href="/find-stylist/barbershop">
                   <Button
+                    variant={"ghost"}
                     onClick={() => setIsOpen(false)}
-                    className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                    className="text-white w-full  font-medium"
                   >
                     Find Stylist
                   </Button>
                 </Link>
                 <Link href="/find-talent">
                   <Button
+                    variant={"ghost"}
                     onClick={() => setIsOpen(false)}
-                    className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                    className="text-white w-full  font-medium"
                   >
                     Marketplace
                   </Button>
                 </Link>
                 <Link href="/find-recruiters">
                   <Button
+                    variant={"ghost"}
                     onClick={() => setIsOpen(false)}
-                    className="bg-[#003226] w-full text-[#1CAB70] font-medium"
+                    className="text-white w-full  font-medium"
                   >
                     Job Seekers
                   </Button>
                 </Link>
-                <Link href="/auth">
-                  <Button
-                    onClick={() => setIsOpen(false)}
-                    className="text-[#003226] w-full bg-[#1CAB70] font-semibold "
-                  >
-                    Login / SIgn up
-                  </Button>
-                </Link>
+                <div className="mt-10 border-2 rounded-lg border-[#3ad688] w-fit space-x-2 inline-flex self-center">
+                  <Link href="/auth">
+                    <Button className=" font-medium">Login </Button>
+                  </Link>
+                  <Link href="/auth">
+                    <Button className="text-[#003226] bg-[#3ad688] font-medium">
+                      Sign up
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+        <AnimatePresence>
+          {shouldShowCategories && (
+            <motion.div
+              variants={categoryVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              onMouseEnter={!isMobile ? openCategories : undefined}
+              onMouseLeave={!isMobile ? scheduleClose : undefined}
+              className="hidden md:flex md:absolute md:top-full left-0 md:z-9999 w-full justify-center md:rounded-2xl "
+            >
+              <Dropdown
+                data={
+                  type === "stylist"
+                    ? stylistDropdownData
+                    : type === "marketplace"
+                      ? marketplaceDropdownData
+                      : jobsDropdownData
+                }
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
       {pathname !== "/" && <SearchFilters />}
-
-      <AnimatePresence>
-        {shouldShowCategories && (
-          <motion.div
-            variants={categoryVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            onMouseEnter={!isMobile ? openCategories : undefined}
-            onMouseLeave={!isMobile ? scheduleClose : undefined}
-            className="
-        md:absolute md:top-full z-10 w-full flex justify-center
-        md:rounded-2xl
-      "
-          >
-            <Dropdown
-              data={
-                type === "stylist"
-                  ? stylistDropdownData
-                  : type === "marketplace"
-                    ? marketplaceDropdownData
-                    : jobsDropdownData
-              }
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div className="flex md:hidden">
+        <Dropdown
+          data={
+            type === "stylist"
+              ? stylistDropdownData
+              : type === "marketplace"
+                ? marketplaceDropdownData
+                : jobsDropdownData
+          }
+        />
+      </div>
     </div>
   );
 }
@@ -254,16 +277,17 @@ export function Dropdown({ data }: { data: dropdownTypes[] }) {
 
   return (
     // OUTER WRAPPER (controls shape & background)
-    <div className="w-full md:w-[70%] bg-[#09090b] rounded-b-4xl overflow-hidden px-5">
+    <div className="w-full bg-[#09090b] overflow-hidden md:px-[68px] px-5">
       {/* SCROLL CONTAINER */}
       <div
         className="
-          flex gap-2 md:gap-6
-          overflow-x-auto
-          px-3 py-3
-          scrollbar-thin scrollbar-thumb-muted
-          scrollbar-track-transparent
-        "
+      flex items-center justify-center
+      gap-2 md:gap-6
+      overflow-x-auto
+      py-3
+      scrollbar-thin scrollbar-thumb-muted
+      scrollbar-track-transparent
+    "
         style={{ scrollbarGutter: "stable" }}
       >
         {data.map((item, index) => {
@@ -274,23 +298,23 @@ export function Dropdown({ data }: { data: dropdownTypes[] }) {
             <Link key={index} href={item.href} className="shrink-0">
               <div
                 className={`
-                  group flex flex-col items-center justify-between
-                  w-[84px] min-h-[76px] px-2 pb-1
-                  text-xs font-medium transition
-                  ${isActive ? "text-[#3ad688]" : "text-muted-foreground"}
-                `}
+              group flex flex-col items-center justify-between
+              w-[84px] min-h-[76px] px-2 pb-1
+              text-xs font-medium transition
+              ${isActive ? "text-[#3ad688]" : "text-muted-foreground"}
+            `}
               >
                 {/* Icon */}
                 <div
                   className={`
-                    flex h-10 w-10 items-center justify-center rounded-lg
-                    transition-all duration-200
-                    ${
-                      isActive
-                        ? "bg-[#1CAB70] text-white"
-                        : "bg-[#003226] text-[#3ad688] group-hover:bg-[#003226]/60"
-                    }
-                  `}
+                flex h-10 w-10 items-center justify-center rounded-lg
+                transition-all duration-200
+                ${
+                  isActive
+                    ? "bg-[#1CAB70] text-white"
+                    : "bg-[#003226] text-[#3ad688] group-hover:bg-[#003226]/60"
+                }
+              `}
                 >
                   {item.icon}
                 </div>
@@ -298,9 +322,9 @@ export function Dropdown({ data }: { data: dropdownTypes[] }) {
                 {/* Label */}
                 <span
                   className={`
-                    mt-1 text-center leading-tight line-clamp-2
-                    ${isActive ? "text-[#3ad688]" : "group-hover:text-muted"}
-                  `}
+                mt-1 text-center leading-tight line-clamp-2
+                ${isActive ? "text-[#3ad688]" : "group-hover:text-muted"}
+              `}
                 >
                   {item.title}
                 </span>
@@ -308,6 +332,9 @@ export function Dropdown({ data }: { data: dropdownTypes[] }) {
             </Link>
           );
         })}
+
+        {/* RIGHT SPACER */}
+        <div className="shrink-0 md:w-[68px] w-5" />
       </div>
     </div>
   );
