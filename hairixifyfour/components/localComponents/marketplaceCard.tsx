@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 
 type MarketplaceCardProps = {
   image: string;
-  plan: "free" | "bronze" | "silver" | "gold";
+  plan: string | "free" | "bronze" | "silver" | "gold";
   title: string;
   price: number;
   location?: string;
