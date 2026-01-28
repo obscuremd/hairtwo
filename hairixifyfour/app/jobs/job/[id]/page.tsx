@@ -7,7 +7,7 @@ import { RecommendedJob } from "@/screens/JobScreen/RecommendedJob";
 
 export default function JobPage() {
   return (
-    <div className="mt-10 md:mt-0 space-y-10">
+    <div className="space-y-10">
       <JobHero />
 
       <div className="px-5 md:px-[68px] flex flex-col lg:flex-row gap-8">

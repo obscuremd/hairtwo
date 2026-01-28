@@ -59,6 +59,22 @@ export default function Header() {
   };
   const shouldShowCategories = (isMobile && pathname !== "/") || showCategories;
 
+  const getDropdownData = (): dropdownTypes[] => {
+    if (pathname.startsWith("/find-stylist")) {
+      return stylistDropdownData;
+    }
+
+    if (pathname.startsWith("/marketplace")) {
+      return marketplaceDropdownData;
+    }
+
+    if (pathname.startsWith("/jobs")) {
+      return jobsDropdownData;
+    }
+
+    return [];
+  };
+
   const categoryVariants: Variants = {
     hidden: {
       opacity: 0,
@@ -137,7 +153,11 @@ export default function Header() {
           {/* Mobile Menu Toggle */}
           <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
             <DropdownMenuTrigger className="md:hidden">
-              <Button variant={"secondary"} onClick={() => setIsOpen(!isOpen)}>
+              <Button
+                className="bg-[#003226] text-[#3ad688]"
+                variant={"secondary"}
+                onClick={() => setIsOpen(!isOpen)}
+              >
                 {isOpen ? (
                   <X className="h-6 w-6" />
                 ) : (
@@ -158,7 +178,7 @@ export default function Header() {
                     Find Stylist
                   </Button>
                 </Link>
-                <Link href="/find-talent">
+                <Link href="/marketplace/hair-styling-accessories">
                   <Button
                     variant={"ghost"}
                     onClick={() => setIsOpen(false)}
@@ -167,7 +187,7 @@ export default function Header() {
                     Marketplace
                   </Button>
                 </Link>
-                <Link href="/find-recruiters">
+                <Link href="/jobs/wigs-and-extensions">
                   <Button
                     variant={"ghost"}
                     onClick={() => setIsOpen(false)}
@@ -215,17 +235,12 @@ export default function Header() {
         </AnimatePresence>
       </header>
       {pathname !== "/" && <SearchFilters />}
-      <div className="flex md:hidden">
-        <Dropdown
-          data={
-            type === "stylist"
-              ? stylistDropdownData
-              : type === "marketplace"
-                ? marketplaceDropdownData
-                : jobsDropdownData
-          }
-        />
-      </div>
+      {/* mobile */}
+      {isMobile && pathname !== "/" && (
+        <div className="flex md:hidden">
+          <Dropdown data={getDropdownData()} />
+        </div>
+      )}
     </div>
   );
 }
