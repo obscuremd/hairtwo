@@ -1,28 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { ReactNode, useEffect, useRef, useState } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import {
-  BriefcaseBusiness,
-  Brush,
-  Clock,
-  Dumbbell,
-  Eye,
-  HandFist,
-  MapPin,
-  Menu,
-  Search,
-  SearchIcon,
-  Store,
-  TabletSmartphoneIcon,
-  User,
-  X,
-} from "lucide-react";
+import { BriefcaseBusiness, Menu, Search, Store, User, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-import { Input } from "../ui/input";
 import {
   jobsDropdownData,
   marketplaceDropdownData,
@@ -34,7 +18,8 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { AnimatePresence, motion, Variants } from "motion/react";
-import { Filter } from "iconoir-react";
+import { SearchFilters } from "@/screens/HeaderComponents/SearchFilters";
+import { Dropdown } from "@/screens/HeaderComponents/Dropdown";
 
 export default function Header() {
   const isMobile = useIsMobile();
@@ -57,7 +42,9 @@ export default function Header() {
       setShowCategories(false);
     }, 2000); // 10 seconds
   };
-  const shouldShowCategories = (isMobile && pathname !== "/") || showCategories;
+  const shouldShowCategories =
+    (isMobile && pathname !== "/" && pathname !== "/auth/register") ||
+    showCategories;
 
   const getDropdownData = (): dropdownTypes[] => {
     if (pathname.startsWith("/find-stylist")) {
@@ -140,10 +127,12 @@ export default function Header() {
             </div>
 
             <div className="border-2 rounded-lg border-[#3ad688] flex space-x-2">
-              <Link href="/auth">
-                <Button className=" font-medium">Login </Button>
+              <Link href="/auth/login">
+                <Button variant={"ghost"} className="text-white font-medium">
+                  Login{" "}
+                </Button>
               </Link>
-              <Link href="/auth">
+              <Link href="/auth/register">
                 <Button className="text-[#003226] bg-[#3ad688] font-medium">
                   Sign up
                 </Button>
@@ -197,10 +186,15 @@ export default function Header() {
                   </Button>
                 </Link>
                 <div className="mt-10 border-2 rounded-lg border-[#3ad688] w-fit space-x-2 inline-flex self-center">
-                  <Link href="/auth">
-                    <Button className=" font-medium">Login </Button>
+                  <Link href="/auth/login">
+                    <Button
+                      variant={"ghost"}
+                      className="text-white font-medium"
+                    >
+                      Login{" "}
+                    </Button>
                   </Link>
-                  <Link href="/auth">
+                  <Link href="/auth/register">
                     <Button className="text-[#003226] bg-[#3ad688] font-medium">
                       Sign up
                     </Button>
@@ -241,116 +235,6 @@ export default function Header() {
           <Dropdown data={getDropdownData()} />
         </div>
       )}
-    </div>
-  );
-}
-
-export function SearchFilters() {
-  const { category } = useParams<{ category?: string }>();
-  const activeCategory = category?.toLowerCase();
-
-  return (
-    <div className="w-full bg-[#09090b] md:h-[70px] md:py-0 gap-2 md:gap-5 flex flex-col md:flex-row items-center p-5 md:px-[60px]">
-      <div className="relative w-full h-[40px]">
-        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
-        <Input
-          type="text"
-          placeholder="Search Services Providers"
-          className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[40px]"
-        />
-      </div>
-      <div className="md:w-1/2 flex gap-2 md:gap-5">
-        <div className="relative w-full h-[40px]">
-          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
-          <Input
-            type="text"
-            placeholder="Where"
-            className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[40px]"
-          />
-        </div>
-        <div className="relative w-full h-[40px]">
-          <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-10 " />
-          <Input
-            type="text"
-            placeholder="Filter"
-            className="pl-10 text-[#898989] bg-white border-0 text-md md:text-md h-[40px]"
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-interface dropdownTypes {
-  title: string;
-  icon: ReactNode;
-  href: string;
-}
-export function Dropdown({ data }: { data: dropdownTypes[] }) {
-  const { category } = useParams<{ category?: string }>();
-  const activeCategory = category?.toLowerCase();
-
-  return (
-    // OUTER WRAPPER (controls shape & background)
-    <div className="w-full bg-[#09090b] overflow-hidden md:px-[68px] px-5">
-      {/* SCROLL CONTAINER */}
-      <div
-        className="
-      flex items-center justify-center
-      gap-2 md:gap-6
-      overflow-x-auto
-      py-3
-      scrollbar-thin scrollbar-thumb-muted
-      scrollbar-track-transparent
-    "
-        style={{ scrollbarGutter: "stable" }}
-      >
-        {data.map((item, index) => {
-          const hrefCategory = item.href.split("/").pop()?.toLowerCase();
-          const isActive = hrefCategory === activeCategory;
-
-          return (
-            <Link key={index} href={item.href} className="shrink-0">
-              <div
-                className={`
-              group flex flex-col items-center justify-between
-              w-[84px] min-h-[76px] px-2 pb-1
-              text-xs font-medium transition
-              ${isActive ? "text-[#3ad688]" : "text-muted-foreground"}
-            `}
-              >
-                {/* Icon */}
-                <div
-                  className={`
-                flex h-10 w-10 items-center justify-center rounded-lg
-                transition-all duration-200
-                ${
-                  isActive
-                    ? "bg-[#1CAB70] text-white"
-                    : "bg-[#003226] text-[#3ad688] group-hover:bg-[#003226]/60"
-                }
-              `}
-                >
-                  {item.icon}
-                </div>
-
-                {/* Label */}
-                <span
-                  className={`
-                mt-1 text-center leading-tight line-clamp-2
-                ${isActive ? "text-[#3ad688]" : "group-hover:text-muted"}
-              `}
-                >
-                  {item.title}
-                </span>
-              </div>
-            </Link>
-          );
-        })}
-
-        {/* RIGHT SPACER */}
-        <div className="shrink-0 md:w-[68px] w-5" />
-      </div>
     </div>
   );
 }

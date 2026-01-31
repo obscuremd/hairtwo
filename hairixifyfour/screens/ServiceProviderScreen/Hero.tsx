@@ -67,7 +67,7 @@ export default function Hero() {
       {/* ---------- MAIN IMAGE ---------- */}
 
       <div className="relative h-[360px] sm:h-[420px] md:h-[520px] w-full overflow-hidden rounded-xl bg-black">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
           <motion.div
             key={index}
             initial={{ opacity: 0, scale: 1.03 }}
