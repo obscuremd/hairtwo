@@ -63,7 +63,7 @@ export function Recommended() {
         ref={scrollRef}
         className="flex w-full overflow-hidden gap-6 py-4 scroll-smooth"
       >
-        {recommendedData.map((item, idx) => (
+        {recommendedData.slice(0, 5).map((item, idx) => (
           <Link key={idx} href={`/marketplace/product/${idx}`}>
             <div className="w-[220px]">
               <MarketplaceCard {...item} />

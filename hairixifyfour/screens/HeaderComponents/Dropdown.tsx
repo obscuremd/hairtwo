@@ -12,7 +12,7 @@ export function Dropdown({ data }: { data: dropdownTypes[] }) {
       {/* SCROLL CONTAINER */}
       <div
         className="
-      flex items-center justify-center
+      flex items-start justify-center
       gap-2 md:gap-6
       overflow-x-auto
       py-3
@@ -38,7 +38,7 @@ export function Dropdown({ data }: { data: dropdownTypes[] }) {
                 {/* Icon */}
                 <div
                   className={`
-                flex h-10 w-10 items-center justify-center rounded-lg
+                flex p-1 items-center justify-center rounded-lg
                 transition-all duration-200
                 ${
                   isActive
@@ -47,14 +47,14 @@ export function Dropdown({ data }: { data: dropdownTypes[] }) {
                 }
               `}
                 >
-                  {item.icon}
+                  <div className="text-3xl">{item.icon}</div>
                 </div>
 
                 {/* Label */}
                 <span
                   className={`
-                mt-1 text-center leading-tight line-clamp-2
-                ${isActive ? "text-[#3ad688]" : "group-hover:text-muted"}
+                mt-1 text-center leading-tight line-clamp-2 text-[11px]
+                ${isActive ? "text-[#3ad688]" : "text-white"}
               `}
                 >
                   {item.title}

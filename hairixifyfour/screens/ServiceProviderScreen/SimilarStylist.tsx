@@ -63,7 +63,7 @@ export function SimilarStylist() {
         ref={scrollRef}
         className="flex w-full overflow-hidden gap-6 py-4 scroll-smooth"
       >
-        {shopMedia.map((item, idx) => (
+        {shopMedia.slice(0, 5).map((item, idx) => (
           <Link key={idx} href={`/product/${idx}`}>
             <ProductCard {...item} />
           </Link>

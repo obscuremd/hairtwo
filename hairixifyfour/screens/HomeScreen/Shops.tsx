@@ -5,6 +5,8 @@ import { shopMedia } from "@/lib/dummyData";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { recommendedData } from "../../lib/dummyData";
+import { MarketplaceCard } from "@/components/localComponents/marketplaceCard";
 
 export function Recommended() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -144,8 +146,12 @@ export function Trending() {
         ref={scrollRef}
         className="flex w-full overflow-hidden gap-6 py-4 scroll-smooth"
       >
-        {shopMedia.map((item, idx) => (
-          <ProductCard key={idx} {...item} />
+        {recommendedData.map((item, idx) => (
+          <Link key={idx} href={`/marketplace/product/${idx}`}>
+            <div className="w-[220px]">
+              <MarketplaceCard {...item} />
+            </div>
+          </Link>
         ))}
       </div>
 

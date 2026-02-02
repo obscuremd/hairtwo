@@ -27,14 +27,24 @@ export default function Services() {
       <TabsList className="bg-transparent flex gap-8 border-b border-border pb-4">
         <TabsTrigger
           value="services"
-          className=" relative bg-transparent border-none shadow-none min-h-[48px] flex items-center text-muted-foreground text-xl md:text-3xl font-bold transition-all duration-200 data-[state=active]:text-black data-[state=active]:text-2xl data-[state=active]:md:text-4xl focus:outline-none "
+          className="relative bg-transparent border-none shadow-none min-h-[48px] flex items-center
+    text-muted-foreground text-xl md:text-[1.5rem] font-bold
+    transition-all duration-200
+    data-[state=active]:text-black
+    data-[state=active]:md:text-[1.75rem]
+    focus:outline-none"
         >
           Services
         </TabsTrigger>
 
         <TabsTrigger
           value="profile"
-          className=" relative bg-transparent border-none shadow-none min-h-[48px] flex items-center text-muted-foreground text-xl md:text-3xl font-bold transition-all duration-200 data-[state=active]:text-black data-[state=active]:text-2xl data-[state=active]:md:text-4xl focus:outline-none "
+          className="relative bg-transparent border-none shadow-none min-h-[48px] flex items-center
+    text-muted-foreground text-xl md:text-[1.5rem] font-bold
+    transition-all duration-200
+    data-[state=active]:text-black
+    data-[state=active]:md:text-[1.75rem]
+    focus:outline-none"
         >
           Profile Info
         </TabsTrigger>
@@ -80,9 +90,12 @@ function Service() {
               <AccordionItem value={`item-${index}`} className="border-none">
                 <AccordionTrigger className="p-4 hover:no-underline">
                   <div className="flex w-full items-center justify-between">
-                    <p className="text-lg md:text-xl font-semibold">
-                      {item.service}
-                    </p>
+                    <div className="flex flex-col gap-2 items-center">
+                      <p className="text-lg md:text-xl font-bold text-[#4a996f]">
+                        {item.service}
+                      </p>
+                      <div className="h-[2px] w-full bg-[#4a996f7e]" />
+                    </div>
 
                     <div className="flex items-center gap-3">
                       <span className="text-sm text-muted-foreground">
