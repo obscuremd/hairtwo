@@ -52,7 +52,7 @@ export default function Hero() {
 
   return (
     <main className="relative w-full h-[518px] overflow-hidden bg-black">
-      <AnimatePresence initial={false}>
+      <AnimatePresence mode="sync">
         <motion.div
           key={index}
           initial={{ x: 30, opacity: 0 }}

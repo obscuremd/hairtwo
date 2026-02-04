@@ -21,7 +21,7 @@ export default function Page() {
       {/* Main Container */}
       <div className="max-w-[1400px] mx-auto px-4 md:px-10">
         {/* Divider */}
-        <Separator className="my-8 bg-gray-200" />
+        <Separator className="mb-8 bg-gray-200" />
 
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
