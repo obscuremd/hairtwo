@@ -1,10 +1,17 @@
+"use client";
 import { Instagram, MessageCircle, X } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+  const showFooter = pathname?.startsWith("/dashboard");
+
   return (
-    <footer className="w-full bg-[#002917] text-[#94A49D] px-5 md:px-[68px] py-[44px] space-y-[44px] mb-14 md:mb-0">
+    <footer
+      className={`${showFooter ? "hidden" : ""} w-full bg-[#002917] text-[#94A49D] px-5 md:px-[68px] py-[44px] space-y-[44px] mb-14 md:mb-0"`}
+    >
       {/* TOP SECTION */}
       <div className="flex flex-col md:flex-row items-start gap-10 w-full">
         {/* BRAND */}

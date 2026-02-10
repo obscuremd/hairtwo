@@ -527,7 +527,7 @@ function Success() {
       <p className="text-muted-foreground">
         Your Hairxify profile is ready. You can now start attracting clients.
       </p>
-      <Link href={"/dashboard/home"}>
+      <Link href={"/dashboard/appointments"}>
         <Button>Go to dashboard</Button>
       </Link>
     </div>
