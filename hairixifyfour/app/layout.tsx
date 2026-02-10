@@ -26,6 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${OpenSans.className} antialiased relative`}>
         <Header />
+
         {children}
         <Footer />
         <div className="fixed -bottom-1 w-full z-50 md:hidden">

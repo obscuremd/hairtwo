@@ -29,6 +29,7 @@ export default function Header() {
   const [type, setType] = useState<"stylist" | "marketplace" | "jobs" | null>(
     null,
   );
+  const showHeader = pathname?.startsWith("/dashboard");
 
   const hideTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -89,7 +90,7 @@ export default function Header() {
   };
 
   return (
-    <div className="">
+    <div className={`${showHeader ? "hidden" : ""}`}>
       <header className="relative w-full bg-[#09090b] md:h-[70px] md:py-0 flex flex-col md:flex-row items-center p-5 md:px-[60px]">
         <div className="w-full mx-auto flex justify-between items-center font-semibold text-[#1CAB70]">
           {/* Logo */}
