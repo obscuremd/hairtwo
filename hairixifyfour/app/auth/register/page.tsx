@@ -19,8 +19,72 @@ import {
 } from "iconoir-react";
 import { AnimatePresence, motion } from "framer-motion";
 
+interface Service {
+  title: string;
+  time?: string;
+  price?: string;
+  description?: string;
+}
+export interface RegistrationPayload {
+  // Step 1
+  email: string;
+  password: string;
+
+  // Step 2
+  businessName: string;
+  fullName: string;
+  phone: string;
+
+  // Step 3
+  category: string;
+
+  // Step 4
+  workType: "client" | "my-place";
+  address?: {
+    street: string;
+    city: string;
+    country: string;
+    zip: string;
+  };
+
+  // Step 5
+  teamSize: string;
+
+  // Step 6
+  businessHours: {
+    day: string;
+    open: string;
+    close: string;
+  }[];
+
+  // Step 7
+  services: Service[];
+
+  // Step 8
+  goLiveDate: string;
+}
+
 export default function RegistrationFlow() {
   const [step, setStep] = useState(0);
+  const [payload, setPayload] = useState<RegistrationPayload>({
+    email: "",
+    password: "",
+    businessName: "",
+    fullName: "",
+    phone: "",
+    category: "",
+    workType: "client",
+    address: {
+      street: "",
+      city: "",
+      country: "",
+      zip: "",
+    },
+    teamSize: "",
+    businessHours: [],
+    services: [],
+    goLiveDate: "",
+  });
 
   return (
     <div className="py-10">
@@ -340,13 +404,6 @@ import {
 } from "@/components/ui/dialog";
 import Link from "next/link";
 
-interface Service {
-  title: string;
-  time?: string;
-  price?: string;
-  description?: string;
-}
-
 export function Services({
   setStep,
 }: {
@@ -527,7 +584,7 @@ function Success() {
       <p className="text-muted-foreground">
         Your Hairxify profile is ready. You can now start attracting clients.
       </p>
-      <Link href={"/dashboard/appointments"}>
+      <Link href={"/dashboard/home"}>
         <Button>Go to dashboard</Button>
       </Link>
     </div>
