@@ -15,7 +15,7 @@ export default function DashboardLayout({
       <div className="md:hidden absolute z-10">
         <SidebarTrigger />
       </div>
-      <div className=" md:py-10 w-full">{children}</div>
+      <div className="p-5 md:py-10 md:px-5 w-full">{children}</div>
     </SidebarProvider>
   );
 }

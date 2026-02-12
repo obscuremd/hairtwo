@@ -20,6 +20,8 @@ import {
   UsersRound,
   BookOpen,
   LogOut,
+  Home,
+  DollarSignIcon,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -39,9 +41,12 @@ export function AppSidebar() {
           {/* ---------- HEADER ---------- */}
           <SidebarHeader className="flex items-center justify-center md:justify-center px-4 py-6 ">
             <TooltipWrapper label="Account">
-              <div className="flex items-center gap-3 md:gap-0">
+              <Link
+                href={"/dashboard/account"}
+                className="flex items-center gap-3 md:gap-0"
+              >
                 <Image
-                  src="/avatar.png"
+                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
                   alt="User avatar"
                   width={36}
                   height={36}
@@ -51,7 +56,7 @@ export function AppSidebar() {
                   <p className="text-sm font-medium text-white">Shadcn</p>
                   <p className="text-xs text-neutral-500">m@example.com</p>
                 </div>
-              </div>
+              </Link>
             </TooltipWrapper>
           </SidebarHeader>
           <div className="bg-white/30 h-[0.2px] w-[70%] self-center" />
@@ -59,37 +64,19 @@ export function AppSidebar() {
           {/* ---------- MAIN NAV ---------- */}
           <div className="flex-1 flex items-center justify-center">
             <SidebarMenu className="flex flex-col gap-2 px-2">
+              <NavItem href="/dashboard/" icon={Home} label="Home" />
               <NavItem
                 href="/dashboard/appointments"
                 icon={Calendar}
                 label="Appointments"
               />
               <NavItem
-                href="/dashboard/checkout"
-                icon={CreditCard}
-                label="Checkout"
+                href="/dashboard/transactions"
+                icon={DollarSignIcon}
+                label="Transactions"
               />
               <NavItem href="/dashboard/clients" icon={Users} label="Clients" />
-              <NavItem
-                href="/dashboard/inventory"
-                icon={Package}
-                label="Inventory"
-              />
-              <NavItem
-                href="/dashboard/marketing"
-                icon={Megaphone}
-                label="Marketing"
-              />
-              <NavItem
-                href="/dashboard/gift-cards"
-                icon={Gift}
-                label="Gift Cards"
-              />
-              <NavItem
-                href="/dashboard/reports"
-                icon={BarChart3}
-                label="Reports"
-              />
+
               <NavItem
                 href="/dashboard/staff"
                 icon={UsersRound}

@@ -1,5 +1,5 @@
 "use client";
-import { ClientsList } from "@/components/screenComponents/Dashboard/clients/ClientInfo";
+import { StaffList } from "@/components/screenComponents/Dashboard/staff/StaffInfo";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -7,44 +7,51 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { BookUser, LockKeyhole } from "lucide-react";
-
+import { Users, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 
-export type Client = {
+export type Staff = {
   name: string;
-  gender: string;
+  role: string;
   email: string;
   phoneNumber: string;
+  status: "Active" | "Inactive";
 };
 
 export default function Page() {
-  const [clients, setClients] = useState<Client[]>([]);
+  const [staff, setStaff] = useState<Staff[]>([]);
   const [open, setOpen] = useState(false);
 
-  const [form, setForm] = useState<Client>({
+  const [form, setForm] = useState<Staff>({
     name: "",
-    gender: "",
+    role: "",
     email: "",
     phoneNumber: "",
+    status: "Active",
   });
 
-  const handleChange = (field: keyof Client, value: string) => {
+  const handleChange = (field: keyof Staff, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = () => {
-    if (!form.name) return;
+    if (!form.name || !form.role) return;
 
-    setClients((prev) => [...prev, form]);
-    setForm({ name: "", gender: "", email: "", phoneNumber: "" });
+    setStaff((prev) => [...prev, form]);
+    setForm({
+      name: "",
+      role: "",
+      email: "",
+      phoneNumber: "",
+      status: "Active",
+    });
     setOpen(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <div className="w-full mx-auto mt-10">
-        {clients.length === 0 ? <Empty /> : <ClientsList clients={clients} />}
+        {staff.length === 0 ? <Empty /> : <StaffList staff={staff} />}
       </div>
 
       {/* ================= MODAL ================= */}
@@ -52,10 +59,10 @@ export default function Page() {
         {/* Header */}
         <div className="px-6 py-5 border-b border-[#e6e3d6]">
           <DialogTitle className="text-lg font-semibold text-[#003225]">
-            Add New Client
+            Add New Staff
           </DialogTitle>
           <p className="text-xs text-muted-foreground mt-1">
-            Enter client details below to add them to your directory.
+            Enter staff details to add them to your team.
           </p>
         </div>
 
@@ -68,24 +75,21 @@ export default function Page() {
             <input
               value={form.name}
               onChange={(e) => handleChange("name", e.target.value)}
-              placeholder="John Doe"
+              placeholder="Jane Smith"
               className="w-full border border-[#e6e3d6] rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3ad688]"
             />
           </div>
 
           <div className="space-y-1">
             <label className="text-xs font-medium text-muted-foreground">
-              Gender
+              Role
             </label>
-            <select
-              value={form.gender}
-              onChange={(e) => handleChange("gender", e.target.value)}
-              className="w-full border border-[#e6e3d6] rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#3ad688]"
-            >
-              <option value="">Select gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
+            <input
+              value={form.role}
+              onChange={(e) => handleChange("role", e.target.value)}
+              placeholder="Stylist, Manager, Receptionist..."
+              className="w-full border border-[#e6e3d6] rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3ad688]"
+            />
           </div>
 
           <div className="space-y-1">
@@ -95,7 +99,7 @@ export default function Page() {
             <input
               value={form.email}
               onChange={(e) => handleChange("email", e.target.value)}
-              placeholder="email@example.com"
+              placeholder="staff@example.com"
               className="w-full border border-[#e6e3d6] rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3ad688]"
             />
           </div>
@@ -110,6 +114,22 @@ export default function Page() {
               placeholder="+1 234 567 890"
               className="w-full border border-[#e6e3d6] rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3ad688]"
             />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-muted-foreground">
+              Status
+            </label>
+            <select
+              value={form.status}
+              onChange={(e) =>
+                handleChange("status", e.target.value as "Active" | "Inactive")
+              }
+              className="w-full border border-[#e6e3d6] rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#3ad688]"
+            >
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
           </div>
         </div>
 
@@ -126,7 +146,7 @@ export default function Page() {
             onClick={handleSubmit}
             className="bg-[#003225] hover:bg-[#003225]/90"
           >
-            Save Client
+            Save Staff
           </Button>
         </div>
       </DialogContent>
@@ -136,30 +156,32 @@ export default function Page() {
 
 function Empty() {
   return (
-    <div className="w-full  flex items-center justify-center">
+    <div className="w-full flex items-center justify-center">
       <div className="flex flex-col items-center justify-center text-center border border-[#e6e3d6] rounded-xl p-12 bg-white shadow-sm md:w-[50%]">
         <div className="bg-[#003225]/5 p-4 rounded-lg mb-4">
-          <BookUser className="w-8 h-8 text-[#003225]" />
+          <Users className="w-8 h-8 text-[#003225]" />
         </div>
 
-        <h2 className="text-lg font-semibold text-[#003225]">No Clients Yet</h2>
+        <h2 className="text-lg font-semibold text-[#003225]">
+          No Staff Members Yet
+        </h2>
 
         <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-          Add your clients and invite them to book appointments. Manage their
-          information securely and efficiently.
+          Add staff members to manage appointments, services, and daily
+          operations efficiently.
         </p>
 
         <DialogTrigger asChild>
           <Button className="mt-6 bg-[#003225] hover:bg-[#003225]/90">
-            Add New Client
+            Add New Staff
           </Button>
         </DialogTrigger>
 
         <div className="flex items-center gap-2 text-xs text-muted-foreground mt-6 max-w-md">
-          <LockKeyhole className="w-4 h-4" />
+          <ShieldCheck className="w-4 h-4" />
           <p>
-            Your clients&apos; information is private and secure. We never share
-            or sell your data.
+            Staff information is securely stored and only accessible to
+            authorized users.
           </p>
         </div>
       </div>
