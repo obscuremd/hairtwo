@@ -1,5 +1,5 @@
 {
-  "name": "bcgym",
+  "name": "hairxify",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -25,6 +25,7 @@
     "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "axios": "^1.13.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -32,6 +33,7 @@
     "embla-carousel-react": "^8.6.0",
     "gsap": "^3.13.0",
     "iconoir-react": "^7.11.0",
+    "input-otp": "^1.4.2",
     "lucide-react": "^0.554.0",
     "motion": "^12.23.25",
     "next": "^16.0.7",

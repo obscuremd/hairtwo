@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Bai_Jamjuree, Open_Sans } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import Header, { BottomTabs } from "@/components/localComponents/header";
 import Footer from "@/components/localComponents/footer";
-import { ThemeProvider } from "@/components/ui/themeProvider";
-import Aurora from "@/components/Aurora";
+import { Toaster } from "sonner";
 
-// Load Bai Jamjuree font
 const OpenSans = Open_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -25,8 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${OpenSans.className} antialiased relative`}>
+        <Toaster />
         <Header />
-
         {children}
         <Footer />
         <div className="fixed -bottom-1 w-full z-50 md:hidden">

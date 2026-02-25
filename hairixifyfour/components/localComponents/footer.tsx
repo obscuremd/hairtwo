@@ -10,7 +10,7 @@ export default function Footer() {
 
   return (
     <footer
-      className={`${showFooter ? "hidden" : ""} w-full bg-[#002917] text-[#94A49D] px-5 md:px-[68px] py-[44px] space-y-[44px] mb-14 md:mb-0"`}
+      className={`${showFooter ? "hidden" : ""} w-full bg-[#002917] text-[#94A49D] px-5 md:px-[68px] py-[44px] space-y-[44px] mb-14 md:mb-0`}
     >
       {/* TOP SECTION */}
       <div className="flex flex-col md:flex-row items-start gap-10 w-full">

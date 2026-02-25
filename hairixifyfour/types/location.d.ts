@@ -1,28 +1,23 @@
-interface dropdownTypes {
-  title: string;
-  icon: ReactNode;
-  href: string;
+interface stateData {
+  id: number;
+  name: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
 }
 
-interface Category {
+interface localData {
   id: number;
   name: string;
-  status: string;
-  slug: string;
-  icon: string;
-  created_at: string;
-  updated_at: string;
-}
-interface Recurrence {
-  id: number;
-  name: string;
+  state: stateData;
   status: string;
   created_at: string;
   updated_at: string;
 }
-interface ServiceType {
+interface areaData {
   id: number;
   name: string;
+  local: localData;
   status: string;
   created_at: string;
   updated_at: string;

@@ -20,6 +20,9 @@ import {
 import { AnimatePresence, motion, Variants } from "motion/react";
 import { SearchFilters } from "@/screens/HeaderComponents/SearchFilters";
 import { Dropdown } from "@/screens/HeaderComponents/Dropdown";
+import { Dialog, DialogTrigger } from "../ui/dialog";
+import { DialogContent } from "@/components/ui/dialog";
+import LoginDialog from "../screenComponents/Login/LoginDialog";
 
 export default function Header() {
   const isMobile = useIsMobile();
@@ -128,11 +131,19 @@ export default function Header() {
             </div>
 
             <div className="border-2 rounded-lg border-[#3ad688] flex space-x-2">
-              <Link href="/auth/login">
-                <Button variant={"ghost"} className="text-white font-medium">
-                  Login{" "}
-                </Button>
-              </Link>
+              <Dialog>
+                <DialogTrigger>
+                  <Button
+                    variant={"ghost"}
+                    className="text-white font-medium hover:bg-transparent hover:text-muted-foreground"
+                  >
+                    Login{" "}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <LoginDialog />
+                </DialogContent>
+              </Dialog>
               <Link href="/auth/register">
                 <Button className="text-[#003226] bg-[#3ad688] font-medium">
                   Sign up
@@ -187,14 +198,19 @@ export default function Header() {
                   </Button>
                 </Link>
                 <div className="mt-10 border-2 rounded-lg border-[#3ad688] w-fit space-x-2 inline-flex self-center">
-                  <Link href="/auth/login">
-                    <Button
-                      variant={"ghost"}
-                      className="text-white font-medium"
-                    >
-                      Login{" "}
-                    </Button>
-                  </Link>
+                  <Dialog>
+                    <DialogTrigger>
+                      <Button
+                        variant={"ghost"}
+                        className="text-white font-medium hover:bg-transparent hover:text-muted-foreground"
+                      >
+                        Login{" "}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <LoginDialog />
+                    </DialogContent>
+                  </Dialog>
                   <Link href="/auth/register">
                     <Button className="text-[#003226] bg-[#3ad688] font-medium">
                       Sign up
@@ -272,15 +288,20 @@ export function BottomTabs() {
           <BriefcaseBusiness /> Jobs
         </Button>
       </Link>
-      <Link href="/auth">
-        <Button
-          variant={"ghost"}
-          className="flex flex-col h-fit text-tertiary-c"
-        >
-          <User />
-          Login
-        </Button>
-      </Link>
+      <Dialog>
+        <DialogTrigger>
+          <Button
+            variant={"ghost"}
+            className="flex flex-col h-fit text-tertiary-c"
+          >
+            <User />
+            Login
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <LoginDialog />
+        </DialogContent>
+      </Dialog>
     </nav>
   );
 }
