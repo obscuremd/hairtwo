@@ -3,20 +3,48 @@
 
 import axios, { AxiosError } from "axios";
 
-const API_URL = "https://api5.project.hairxify.com/api";
-
 export const onboardProvider = async (
   payload: RegistrationPayload,
 ): Promise<ApiResponse> => {
   try {
-    console.log("payload:", payload);
     const response = await axios.post("/api/onboarding", payload);
-    console.log("response", response);
 
     return {
       success: true,
       message: response.data?.message || "Provider onboarded successfully!",
       data: response.data,
+    };
+  } catch (error) {
+    const axiosError = error as AxiosError<any>;
+    console.log("error: ", error);
+
+    return {
+      success: false,
+      message:
+        axiosError.response?.data?.message ||
+        axiosError.response?.data?.error ||
+        axiosError.message ||
+        "Something went wrong. Please try again.",
+    };
+  }
+};
+
+export const validateProvider = async ({
+  email,
+  code,
+}: {
+  email: string;
+  code: string;
+}): Promise<ApiResponse> => {
+  try {
+    const response = await axios.post("/api/onboarding/validation", {
+      email,
+      code,
+    });
+    console.log("response", response);
+    return {
+      success: true,
+      message: response.data?.message || "Provider Validation successfully!",
     };
   } catch (error) {
     const axiosError = error as AxiosError<any>;

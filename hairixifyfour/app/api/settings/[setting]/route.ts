@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BASE_URL = "https://api5.project.hairxify.com/api/provider/settings";
+const BASE_URL = "https://api5.project.hairxify.com/api/providersfe/settings";
 
 const ALLOWED_SETTINGS = ["category", "recurrence", "types"];
 
