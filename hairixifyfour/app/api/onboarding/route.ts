@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BASE_URL =
-  "https://api5.project.hairxify.com/api/provider/providers/onboard";
+const BASE_URL = "https://api5.project.hairxify.com/api";
 
 export async function POST(request: NextRequest) {
   try {

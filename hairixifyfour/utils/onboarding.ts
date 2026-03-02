@@ -37,7 +37,7 @@ export const validateProvider = async ({
   code: string;
 }): Promise<ApiResponse> => {
   try {
-    const response = await axios.post("/api/onboarding/validation", {
+    const response = await axios.post("/validateotpfe", {
       email,
       code,
     });
