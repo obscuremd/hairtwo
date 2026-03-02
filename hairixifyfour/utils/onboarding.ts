@@ -2,6 +2,7 @@
 // utils/onboardProvider.ts
 
 import axios, { AxiosError } from "axios";
+import { success } from "zod/v4";
 
 export const onboardProvider = async (
   payload: RegistrationPayload,
@@ -37,15 +38,22 @@ export const validateProvider = async ({
   code: string;
 }): Promise<ApiResponse> => {
   try {
-    const response = await axios.post("/validateotpfe", {
+    const response = await axios.post("/api/onboarding/validation", {
       email,
       code,
     });
     console.log("response", response);
-    return {
-      success: true,
-      message: response.data?.message || "Provider Validation successfully!",
-    };
+    if (response.data.success) {
+      return {
+        success: true,
+        message: response.data?.message || "Provider Validation successfully!",
+      };
+    } else {
+      return {
+        success: false,
+        message: response.data.error,
+      };
+    }
   } catch (error) {
     const axiosError = error as AxiosError<any>;
     console.log("error: ", error);

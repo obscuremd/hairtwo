@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BASE_URL = "https://api5.project.hairxify.com/api";
+const BASE_URL = "https://api5.project.hairxify.com/api/validateotpfe";
 
 export async function POST(request: NextRequest) {
   try {
