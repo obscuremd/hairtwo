@@ -153,7 +153,7 @@ export default function RegistrationFlow() {
   const [dataLoading, setDataLoading] = useState(true);
 
   /* Form */
-  const [step, setStep] = useState(8);
+  const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
 
   const [payload, setPayload] = useState<RegistrationPayload>({
@@ -1390,18 +1390,6 @@ function Success() {
           </p>
         </div>
       </div>
-
-      {/* Open Gmail */}
-      <a
-        href="https://mail.google.com"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Button className="w-full h-11 rounded-lg bg-primary-c hover:bg-secondary-c text-white font-semibold text-sm border-0 transition-colors gap-2">
-          <Mail className="w-4 h-4" />
-          Open Gmail
-        </Button>
-      </a>
     </div>
   );
 }
