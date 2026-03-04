@@ -1,22 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Plus, Pencil, DollarSign } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { DollarSign } from "lucide-react";
 import { ListSection } from "@/components/screenComponents/Dashboard/checkout/ListSection";
+import { ServiceListSection } from "@/components/screenComponents/Dashboard/checkout/ServiceListSection";
 
 export type ItemType = {
   id: number;
@@ -27,45 +14,109 @@ export type ItemType = {
 };
 
 export default function CheckoutPage() {
-  const [activeItem, setActiveItem] = useState<ItemType | null>(null);
-  const [open, setOpen] = useState(false);
-
-  const services: ItemType[] = [
+  const services: Service[] = [
     {
       id: 1,
       title: "Classic Haircut",
-      description: "Precision cut tailored to your style",
-      price: "$40",
+      description:
+        "Precision cut tailored to your personal style and face shape.",
+      price: "40",
+      discount_price: "35",
+      duration: "30",
+      recurrence: 1,
+      status: "active",
+      premium: 0,
+      created_at: "2025-11-01T10:00:00Z",
+      updated_at: "2026-01-15T08:30:00Z",
+      Images: [
+        "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=400&q=80",
+        "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80",
+      ],
     },
     {
       id: 2,
       title: "Premium Hair Coloring",
-      description: "Full head color with ammonia-free products",
-      price: "$95",
+      description:
+        "Full head color with ammonia-free products and glossing treatment.",
+      price: "95",
+      duration: "120",
+      recurrence: 2,
+      status: "active",
+      premium: 1,
+      created_at: "2025-11-05T09:00:00Z",
+      updated_at: "2026-02-01T11:00:00Z",
+      Images: [
+        "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80",
+        "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400&q=80",
+        "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=400&q=80",
+      ],
     },
     {
       id: 3,
       title: "Beard Grooming",
-      description: "Trim, shape and finish with hot towel",
-      price: "$25",
+      description:
+        "Trim, shape and finish with hot towel and premium beard oil.",
+      price: "25",
+      duration: "20",
+      recurrence: 1,
+      status: "active",
+      premium: 0,
+      created_at: "2025-11-10T08:00:00Z",
+      updated_at: "2026-01-20T09:00:00Z",
+      Images: [
+        "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&q=80",
+      ],
     },
     {
       id: 4,
       title: "Keratin Treatment",
-      description: "Smooth and frizz-free finish",
-      price: "$150",
+      description: "Smooth and frizz-free finish lasting up to 4 months.",
+      price: "150",
+      discount_price: "130",
+      duration: "180",
+      recurrence: 3,
+      status: "active",
+      premium: 1,
+      created_at: "2025-12-01T10:00:00Z",
+      updated_at: "2026-02-10T14:00:00Z",
+      Images: [
+        "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80",
+        "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=400&q=80",
+      ],
     },
     {
       id: 5,
       title: "Hair Wash & Blow Dry",
-      description: "Professional wash with volume styling",
-      price: "$35",
+      description:
+        "Professional wash with volume styling and conditioning mask.",
+      price: "35",
+      duration: "45",
+      recurrence: 1,
+      status: "inactive",
+      premium: 0,
+      created_at: "2025-12-15T09:00:00Z",
+      updated_at: "2026-01-30T10:00:00Z",
+      Images: [
+        "https://images.unsplash.com/photo-1552642986-ccb41e7059e7?w=400&q=80",
+      ],
     },
     {
       id: 6,
       title: "Bridal Styling Package",
-      description: "Complete wedding day hair styling",
-      price: "$220",
+      description:
+        "Complete wedding day hair styling with trials and touch-up kit.",
+      price: "220",
+      duration: "240",
+      recurrence: 4,
+      status: "active",
+      premium: 1,
+      created_at: "2026-01-01T08:00:00Z",
+      updated_at: "2026-02-20T12:00:00Z",
+      Images: [
+        "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=400&q=80",
+        "https://images.unsplash.com/photo-1525373698358-041e3a460346?w=400&q=80",
+        "https://images.unsplash.com/photo-1559599101-f09722fb4948?w=400&q=80",
+      ],
     },
   ];
 
@@ -147,11 +198,6 @@ export default function CheckoutPage() {
     },
   ];
 
-  function openSheet(item: ItemType) {
-    setActiveItem(item);
-    setOpen(true);
-  }
-
   return (
     <div className="w-full space-y-10 min-h-screen">
       {/* ---------- PAGE HEADER ---------- */}
@@ -227,9 +273,8 @@ export default function CheckoutPage() {
           </div>
 
           <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-            <ListSection
+            <ServiceListSection
               data={services}
-              onItemClick={openSheet}
               onCreate={() => console.log("Create service")}
               createLabel="New Service"
             />
@@ -249,7 +294,7 @@ export default function CheckoutPage() {
           </div>
 
           <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-            <ListSection data={transactions} onItemClick={openSheet} />
+            <ListSection data={transactions} />
           </div>
         </TabsContent>
 
@@ -266,123 +311,10 @@ export default function CheckoutPage() {
           </div>
 
           <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-            <ListSection data={sales} onItemClick={openSheet} />
+            <ListSection data={sales} />
           </div>
         </TabsContent>
       </Tabs>
-
-      {/* ---------- RIGHT SHEET ---------- */}
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent
-          side="right"
-          className="w-full sm:max-w-md p-0 flex flex-col bg-white"
-        >
-          {activeItem && (
-            <>
-              {/* Top Accent + Header */}
-              <div className="border-l-2 border-l-[#3ad688] px-6 py-6 border-b">
-                <SheetTitle className="text-lg font-semibold text-[#003225] leading-tight">
-                  {activeItem.title}
-                </SheetTitle>
-
-                <p className="text-xs text-gray-500 mt-1">
-                  Update item details and manage settings below.
-                </p>
-              </div>
-
-              {/* Scrollable Content */}
-              <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
-                {/* Basic Info Section */}
-                <div className="space-y-5">
-                  <h3 className="text-xs uppercase tracking-wide text-gray-400 font-medium">
-                    Basic Information
-                  </h3>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-medium text-gray-600">
-                      Title
-                    </label>
-                    <Input
-                      defaultValue={activeItem.title}
-                      className="h-10 border-gray-200 focus-visible:ring-1 focus-visible:ring-[#3ad688]"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-medium text-gray-600">
-                      Description
-                    </label>
-                    <Textarea
-                      defaultValue={activeItem.description}
-                      className="min-h-[110px] resize-none border-gray-200 focus-visible:ring-1 focus-visible:ring-[#3ad688]"
-                    />
-                  </div>
-
-                  {activeItem.price && (
-                    <div className="space-y-2">
-                      <label className="text-xs font-medium text-gray-600">
-                        Price
-                      </label>
-
-                      <div className="relative">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
-                          $
-                        </span>
-                        <Input
-                          defaultValue={activeItem.price}
-                          type="number"
-                          step="0.01"
-                          className="pl-7 h-10 border-gray-200 focus-visible:ring-1 focus-visible:ring-[#3ad688]"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Additional Details Section */}
-                <div className="space-y-5">
-                  <h3 className="text-xs uppercase tracking-wide text-gray-400 font-medium">
-                    Additional Details
-                  </h3>
-
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Status</span>
-                    <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-xs border border-blue-200">
-                      Active
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Created</span>
-                    <span className="text-gray-700">12 Feb 2026</span>
-                  </div>
-
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Last Updated</span>
-                    <span className="text-gray-700">Today</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Fixed Bottom Action Bar */}
-              <div className="border-t px-6 py-4 bg-white">
-                <div className="flex gap-3">
-                  <Button
-                    variant="outline"
-                    className="flex-1"
-                    onClick={() => setOpen(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button className="flex-1 bg-[#003225] hover:bg-[#00251b]">
-                    Save Changes
-                  </Button>
-                </div>
-              </div>
-            </>
-          )}
-        </SheetContent>
-      </Sheet>
     </div>
   );
 }

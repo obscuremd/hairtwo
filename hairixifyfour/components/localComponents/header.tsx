@@ -22,7 +22,8 @@ import { SearchFilters } from "@/screens/HeaderComponents/SearchFilters";
 import { Dropdown } from "@/screens/HeaderComponents/Dropdown";
 import { Dialog, DialogTrigger } from "../ui/dialog";
 import { DialogContent } from "@/components/ui/dialog";
-import LoginDialog from "../screenComponents/Login/LoginDialog";
+import LoginDialog from "../screenComponents/Auth/LoginDialog";
+import RegisterDialog from "../screenComponents/Auth/RegisterDialog";
 
 export default function Header() {
   const isMobile = useIsMobile();
@@ -144,11 +145,16 @@ export default function Header() {
                   <LoginDialog />
                 </DialogContent>
               </Dialog>
-              <Link href="/auth/register">
-                <Button className="text-[#003226] bg-[#3ad688] font-medium">
-                  Sign up
-                </Button>
-              </Link>
+              <Dialog>
+                <DialogTrigger>
+                  <Button className="text-[#003226] bg-[#3ad688] font-medium">
+                    Sign up
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <RegisterDialog />
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
           {/* Mobile Menu Toggle */}

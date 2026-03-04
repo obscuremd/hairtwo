@@ -1,11 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // types/provider.ts
 interface Service {
+  id?: number;
   title: string;
   price: string;
+  discount_price?: string;
   duration: string;
   description: string;
   recurrence: number;
+  provider?: number;
+  premium?: number;
+  status?: "active" | "inactive";
+  created_at?: string;
+  updated_at?: string;
+  Images?: Array<string>;
 }
 
 interface BusinessHour {
@@ -28,6 +36,7 @@ interface RegistrationPayload {
   area: number | null;
   team_size: string;
   category: number | null;
+  sub_category: number | null;
   service_type: number | null;
   live_at: string;
   services: Service[];

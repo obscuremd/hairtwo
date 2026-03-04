@@ -41,6 +41,7 @@ import {
   getStates,
   onboardProvider,
 } from "@/utils/onboarding";
+import { Mail } from "lucide-react";
 
 /* ============================================================
    LOCAL TYPES
@@ -152,7 +153,7 @@ export default function RegistrationFlow() {
   const [dataLoading, setDataLoading] = useState(true);
 
   /* Form */
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(8);
   const [submitting, setSubmitting] = useState(false);
 
   const [payload, setPayload] = useState<RegistrationPayload>({
@@ -168,7 +169,8 @@ export default function RegistrationFlow() {
     local: null,
     area: null,
     team_size: "",
-    category: null,
+    category: 1,
+    sub_category: null,
     service_type: null,
     live_at: "",
     services: [],
@@ -550,12 +552,12 @@ function BusinessCategory({ setStep, payload, update, categories }: StepProps) {
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[30vh] overflow-y-auto">
         {categories.map((item) => {
-          const isSelected = payload.category === item.id;
+          const isSelected = payload.sub_category === item.id;
           return (
             <button
               key={item.id}
               type="button"
-              onClick={() => update({ category: item.id })}
+              onClick={() => update({ sub_category: item.id })}
               className={`group relative flex items-start gap-4 rounded-xl border p-4 text-left transition-all duration-200 ${
                 isSelected
                   ? "border-primary-c bg-primary-c/5"
@@ -649,100 +651,96 @@ function WorkLocation({
         })}
       </div>
 
-      <AnimatePresence initial={false}>
-        {payload.service_type === 2 && (
-          <motion.div
-            key="address-fields"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="pt-5">
-              <div className="rounded-xl border border-gray-200 p-5 space-y-4 bg-gray-50">
-                <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-400">
-                  Business Address
-                </p>
-                <Field label="Street address">
-                  <Input
-                    placeholder="e.g. 14 Allen Avenue"
-                    value={payload.address ?? ""}
-                    onChange={(e) => update({ address: e.target.value })}
-                  />
-                </Field>
-                <div className="grid grid-cols-1  gap-4">
-                  <Field label="State">
-                    <Select
-                      value={payload.state?.toString() ?? ""}
-                      onValueChange={(val) =>
-                        update({ state: Number(val), local: null, area: null })
+      <motion.div
+        key="address-fields"
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: 1, height: "auto" }}
+        exit={{ opacity: 0, height: 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="overflow-hidden"
+      >
+        <div className="pt-5">
+          <div className="rounded-xl border border-gray-200 p-5 space-y-4 bg-gray-50">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-400">
+              Business Address
+            </p>
+            <Field label="Street address">
+              <Input
+                placeholder="e.g. 14 Allen Avenue"
+                value={payload.address ?? ""}
+                onChange={(e) => update({ address: e.target.value })}
+              />
+            </Field>
+            <div className="grid grid-cols-1  gap-4">
+              <Field label="State">
+                <Select
+                  value={payload.state?.toString() ?? ""}
+                  onValueChange={(val) =>
+                    update({ state: Number(val), local: null, area: null })
+                  }
+                >
+                  <SelectTrigger className="w-full h-10 bg-white border-gray-200 rounded-lg text-sm">
+                    <SelectValue placeholder="Select state" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {statesData.map((s) => (
+                      <SelectItem key={s.id} value={s.id.toString()}>
+                        {s.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+              <Field label="Local government">
+                <Select
+                  value={payload.local?.toString() ?? ""}
+                  onValueChange={(val) =>
+                    update({ local: Number(val), area: null })
+                  }
+                  disabled={!payload.state || availableLgas.length === 0}
+                >
+                  <SelectTrigger className="w-full h-10 bg-white border-gray-200 rounded-lg text-sm">
+                    <SelectValue
+                      placeholder={
+                        payload.state ? "Select LGA" : "Choose state first"
                       }
-                    >
-                      <SelectTrigger className="w-full h-10 bg-white border-gray-200 rounded-lg text-sm">
-                        <SelectValue placeholder="Select state" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {statesData.map((s) => (
-                          <SelectItem key={s.id} value={s.id.toString()}>
-                            {s.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </Field>
-                  <Field label="Local government">
-                    <Select
-                      value={payload.local?.toString() ?? ""}
-                      onValueChange={(val) =>
-                        update({ local: Number(val), area: null })
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableLgas.map((l) => (
+                      <SelectItem key={l.id} value={l.id.toString()}>
+                        {l.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+              <Field label="Area">
+                <Select
+                  value={payload.area?.toString() ?? ""}
+                  onValueChange={(val) => update({ area: Number(val) })}
+                  disabled={!payload.local || availableAreas.length === 0}
+                >
+                  <SelectTrigger className="w-full h-10 bg-white border-gray-200 rounded-lg text-sm">
+                    <SelectValue
+                      placeholder={
+                        payload.local ? "Select area" : "Choose LGA first"
                       }
-                      disabled={!payload.state || availableLgas.length === 0}
-                    >
-                      <SelectTrigger className="w-full h-10 bg-white border-gray-200 rounded-lg text-sm">
-                        <SelectValue
-                          placeholder={
-                            payload.state ? "Select LGA" : "Choose state first"
-                          }
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {availableLgas.map((l) => (
-                          <SelectItem key={l.id} value={l.id.toString()}>
-                            {l.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </Field>
-                  <Field label="Area">
-                    <Select
-                      value={payload.area?.toString() ?? ""}
-                      onValueChange={(val) => update({ area: Number(val) })}
-                      disabled={!payload.local || availableAreas.length === 0}
-                    >
-                      <SelectTrigger className="w-full h-10 bg-white border-gray-200 rounded-lg text-sm">
-                        <SelectValue
-                          placeholder={
-                            payload.local ? "Select area" : "Choose LGA first"
-                          }
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {availableAreas.map((a) => (
-                          <SelectItem key={a.id} value={a.id.toString()}>
-                            {a.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </Field>
-                </div>
-              </div>
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableAreas.map((a) => (
+                      <SelectItem key={a.id} value={a.id.toString()}>
+                        {a.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      </motion.div>
 
       <Nav onNext={handleNext} onBack={() => setStep((s) => s - 1)} />
     </StepWrapper>
@@ -1345,15 +1343,18 @@ function Success() {
       <div className="w-16 h-16 rounded-full bg-primary-c/10 border border-primary-c/20 flex items-center justify-center mx-auto text-2xl">
         🎉
       </div>
+
       <div className="space-y-2">
         <h1 className="text-2xl font-bold text-gray-900">
           You&apos;re all set!
         </h1>
         <p className="text-sm text-gray-500">
-          Your Hairxify business profile is live. Clients can now discover and
-          book your services.
+          Your Hairxify business profile is ready. Check your inbox for a
+          confirmation email to verify your account and go live.
         </p>
       </div>
+
+      {/* Checklist */}
       <div className="rounded-xl border border-gray-200 bg-white p-5 text-left space-y-2.5">
         {[
           "Profile created and live",
@@ -1372,11 +1373,35 @@ function Success() {
           </div>
         ))}
       </div>
-      <Link href="/dashboard/appointments">
-        <Button className="w-full h-11 rounded-lg bg-primary-c hover:bg-secondary-c text-white font-semibold text-sm border-0 transition-colors">
-          Go to dashboard
+
+      {/* Email verification nudge */}
+      <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 flex items-start gap-3 text-left">
+        <div className="w-8 h-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center shrink-0 shadow-sm">
+          <Mail className="w-4 h-4 text-primary-c" />
+        </div>
+        <div>
+          <p className="text-xs font-semibold text-gray-700">
+            Verify your email
+          </p>
+          <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">
+            We&apos;ve sent a confirmation link to your inbox. Click it to
+            activate your account — check your spam folder if you don&apos;t see
+            it.
+          </p>
+        </div>
+      </div>
+
+      {/* Open Gmail */}
+      <a
+        href="https://mail.google.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Button className="w-full h-11 rounded-lg bg-primary-c hover:bg-secondary-c text-white font-semibold text-sm border-0 transition-colors gap-2">
+          <Mail className="w-4 h-4" />
+          Open Gmail
         </Button>
-      </Link>
+      </a>
     </div>
   );
 }

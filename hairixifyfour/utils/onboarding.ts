@@ -30,6 +30,46 @@ export const onboardProvider = async (
   }
 };
 
+export const signIn = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}): Promise<ApiResponse> => {
+  try {
+    const response = await axios.post("/api/onboarding/signIn", {
+      email,
+      password,
+    });
+    console.log("response", response);
+    if (response.data.success) {
+      localStorage.setItem("auth_token", response.data.token);
+      return {
+        success: true,
+        message: response.data?.message || "Sign In successfully!",
+      };
+    } else {
+      return {
+        success: false,
+        message: response.data.error,
+      };
+    }
+  } catch (error) {
+    const axiosError = error as AxiosError<any>;
+    console.log("error: ", error);
+
+    return {
+      success: false,
+      message:
+        axiosError.response?.data?.message ||
+        axiosError.response?.data?.error ||
+        axiosError.message ||
+        "Something went wrong. Please try again.",
+    };
+  }
+};
+
 export const validateProvider = async ({
   email,
   code,
@@ -169,11 +209,12 @@ export async function getCategory(): Promise<{
   data?: Category[];
 }> {
   try {
-    const response = await axios.get(`/api/settings/category`);
+    const response = await axios.get(`/api/settings/category/sub`);
+    console.log("categpry response", response);
     if (response.status === 200) {
       return {
         success: true,
-        data: response.data.category,
+        data: response.data,
       };
     } else {
       return {
@@ -200,7 +241,7 @@ export async function getRecurrence(): Promise<{
   data?: Recurrence[];
 }> {
   try {
-    const response = await axios.get(`/api/settings/recurrence`);
+    const response = await axios.get(`/api/settings/setting/recurrence`);
 
     if (response.status === 200) {
       return {
@@ -232,8 +273,7 @@ export async function getService(): Promise<{
   data?: ServiceType[];
 }> {
   try {
-    const response = await axios.get(`/api/settings/types`);
-    // console.log("types response: ", response.data.type);
+    const response = await axios.get(`/api/settings/setting/types`);
 
     if (response.status === 200) {
       return {

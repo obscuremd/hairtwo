@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BASE_URL = "https://api5.project.hairxify.com/api/provider/new/onboard";
+const BASE_URL = "https://api5.project.hairxify.com/api/signin";
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(data, { status: res.status });
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "Onboarding failed" },
+      { success: false, message: "sign in failed" },
       { status: 500 },
     );
   }
