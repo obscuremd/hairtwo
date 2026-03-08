@@ -129,7 +129,9 @@ export default function ProviderProfilePage() {
             <ServiceMenuSection provider={authProvider} />
           </TabsContent>
           <TabsContent value="availability" className="mt-4">
-            <AvailabilitySection businessHours={authProvider.business_hours} />
+            <AvailabilitySection
+              businessHours={authProvider.business_hours ?? []}
+            />
           </TabsContent>
         </Tabs>
       </div>
@@ -139,7 +141,9 @@ export default function ProviderProfilePage() {
         <GallerySection gallery={gallery} onEdit={() => setGalleryOpen(true)} />
         <BusinessInfoSection provider={authProvider} />
         <ServiceMenuSection provider={authProvider} />
-        <AvailabilitySection businessHours={authProvider.business_hours} />
+        <AvailabilitySection
+          businessHours={authProvider.business_hours ?? []}
+        />
       </div>
 
       {/* Gallery upload dialog */}
