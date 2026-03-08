@@ -18,9 +18,6 @@ import { toast } from "sonner";
 export default function Home() {
   const [loading, setLoading] = useState(true); // start true — avoids flash
   const { setProviders } = UseGen();
-  // NOTE: refreshAuth is intentionally NOT called here — GeneralContext already
-  // calls it on mount via its own useEffect. Calling it again here would cause
-  // a redundant request on every homepage visit.
 
   useEffect(() => {
     async function getProviders() {

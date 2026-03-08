@@ -21,7 +21,6 @@ const ALL_SLOTS: string[] = Array.from({ length: 48 }, (_, i) => {
   return `${String(h).padStart(2, "0")}:${m}`;
 });
 
-// Split into AM (00:00–11:30) and PM (12:00–23:30)
 const AM_SLOTS = ALL_SLOTS.slice(0, 24);
 const PM_SLOTS = ALL_SLOTS.slice(24);
 
@@ -36,7 +35,7 @@ interface TimeScaleProps {
   serviceDuration: number; // minutes
   onChange: (slot: string) => void;
   existingBookings: NormalisedBooking[];
-  businessHours: BusinessHour[];
+  businessHours: IBusinessHours[];
 }
 
 export function TimeScale({
@@ -59,7 +58,6 @@ export function TimeScale({
 
   const dayName = DAY_MAP[date.getDay()];
   const bizDay = businessHours.find((b) => b.day === dayName);
-
   const dayBookings = existingBookings.filter((b) =>
     isSameDay(parseISO(b.startDate), date),
   );
@@ -67,22 +65,17 @@ export function TimeScale({
   function isSlotDisabled(slot: string): boolean {
     const slotStart = toMinutes(slot);
     const slotEnd = slotStart + serviceDuration;
-
     if (!bizDay) return true;
-    const bizStart = toMinutes(bizDay.start);
-    const bizEnd = toMinutes(bizDay.end);
-    if (slotStart < bizStart || slotEnd > bizEnd) return true;
-
+    if (slotStart < toMinutes(bizDay.start) || slotEnd > toMinutes(bizDay.end))
+      return true;
     for (const b of dayBookings) {
       const bStart = toMinutes(format(parseISO(b.startDate), "HH:mm"));
       const bEnd = toMinutes(format(parseISO(b.endDate), "HH:mm"));
       if (slotStart < bEnd && slotEnd > bStart) return true;
     }
-
     return false;
   }
 
-  // Check if an entire section (AM/PM) has zero available slots
   const allAmDisabled = AM_SLOTS.every(isSlotDisabled);
   const allPmDisabled = PM_SLOTS.every(isSlotDisabled);
 
@@ -91,10 +84,8 @@ export function TimeScale({
       <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
         Available times
       </p>
-
       <ScrollArea className="h-52 rounded-lg border bg-muted/20">
         <div className="p-3 space-y-4">
-          {/* AM */}
           <Section label="Morning" empty={allAmDisabled}>
             {AM_SLOTS.map((slot) => (
               <SlotButton
@@ -106,8 +97,6 @@ export function TimeScale({
               />
             ))}
           </Section>
-
-          {/* PM */}
           <Section label="Afternoon & Evening" empty={allPmDisabled}>
             {PM_SLOTS.map((slot) => (
               <SlotButton
@@ -121,8 +110,6 @@ export function TimeScale({
           </Section>
         </div>
       </ScrollArea>
-
-      {/* Closed day notice */}
       {!bizDay && (
         <p className="text-xs text-muted-foreground text-center">
           This day is outside business hours.
@@ -131,8 +118,6 @@ export function TimeScale({
     </div>
   );
 }
-
-// ─── Sub-components ───────────────────────────────────────────────────────────
 
 function Section({
   label,
@@ -151,7 +136,6 @@ function Section({
         </p>
         <div className="flex-1 h-px bg-border" />
       </div>
-
       {empty ? (
         <p className="text-xs text-muted-foreground/60 py-1">No availability</p>
       ) : (

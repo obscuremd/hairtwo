@@ -72,7 +72,10 @@ export function Recommended() {
               category={item.category.slug}
               primary_text={item.business_name}
               description={item.address}
-              image=""
+              image={
+                `https://api5.project.hairxify.com/${item.user.gallery?.[0]?.image}` ||
+                "https://images.unsplash.com/photo-1667021836621-ef302544b61f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8ZW1wdHklMjBpbWFnZXxlbnwwfHwwfHx8MA%3D%3D"
+              }
             />
           </Link>
         ))}

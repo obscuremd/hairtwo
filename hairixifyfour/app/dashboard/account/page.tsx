@@ -1,13 +1,11 @@
 "use client";
+
 import { useState } from "react";
 import {
   Edit,
   MapPin,
   Phone,
   Mail,
-  Globe,
-  Instagram,
-  Facebook,
   Star,
   Clock,
   Check,
@@ -15,127 +13,45 @@ import {
   User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UseGen } from "@/context/GeneralContext";
+import { EditGalleryDialog } from "@/components/screenComponents/Dashboard/profile/EditGalleryDialog";
 
-// -------------------- Data Types --------------------
-type Service = {
-  id: number;
-  name: string;
-  price: string;
-  duration: string;
+const BASE_IMAGE_URL = "https://api5.project.hairxify.com";
+
+const DAY_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const DAY_LABELS: Record<string, string> = {
+  Mon: "Monday",
+  Tue: "Tuesday",
+  Wed: "Wednesday",
+  Thu: "Thursday",
+  Fri: "Friday",
+  Sat: "Saturday",
+  Sun: "Sunday",
 };
 
-type Review = {
-  id: number;
-  name: string;
-  rating: number;
-  date: string;
-  comment: string;
-};
+// ─── Main page ────────────────────────────────────────────────────────────────
 
-type Availability = {
-  day: string;
-  times: string[];
-  available: boolean;
-};
+export default function ProviderProfilePage() {
+  const { authProvider, authUser, authLoading, refreshAuth } = UseGen();
+  const [galleryOpen, setGalleryOpen] = useState(false);
 
-// -------------------- Sample Data --------------------
-const profile = {
-  name: "John Smith",
-  profession: "Brand & Identity Designer",
-  image:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
-};
+  if (authLoading) return <ProfileSkeleton />;
+  if (!authProvider) {
+    return (
+      <div className="py-20 text-center text-sm text-muted-foreground">
+        Could not load profile. Please refresh.
+      </div>
+    );
+  }
 
-const businessInfo = {
-  description:
-    "Award-winning designer specializing in brand identity, logo design, and visual storytelling. With over 10 years of experience helping businesses create memorable brand experiences.",
-  location: "San Francisco, CA",
-  phone: "+1 (555) 123-4567",
-  email: "john@designstudio.com",
-  website: "www.johnsmithdesign.com",
-  instagram: "@johnsmithdesign",
-  facebook: "John Smith Design",
-};
-
-const gallery = [
-  "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1558655146-d09347e92766?w=800&h=600&fit=crop",
-  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1558655146-d09347e92766?w=400&h=400&fit=crop",
-  "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=400&h=400&fit=crop",
-];
-
-const services: Service[] = [
-  {
-    id: 1,
-    name: "Brand Identity Design",
-    price: "$2,500",
-    duration: "2-3 weeks",
-  },
-  { id: 2, name: "Logo Design", price: "$800", duration: "1 week" },
-  {
-    id: 3,
-    name: "Visual Identity System",
-    price: "$3,500",
-    duration: "3-4 weeks",
-  },
-  { id: 4, name: "Brand Strategy Session", price: "$500", duration: "2 hours" },
-  { id: 5, name: "Packaging Design", price: "$1,200", duration: "1-2 weeks" },
-];
-
-const reviews: Review[] = [
-  {
-    id: 1,
-    name: "Sarah Johnson",
-    rating: 5,
-    date: "2 weeks ago",
-    comment:
-      "Exceptional work! John perfectly captured our brand vision and delivered beyond expectations.",
-  },
-  {
-    id: 2,
-    name: "Michael Chen",
-    rating: 5,
-    date: "1 month ago",
-    comment: "Professional, creative, and easy to work with. Highly recommend!",
-  },
-  {
-    id: 3,
-    name: "Emma Davis",
-    rating: 4,
-    date: "2 months ago",
-    comment:
-      "Great designer with excellent communication throughout the project.",
-  },
-];
-
-const availability: Availability[] = [
-  {
-    day: "Monday",
-    times: ["9:00 AM - 12:00 PM", "2:00 PM - 5:00 PM"],
-    available: true,
-  },
-  {
-    day: "Tuesday",
-    times: ["9:00 AM - 12:00 PM", "2:00 PM - 5:00 PM"],
-    available: true,
-  },
-  { day: "Wednesday", times: ["9:00 AM - 1:00 PM"], available: true },
-  {
-    day: "Thursday",
-    times: ["9:00 AM - 12:00 PM", "2:00 PM - 5:00 PM"],
-    available: true,
-  },
-  { day: "Friday", times: ["9:00 AM - 3:00 PM"], available: true },
-  { day: "Saturday", times: [], available: false },
-  { day: "Sunday", times: [], available: false },
-];
-
-// -------------------- Main Component --------------------
-export default function Page() {
-  const [activeTab, setActiveTab] = useState("business");
+  const gallery: Gallery[] = authProvider.user.gallery ?? [];
+  const initials =
+    authProvider.first_name.charAt(0) + authProvider.last_name.charAt(0);
+  const avatarImage = gallery[0]
+    ? `${BASE_IMAGE_URL}/${gallery[0].image}`
+    : null;
 
   return (
     <div className="mx-auto space-y-4">
@@ -145,82 +61,104 @@ export default function Page() {
         </div>
         <p className="text-3xl font-semibold tracking-tight">Profile</p>
       </div>
-      {/* Profile Header */}
+
+      {/* Profile header */}
       <div className="flex items-start gap-4 p-4 border-b border-gray-200 bg-white">
-        <img
-          src={profile.image}
-          alt={profile.name}
-          className="w-20 h-20 rounded-lg object-cover border border-gray-200"
-        />
-        <div className="flex-1 min-w-0">
-          <h1 className="text-xl font-bold text-[#003225] mb-0.5">
-            {profile.name}
-          </h1>
-          <p className="text-sm text-gray-600 mb-2">{profile.profession}</p>
-          <div className="flex items-center gap-1 text-xs">
-            <Star className="w-4 h-4 text-[#3ad688] fill-[#3ad688]" />
-            <span className="font-semibold text-[#003225]">4.8</span>
-            <span className="text-gray-500">(127 reviews)</span>
+        {avatarImage ? (
+          <img
+            src={avatarImage}
+            alt={authProvider.business_name}
+            className="w-20 h-20 rounded-lg object-cover border border-gray-200 shrink-0"
+          />
+        ) : (
+          <div className="w-20 h-20 rounded-lg border border-gray-200 bg-[#003225]/10 flex items-center justify-center shrink-0">
+            <span className="text-2xl font-bold text-[#003225]">
+              {initials}
+            </span>
           </div>
+        )}
+        <div className="flex-1 min-w-0">
+          <h1 className="text-xl font-bold text-[#003225] mb-0.5 truncate">
+            {authProvider.business_name}
+          </h1>
+          <p className="text-sm text-gray-600 mb-1 truncate">
+            {authProvider.first_name} {authProvider.last_name}
+          </p>
+          <p className="text-xs text-gray-400 truncate">
+            {authProvider.category?.name}
+          </p>
+          {authUser?.email && (
+            <p className="text-xs text-gray-400 truncate mt-0.5">
+              {authUser.email}
+            </p>
+          )}
         </div>
         <Button
           size="sm"
           variant="outline"
-          className="border-[#003225] text-[#003225] hover:bg-[#003225] hover:text-white h-8 text-xs"
+          className="border-[#003225] text-[#003225] hover:bg-[#003225] hover:text-white h-8 text-xs shrink-0"
         >
           <Edit className="w-3 h-3 mr-1" /> Edit
         </Button>
       </div>
 
-      {/* Mobile Tabs */}
+      {/* Mobile tabs */}
       <div className="lg:hidden">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 bg-gray-100 p-1">
-            {["business", "gallery", "services", "reviews", "availability"].map(
-              (tab) => (
-                <TabsTrigger
-                  key={tab}
-                  value={tab}
-                  className="text-xs py-2 data-[state=active]:bg-[#3ad688] data-[state=active]:text-[#003225]"
-                >
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                </TabsTrigger>
-              ),
-            )}
+        <Tabs defaultValue="business" className="w-full">
+          <TabsList className="grid w-full grid-cols-4 bg-gray-100 p-1">
+            {["business", "gallery", "services", "availability"].map((tab) => (
+              <TabsTrigger
+                key={tab}
+                value={tab}
+                className="text-xs py-2 data-[state=active]:bg-[#3ad688] data-[state=active]:text-[#003225]"
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </TabsTrigger>
+            ))}
           </TabsList>
-
           <TabsContent value="business" className="mt-4">
-            <BusinessInfoSection info={businessInfo} />
+            <BusinessInfoSection provider={authProvider} />
           </TabsContent>
           <TabsContent value="gallery" className="mt-4">
-            <GallerySection images={gallery} />
+            <GallerySection
+              gallery={gallery}
+              onEdit={() => setGalleryOpen(true)}
+            />
           </TabsContent>
           <TabsContent value="services" className="mt-4">
-            <ServicesSection services={services} />
-          </TabsContent>
-          <TabsContent value="reviews" className="mt-4">
-            <ReviewsSection reviews={reviews} />
+            <ServiceMenuSection provider={authProvider} />
           </TabsContent>
           <TabsContent value="availability" className="mt-4">
-            <AvailabilitySection schedule={availability} />
+            <AvailabilitySection businessHours={authProvider.business_hours} />
           </TabsContent>
         </Tabs>
       </div>
 
-      {/* Desktop: Show All Sections */}
+      {/* Desktop: all sections */}
       <div className="hidden lg:block space-y-4">
-        <GallerySection images={gallery} />
-        <BusinessInfoSection info={businessInfo} />
-        <ServicesSection services={services} />
-        <ReviewsSection reviews={reviews} />
-        <AvailabilitySection schedule={availability} />
+        <GallerySection gallery={gallery} onEdit={() => setGalleryOpen(true)} />
+        <BusinessInfoSection provider={authProvider} />
+        <ServiceMenuSection provider={authProvider} />
+        <AvailabilitySection businessHours={authProvider.business_hours} />
       </div>
+
+      {/* Gallery upload dialog */}
+      <EditGalleryDialog
+        open={galleryOpen}
+        onOpenChange={setGalleryOpen}
+        providerId={authProvider.id}
+        onUploaded={() => {
+          setGalleryOpen(false);
+          refreshAuth(); // re-fetch provider so new gallery image appears
+        }}
+      />
     </div>
   );
 }
 
-// -------------------- Sections --------------------
-function BusinessInfoSection({ info }: { info: typeof businessInfo }) {
+// ─── Business Info ────────────────────────────────────────────────────────────
+
+function BusinessInfoSection({ provider }: { provider: Provider }) {
   return (
     <div className="p-4 border-b-2 border-gray-200 space-y-4">
       <div className="flex items-center justify-between">
@@ -233,32 +171,61 @@ function BusinessInfoSection({ info }: { info: typeof businessInfo }) {
           <Edit className="w-3 h-3 mr-1" /> Edit
         </Button>
       </div>
-      <p className="text-sm text-gray-700">{info.description}</p>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-        <div className="flex items-center gap-2">
-          <MapPin className="w-4 h-4 text-[#3ad688]" /> {info.location}
-        </div>
-        <div className="flex items-center gap-2">
-          <Phone className="w-4 h-4 text-[#3ad688]" /> {info.phone}
-        </div>
-        <div className="flex items-center gap-2">
-          <Mail className="w-4 h-4 text-[#3ad688]" /> {info.email}
-        </div>
-        <div className="flex items-center gap-2">
-          <Globe className="w-4 h-4 text-[#3ad688]" /> {info.website}
-        </div>
-        <div className="flex items-center gap-2">
-          <Instagram className="w-4 h-4 text-[#3ad688]" /> {info.instagram}
-        </div>
-        <div className="flex items-center gap-2">
-          <Facebook className="w-4 h-4 text-[#3ad688]" /> {info.facebook}
-        </div>
+        {provider.address && (
+          <div className="flex items-center gap-2 text-gray-700">
+            <MapPin className="w-4 h-4 text-[#3ad688] shrink-0" />
+            <span className="truncate">
+              {provider.address}
+              {provider.local?.name ? `, ${provider.local.name}` : ""}
+              {provider.state?.name ? `, ${provider.state.name}` : ""}
+            </span>
+          </div>
+        )}
+        {provider.phone_number && (
+          <div className="flex items-center gap-2 text-gray-700">
+            <Phone className="w-4 h-4 text-[#3ad688] shrink-0" />
+            <span>{provider.phone_number}</span>
+          </div>
+        )}
+        {provider.user?.email && (
+          <div className="flex items-center gap-2 text-gray-700">
+            <Mail className="w-4 h-4 text-[#3ad688] shrink-0" />
+            <span className="truncate">{provider.user.email}</span>
+          </div>
+        )}
+        {provider.category?.name && (
+          <div className="flex items-center gap-2 text-gray-700">
+            <Star className="w-4 h-4 text-[#3ad688] shrink-0" />
+            <span>{provider.category.name}</span>
+          </div>
+        )}
       </div>
+
+      {provider.team_size > 0 && (
+        <p className="text-xs text-gray-500">
+          Team size:{" "}
+          <span className="font-medium text-gray-700">
+            {provider.team_size}
+          </span>
+        </p>
+      )}
     </div>
   );
 }
 
-function GallerySection({ images }: { images: string[] }) {
+// ─── Gallery ──────────────────────────────────────────────────────────────────
+
+function GallerySection({
+  gallery,
+  onEdit,
+}: {
+  gallery: Gallery[];
+  onEdit: () => void;
+}) {
+  const hasImages = gallery.length > 0;
+
   return (
     <div className="p-4 border-b-2 border-gray-200">
       <div className="flex items-center justify-between mb-3">
@@ -266,51 +233,67 @@ function GallerySection({ images }: { images: string[] }) {
         <Button
           size="sm"
           variant="outline"
+          onClick={onEdit}
           className="border-[#003225] text-[#003225] hover:bg-[#003225] hover:text-white h-7 text-xs"
         >
-          <Edit className="w-3 h-3 mr-1" /> Edit
+          <Edit className="w-3 h-3 mr-1" /> Add Photo
         </Button>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-2">
-        {/* Two main images, smaller height */}
-        <div className="col-span-2 row-span-2 h-36 overflow-hidden rounded-sm">
-          <img
-            src={images[0]}
-            alt="Gallery 1"
-            className="w-full h-full object-cover"
-          />
+      {!hasImages ? (
+        <div
+          onClick={onEdit}
+          className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gray-200 h-36 cursor-pointer hover:border-[#3ad688]/40 transition-colors"
+        >
+          <p className="text-sm text-gray-400">No photos yet</p>
+          <p className="text-xs text-gray-300">
+            Click &quot;Add Photo&quot; to get started
+          </p>
         </div>
-        <div className="col-span-2 row-span-2 h-36 overflow-hidden rounded-sm">
-          <img
-            src={images[1]}
-            alt="Gallery 2"
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          {/* Four smaller images */}
-          {images.slice(2, 6).map((img, idx) => (
+      ) : (
+        <div className="flex flex-col md:flex-row gap-2">
+          {/* First two as large banners */}
+          {gallery.slice(0, 2).map((img, i) => (
             <div
-              key={idx}
-              className="col-span-1 h-20 overflow-hidden rounded-sm"
+              key={img.id}
+              className="flex-1 h-36 overflow-hidden rounded-sm"
             >
               <img
-                src={img}
-                alt={`Gallery ${idx + 3}`}
+                src={`${BASE_IMAGE_URL}/${img.image}`}
+                alt={`Gallery ${i + 1}`}
                 className="w-full h-full object-cover"
               />
             </div>
           ))}
+          {/* Rest as grid */}
+          {gallery.length > 2 && (
+            <div className="grid grid-cols-2 gap-2">
+              {gallery.slice(2, 6).map((img, i) => (
+                <div
+                  key={img.id}
+                  className="h-[68px] overflow-hidden rounded-sm"
+                >
+                  <img
+                    src={`${BASE_IMAGE_URL}/${img.image}`}
+                    alt={`Gallery ${i + 3}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-      </div>
+      )}
     </div>
   );
 }
 
-function ServicesSection({ services }: { services: Service[] }) {
+// ─── Service menu (from provider context — name + category placeholder) ───────
+// Full service list lives on CheckoutPage; here we show a lightweight summary
+
+function ServiceMenuSection({ provider }: { provider: Provider }) {
   return (
-    <div className="p-4 border-b-2 border-gray-200 ">
+    <div className="p-4 border-b-2 border-gray-200">
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-lg font-semibold text-[#003225]">Service Menu</h2>
         <Button
@@ -321,78 +304,34 @@ function ServicesSection({ services }: { services: Service[] }) {
           <Edit className="w-3 h-3 mr-1" /> Edit
         </Button>
       </div>
-      <div className="space-y-2">
-        {services.map((service) => (
-          <div
-            key={service.id}
-            className="border-l-2 border-l-[#3ad688] bg-gray-50 p-3 rounded-sm hover:bg-gray-100 transition-all"
-          >
-            <div className="flex justify-between items-start gap-2">
-              <div>
-                <h3 className="text-sm font-semibold text-[#003225]">
-                  {service.name}
-                </h3>
-                <p className="text-xs text-gray-600 mt-1">{service.duration}</p>
-              </div>
-              <span className="font-semibold text-[#3ad688] text-sm">
-                {service.price}
-              </span>
-            </div>
+      <div className="border-l-2 border-l-[#3ad688] bg-gray-50 p-3 rounded-sm">
+        <div className="flex justify-between items-start gap-2">
+          <div>
+            <h3 className="text-sm font-semibold text-[#003225]">
+              {provider.category?.name ?? "Services"}
+            </h3>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Manage all services from the Transactions page.
+            </p>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
 }
 
-function ReviewsSection({ reviews }: { reviews: Review[] }) {
-  return (
-    <div className="p-4 border-b-2 border-gray-200 ">
-      <div className="flex items-center justify-between mb-3">
-        <h2 className="text-lg font-semibold text-[#003225]">
-          Ratings & Reviews
-        </h2>
-        <Button
-          size="sm"
-          variant="outline"
-          className="border-[#003225] text-[#003225] hover:bg-[#003225] hover:text-white h-7 text-xs"
-        >
-          <Edit className="w-3 h-3 mr-1" /> Edit
-        </Button>
-      </div>
-      <div className="space-y-3">
-        {reviews.map((review) => (
-          <div
-            key={review.id}
-            className="border-l-2 border-l-[#3ad688] bg-gray-50 p-3 rounded-sm"
-          >
-            <div className="flex justify-between items-start mb-2">
-              <div>
-                <h4 className="text-sm font-semibold text-[#003225]">
-                  {review.name}
-                </h4>
-                <div className="flex items-center gap-1 mt-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-3 h-3 ${i < review.rating ? "text-[#3ad688] fill-[#3ad688]" : "text-gray-300"}`}
-                    />
-                  ))}
-                </div>
-              </div>
-              <span className="text-xs text-gray-500">{review.date}</span>
-            </div>
-            <p className="text-xs text-gray-700">{review.comment}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+// ─── Availability ─────────────────────────────────────────────────────────────
 
-function AvailabilitySection({ schedule }: { schedule: Availability[] }) {
+function AvailabilitySection({
+  businessHours,
+}: {
+  businessHours: BusinessHour[];
+}) {
+  // Show all days Mon–Sun; mark open ones from businessHours
+  const openDays = new Map(businessHours.map((h) => [h.day, h]));
+
   return (
-    <div className="p-4 ">
+    <div className="p-4">
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-lg font-semibold text-[#003225]">Availability</h2>
         <Button
@@ -404,36 +343,65 @@ function AvailabilitySection({ schedule }: { schedule: Availability[] }) {
         </Button>
       </div>
       <div className="space-y-2">
-        {schedule.map((day) => (
-          <div
-            key={day.day}
-            className={`border-l-2 ${day.available ? "border-l-[#3ad688]" : "border-l-gray-300"} bg-gray-50 p-3 rounded-sm`}
-          >
-            <div className="flex justify-between items-start">
-              <div className="flex items-center gap-2">
-                <h3 className="text-sm font-semibold text-[#003225]">
-                  {day.day}
-                </h3>
-                {day.available ? (
-                  <Check className="w-3.5 h-3.5 text-[#3ad688]" />
-                ) : (
-                  <X className="w-3.5 h-3.5 text-gray-400" />
+        {DAY_ORDER.map((short) => {
+          const hours = openDays.get(short);
+          const isOpen = !!hours;
+          return (
+            <div
+              key={short}
+              className={`border-l-2 ${isOpen ? "border-l-[#3ad688]" : "border-l-gray-300"} bg-gray-50 p-3 rounded-sm`}
+            >
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-[#003225]">
+                    {DAY_LABELS[short]}
+                  </h3>
+                  {isOpen ? (
+                    <Check className="w-3.5 h-3.5 text-[#3ad688]" />
+                  ) : (
+                    <X className="w-3.5 h-3.5 text-gray-400" />
+                  )}
+                </div>
+                {isOpen && hours && (
+                  <div className="flex items-center gap-1 text-xs text-gray-600">
+                    <Clock className="w-3 h-3" />
+                    <span>
+                      {hours.start} – {hours.end}
+                    </span>
+                  </div>
                 )}
               </div>
+              {!isOpen && (
+                <p className="text-xs text-gray-400 mt-0.5">Unavailable</p>
+              )}
             </div>
-            {day.available ? (
-              <div className="mt-1 space-y-0.5 text-xs text-gray-600">
-                {day.times.map((time, idx) => (
-                  <div key={idx} className="flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    <span>{time}</span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-xs text-gray-500 mt-0.5">Unavailable</p>
-            )}
-          </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
+
+function ProfileSkeleton() {
+  return (
+    <div className="mx-auto space-y-4 animate-pulse">
+      <div className="flex items-center gap-2">
+        <Skeleton className="size-12 rounded-full" />
+        <Skeleton className="h-8 w-32 rounded" />
+      </div>
+      <div className="flex items-start gap-4 p-4 border-b border-gray-200 bg-white">
+        <Skeleton className="w-20 h-20 rounded-lg shrink-0" />
+        <div className="flex-1 space-y-2">
+          <Skeleton className="h-6 w-48 rounded" />
+          <Skeleton className="h-4 w-36 rounded" />
+          <Skeleton className="h-3 w-28 rounded" />
+        </div>
+      </div>
+      <div className="space-y-4">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Skeleton key={i} className="h-32 w-full rounded-xl" />
         ))}
       </div>
     </div>

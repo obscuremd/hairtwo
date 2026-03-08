@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   addMonths,
   eachDayOfInterval,
@@ -14,10 +14,11 @@ import {
   startOfWeek,
   subMonths,
 } from "date-fns";
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
 import {
-  BOOKING_MOCK,
   BookingStatus,
   resolveStatus,
   STATUS_CONFIG,
@@ -26,6 +27,8 @@ import { BookingDayCell } from "./bookingComponets/booking-day-cell";
 import { BookingDayViewDialog } from "./bookingComponets/booking-day-view-dialog";
 import { BookingDetailDialog } from "./bookingComponets/booking-detail-dialog";
 import { AddBookingDialog } from "./bookingComponets/booking-add-dialog";
+import { GetBookedSlots } from "@/utils/booking";
+import { UseGen } from "@/context/GeneralContext";
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const STATUS_ORDER: BookingStatus[] = [
@@ -35,52 +38,65 @@ const STATUS_ORDER: BookingStatus[] = [
   "upcoming",
 ];
 
-export function BookingCalendar() {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [bookings, setBookings] = useState<IBooking[]>(BOOKING_MOCK);
+function CalendarSkeleton() {
+  return (
+    <div className="grid grid-cols-7">
+      {Array.from({ length: 35 }).map((_, i) => (
+        <div
+          key={i}
+          className="border-b border-r min-h-[90px] p-1.5 space-y-1.5"
+        >
+          <Skeleton className="h-5 w-5 rounded-full" />
+          <Skeleton className="h-4 w-full rounded" />
+          <Skeleton className="h-4 w-3/4 rounded" />
+        </div>
+      ))}
+    </div>
+  );
+}
 
-  // Detail dialog (single booking)
+export function BookingCalendar() {
+  const { authProvider } = UseGen();
+  const providerId = String(authProvider?.id ?? "");
+
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [bookings, setBookings] = useState<IBooking[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const [selected, setSelected] = useState<IBooking | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
-
-  // Day view dialog (all bookings for a day)
   const [dayViewDate, setDayViewDate] = useState<Date | null>(null);
   const [dayViewOpen, setDayViewOpen] = useState(false);
-
-  // Add dialog
   const [addOpen, setAddOpen] = useState(false);
 
-  // Calendar grid
+  const fetchBookings = useCallback(async () => {
+    if (!providerId) return;
+    setLoading(true);
+    setError(null);
+    const result = await GetBookedSlots(providerId, currentDate);
+    if (result.success && result.bookings) {
+      setBookings(result.bookings);
+    } else {
+      setError(result.message);
+      toast.error(result.message);
+    }
+    setLoading(false);
+  }, [providerId, currentDate]);
+
+  useEffect(() => {
+    fetchBookings();
+  }, [fetchBookings]);
+
   const monthStart = startOfMonth(currentDate);
-  const monthEnd = endOfMonth(currentDate);
-  const gridStart = startOfWeek(monthStart);
-  const gridEnd = endOfWeek(monthEnd);
-  const days = eachDayOfInterval({ start: gridStart, end: gridEnd });
+  const days = eachDayOfInterval({
+    start: startOfWeek(monthStart),
+    end: endOfWeek(endOfMonth(currentDate)),
+  });
 
   const bookingsForDay = (date: Date) =>
     bookings.filter((b) => isSameDay(parseISO(b.startDate), date));
 
-  const handleSelectBooking = (booking: IBooking) => {
-    setSelected(booking);
-    setDetailOpen(true);
-  };
-
-  const handleDayClick = (date: Date) => {
-    setDayViewDate(date);
-    setDayViewOpen(true);
-  };
-
-  // When a booking is clicked inside the day view, open detail on top
-  const handleSelectFromDayView = (booking: IBooking) => {
-    setSelected(booking);
-    setDetailOpen(true);
-  };
-
-  const handleAdd = (booking: IBooking) => {
-    setBookings((prev) => [...prev, booking]);
-  };
-
-  // Status counts for the current month's bookings only
   const monthBookings = bookings.filter((b) =>
     isSameMonth(parseISO(b.startDate), currentDate),
   );
@@ -96,39 +112,40 @@ export function BookingCalendar() {
   return (
     <>
       <div className="w-full rounded-xl border bg-background shadow-sm overflow-hidden">
-        {/* ── Header ── */}
+        {/* Header */}
         <div className="flex items-center justify-between gap-4 px-5 py-3.5 border-b bg-muted/30">
-          {/* Month navigation */}
           <div className="flex items-center gap-1">
             <Button
               variant="ghost"
               size="icon"
               className="size-8"
               onClick={() => setCurrentDate((d) => subMonths(d, 1))}
+              disabled={loading}
             >
               <ChevronLeft className="size-4" />
             </Button>
-            <span className="min-w-[9rem] text-center text-sm font-semibold tracking-tight">
+            <span className="min-w-[9rem] text-center text-sm font-semibold tracking-tight flex items-center justify-center gap-1.5">
               {format(currentDate, "MMMM yyyy")}
+              {loading && (
+                <Loader2 className="size-3 animate-spin text-muted-foreground" />
+              )}
             </span>
             <Button
               variant="ghost"
               size="icon"
               className="size-8"
               onClick={() => setCurrentDate((d) => addMonths(d, 1))}
+              disabled={loading}
             >
               <ChevronRight className="size-4" />
             </Button>
           </div>
 
-          {/* Status summary — hidden on mobile */}
           <div className="hidden md:flex items-center gap-5">
             {STATUS_ORDER.map((s) => (
               <div key={s} className="flex items-center gap-1.5">
                 <span
-                  className={`size-2 rounded-full ${STATUS_CONFIG[s].dot} ${
-                    s === "ongoing" ? "animate-pulse" : ""
-                  }`}
+                  className={`size-2 rounded-full ${STATUS_CONFIG[s].dot} ${s === "ongoing" ? "animate-pulse" : ""}`}
                 />
                 <span className="text-xs text-muted-foreground">
                   {STATUS_CONFIG[s].label}
@@ -142,7 +159,6 @@ export function BookingCalendar() {
             ))}
           </div>
 
-          {/* Actions */}
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
@@ -163,7 +179,7 @@ export function BookingCalendar() {
           </div>
         </div>
 
-        {/* ── Weekday labels ── */}
+        {/* Weekday labels */}
         <div className="grid grid-cols-7 border-b bg-muted/10">
           {WEEKDAYS.map((d) => (
             <div
@@ -175,22 +191,38 @@ export function BookingCalendar() {
           ))}
         </div>
 
-        {/* ── Day grid ── */}
-        <div className="grid grid-cols-7">
-          {days.map((day) => (
-            <BookingDayCell
-              key={day.toISOString()}
-              date={day}
-              isCurrentMonth={isSameMonth(day, currentDate)}
-              bookings={bookingsForDay(day)}
-              onSelect={handleSelectBooking}
-              onDayClick={handleDayClick}
-            />
-          ))}
-        </div>
+        {/* Grid */}
+        {loading ? (
+          <CalendarSkeleton />
+        ) : error ? (
+          <div className="flex flex-col items-center justify-center py-20 gap-3 text-muted-foreground">
+            <p className="text-sm">{error}</p>
+            <Button variant="outline" size="sm" onClick={fetchBookings}>
+              Retry
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-7">
+            {days.map((day) => (
+              <BookingDayCell
+                key={day.toISOString()}
+                date={day}
+                isCurrentMonth={isSameMonth(day, currentDate)}
+                bookings={bookingsForDay(day)}
+                onSelect={(b) => {
+                  setSelected(b);
+                  setDetailOpen(true);
+                }}
+                onDayClick={(d) => {
+                  setDayViewDate(d);
+                  setDayViewOpen(true);
+                }}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Day view — all bookings for a selected day on a timeline */}
       <BookingDayViewDialog
         date={dayViewDate}
         bookings={bookings}
@@ -199,10 +231,12 @@ export function BookingCalendar() {
           setDayViewOpen(o);
           if (!o) setDayViewDate(null);
         }}
-        onSelectBooking={handleSelectFromDayView}
+        onSelectBooking={(b) => {
+          setSelected(b);
+          setDetailOpen(true);
+        }}
       />
 
-      {/* Detail dialog — single booking info */}
       <BookingDetailDialog
         booking={selected}
         open={detailOpen}
@@ -212,12 +246,8 @@ export function BookingCalendar() {
         }}
       />
 
-      {/* Add dialog */}
-      <AddBookingDialog
-        open={addOpen}
-        onOpenChange={setAddOpen}
-        onAdd={handleAdd}
-      />
+      {/* AddBookingDialog handles its own refresh — no onAdd needed */}
+      <AddBookingDialog open={addOpen} onOpenChange={setAddOpen} />
     </>
   );
 }

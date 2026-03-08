@@ -34,7 +34,6 @@ export function DatePicker({
   businessHours,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
-
   const businessDays = businessHours.map((b) => b.day);
 
   const isDisabled = (date: Date) => {

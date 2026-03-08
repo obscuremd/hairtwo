@@ -24,6 +24,16 @@ interface Provider {
   business_hours: BusinessHour[];
 }
 
+interface Gallery {
+  id: number;
+  type: string;
+  type_id: string;
+  image: string;
+  user: number;
+  created_at: string;
+  updated_at: string;
+}
+
 interface Category {
   id: number;
   name: string;
@@ -40,6 +50,8 @@ interface User {
   email_verified_at: string | null;
   status: string;
   phone_number: string | null;
+  gallery: Gallery[];
+
   created_at: string;
   updated_at: string;
 }

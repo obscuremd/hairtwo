@@ -15,18 +15,18 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { DatePicker } from "./datePicker";
 import { TimeScale } from "./timeScale";
-import { GetBookedSlots } from "@/utils/booking";
-import { CreateBooking, splitName, toBookingDate } from "@/utils/booking";
-
-// ─── Step metadata ────────────────────────────────────────────────────────────
+import {
+  GetBookedSlots,
+  CreateBooking,
+  splitName,
+  toBookingDate,
+} from "@/utils/booking";
 
 const STEPS = [
   { label: "Date & Time" },
   { label: "Your Details" },
   { label: "Confirmed" },
 ];
-
-// ─── Stepper ──────────────────────────────────────────────────────────────────
 
 function Stepper({ step }: { step: number }) {
   return (
@@ -46,18 +46,14 @@ function Stepper({ step }: { step: number }) {
               {i < step ? "✓" : i + 1}
             </div>
             <span
-              className={`text-[10px] font-medium hidden sm:block transition-colors ${
-                i === step ? "text-foreground" : "text-muted-foreground"
-              }`}
+              className={`text-[10px] font-medium hidden sm:block transition-colors ${i === step ? "text-foreground" : "text-muted-foreground"}`}
             >
               {s.label}
             </span>
           </div>
           {i < STEPS.length - 1 && (
             <div
-              className={`flex-1 h-px mx-2 mb-3.5 transition-colors duration-500 ${
-                i < step ? "bg-primary" : "bg-border"
-              }`}
+              className={`flex-1 h-px mx-2 mb-3.5 transition-colors duration-500 ${i < step ? "bg-primary" : "bg-border"}`}
             />
           )}
         </React.Fragment>
@@ -66,20 +62,16 @@ function Stepper({ step }: { step: number }) {
   );
 }
 
-// ─── Props ────────────────────────────────────────────────────────────────────
-
 interface BookingModalProps {
-  serviceId: number; // needed for the POST body
+  serviceId: number;
   providerId: string;
   title: string;
   description: string;
   price: number;
-  duration: number; // minutes — already correct from API
+  duration: number; // minutes
   closeModal: () => void;
-  businessHours: BusinessHour[];
+  businessHours: IBusinessHours[];
 }
-
-// ─── Component ────────────────────────────────────────────────────────────────
 
 export function BookingModal({
   serviceId,
@@ -98,36 +90,31 @@ export function BookingModal({
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [existingBookings, setExistingBookings] = useState<NormalisedBooking[]>(
     [],
   );
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  // Fetch booked slots whenever date (month) changes
+  // Fetch booked slots for the selected month to block out taken times
   useEffect(() => {
     async function fetchSlots() {
-      const month = date ?? new Date();
-      const result = await GetBookedSlots(providerId, month);
-      if (result.success && result.data) {
-        setExistingBookings(result.data);
-      }
+      const result = await GetBookedSlots(providerId, date ?? new Date());
+      if (result.success && result.data) setExistingBookings(result.data);
     }
     fetchSlots();
   }, [providerId, date]);
 
   const canProceedStep0 = !!date && !!timeSlot;
   const canProceedStep1 =
-    !!name.trim() && !!email.trim() && !!password.trim() && !!phone.trim();
+    !!name.trim() && !!email.trim() && !!phone.trim() && !!password.trim();
 
   const endTimeLabel = (() => {
     if (!date || !timeSlot) return null;
     try {
       const start = parse(timeSlot, "HH:mm", date);
       if (isNaN(start.getTime())) return null;
-      const end = addMinutes(start, duration);
-      return `${format(start, "HH:mm")} – ${format(end, "HH:mm")}`;
+      return `${format(start, "HH:mm")} – ${format(addMinutes(start, duration), "HH:mm")}`;
     } catch {
       return null;
     }
@@ -135,19 +122,15 @@ export function BookingModal({
 
   const dateLabel = date ? format(date, "EEE, MMM d, yyyy") : null;
 
-  // ── Submit booking ──────────────────────────────────────────────────────────
-
   async function handleConfirm() {
     if (!date || !timeSlot) return;
     setSubmitting(true);
     setSubmitError(null);
-
     const { first_name, last_name } = splitName(name);
-
     const result = await CreateBooking({
       service: serviceId,
-      booking_start: timeSlot, // "HH:mm"
-      booking_date: toBookingDate(date), // "YYYY-MM-DD"
+      booking_start: timeSlot,
+      booking_date: toBookingDate(date),
       first_name,
       last_name,
       phone_number: phone,
@@ -155,17 +138,12 @@ export function BookingModal({
       password,
       password_confirmation: password,
     });
-
     setSubmitting(false);
-
-    if (result.success) {
-      setStep(2);
-    } else {
-      setSubmitError(result.message);
-    }
+    if (result.success) setStep(2);
+    else setSubmitError(result.message);
   }
 
-  const handleClose = () => {
+  function handleClose() {
     setStep(0);
     setDate(undefined);
     setTimeSlot(undefined);
@@ -175,14 +153,14 @@ export function BookingModal({
     setPassword("");
     setSubmitError(null);
     closeModal();
-  };
+  }
 
   return (
     <DialogContent className="max-w-md gap-0 p-0 overflow-hidden">
       <Stepper step={step} />
 
       <div className="px-6 pb-6 pt-3 space-y-5">
-        {/* ── Step 0: Date & time ── */}
+        {/* Step 0: Date & Time */}
         {step === 0 && (
           <>
             <DialogHeader className="space-y-0.5">
@@ -225,7 +203,7 @@ export function BookingModal({
           </>
         )}
 
-        {/* ── Step 1: Client details ── */}
+        {/* Step 1: Client details */}
         {step === 1 && (
           <>
             <DialogHeader className="space-y-0.5">
@@ -283,7 +261,6 @@ export function BookingModal({
               </div>
             </div>
 
-            {/* Booking recap */}
             <div className="rounded-lg border bg-muted/30 px-4 py-3 space-y-1.5 text-sm">
               <p className="font-semibold">{title}</p>
               <div className="flex items-center gap-1.5 text-muted-foreground">
@@ -296,7 +273,6 @@ export function BookingModal({
               </div>
             </div>
 
-            {/* Inline error */}
             {submitError && (
               <p className="text-xs text-destructive text-center">
                 {submitError}
@@ -305,13 +281,12 @@ export function BookingModal({
           </>
         )}
 
-        {/* ── Step 2: Confirmation ── */}
+        {/* Step 2: Confirmation */}
         {step === 2 && (
           <div className="flex flex-col items-center gap-5 py-4 text-center">
             <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
               <CheckCircle2 className="size-8 text-primary" />
             </div>
-
             <div className="space-y-1">
               <p className="text-base font-semibold">Appointment Confirmed!</p>
               <p className="text-sm text-muted-foreground">
@@ -326,8 +301,6 @@ export function BookingModal({
                 .
               </p>
             </div>
-
-            {/* Email notice */}
             <div className="w-full rounded-lg border bg-muted/20 px-4 py-3 flex items-start gap-3 text-left">
               <Mail className="size-4 text-muted-foreground shrink-0 mt-0.5" />
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -337,8 +310,6 @@ export function BookingModal({
                 appointment there.
               </p>
             </div>
-
-            {/* Price receipt */}
             <div className="w-full rounded-lg border bg-muted/30 px-4 py-3 flex justify-between text-sm">
               <span className="text-muted-foreground">Total</span>
               <span className="font-semibold">₦{price.toFixed(2)}</span>
@@ -346,18 +317,25 @@ export function BookingModal({
           </div>
         )}
 
-        {/* ── Footer ── */}
+        {/* Footer */}
         <div className="pt-1">
           {step === 0 && (
-            <Button
-              className="w-full"
-              disabled={!canProceedStep0}
-              onClick={() => setStep(1)}
-            >
-              Continue
-            </Button>
+            <>
+              <Button
+                className="w-full"
+                disabled={!canProceedStep0}
+                onClick={() => setStep(1)}
+              >
+                Continue
+              </Button>
+              <div className="flex justify-between mt-3 text-xs text-muted-foreground">
+                <span>{duration} min session</span>
+                <span className="font-medium text-foreground">
+                  ₦{price.toFixed(2)}
+                </span>
+              </div>
+            </>
           )}
-
           {step === 1 && (
             <div className="flex gap-2">
               <Button
@@ -384,20 +362,10 @@ export function BookingModal({
               </Button>
             </div>
           )}
-
           {step === 2 && (
             <Button className="w-full" onClick={handleClose}>
               Done
             </Button>
-          )}
-
-          {step === 0 && (
-            <div className="flex justify-between mt-3 text-xs text-muted-foreground">
-              <span>{duration} min session</span>
-              <span className="font-medium text-foreground">
-                ₦{price.toFixed(2)}
-              </span>
-            </div>
           )}
         </div>
       </div>
