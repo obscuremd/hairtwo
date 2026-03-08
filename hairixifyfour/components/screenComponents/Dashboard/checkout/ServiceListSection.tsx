@@ -69,7 +69,7 @@ export function ServiceListSection({
 function ServiceRow({ service }: { service: Service }) {
   const [sheetOpen, setSheetOpen] = useState(false);
 
-  const images = service.Images ?? [];
+  const images = service.images ?? [];
   const hasDiscount = !!service.discount_price;
   const isActive = service.status !== "inactive";
   const isPremium = service.premium === 1;

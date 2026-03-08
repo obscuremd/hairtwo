@@ -12,7 +12,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { BookingStatusBadge } from "./booking-status-badge";
 import { resolveStatus, STATUS_CONFIG } from "./booking.types";
-import type { IBooking } from "./booking.types";
 
 interface BookingDetailDialogProps {
   booking: IBooking | null;
@@ -68,7 +67,11 @@ export function BookingDetailDialog({
               <DialogTitle className="text-base font-semibold leading-snug">
                 {booking.title}
               </DialogTitle>
-              <BookingStatusBadge status={status} pulse className="shrink-0 mt-0.5" />
+              <BookingStatusBadge
+                status={status}
+                pulse
+                className="shrink-0 mt-0.5"
+              />
             </div>
             <DialogDescription className="text-sm text-muted-foreground leading-relaxed">
               {booking.description}

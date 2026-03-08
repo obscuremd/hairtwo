@@ -22,8 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SERVICES } from "./booking.types";
-import type { IBooking, BookingStatus } from "./booking.types";
+import { BookingStatus, SERVICES } from "./booking.types";
 
 interface AddBookingDialogProps {
   open: boolean;
@@ -31,8 +30,7 @@ interface AddBookingDialogProps {
   onAdd: (booking: IBooking) => void;
 }
 
-const toDatetimeLocal = (d: Date) =>
-  format(d, "yyyy-MM-dd'T'HH:mm");
+const toDatetimeLocal = (d: Date) => format(d, "yyyy-MM-dd'T'HH:mm");
 
 export function AddBookingDialog({
   open,
@@ -54,9 +52,10 @@ export function AddBookingDialog({
     userPhone: "",
   });
 
-  const set = (key: keyof typeof form) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => setForm((p) => ({ ...p, [key]: e.target.value }));
+  const set =
+    (key: keyof typeof form) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setForm((p) => ({ ...p, [key]: e.target.value }));
 
   const handleSubmit = () => {
     const service = SERVICES.find((s) => s.id === form.serviceId)!;
@@ -151,7 +150,12 @@ export function AddBookingDialog({
 
           {/* Title */}
           <div className="space-y-1.5">
-            <Label>Title <span className="text-muted-foreground font-normal">(optional)</span></Label>
+            <Label>
+              Title{" "}
+              <span className="text-muted-foreground font-normal">
+                (optional)
+              </span>
+            </Label>
             <Input
               placeholder="Defaults to service name"
               value={form.title}
@@ -181,7 +185,12 @@ export function AddBookingDialog({
 
           {/* Description */}
           <div className="space-y-1.5">
-            <Label>Notes <span className="text-muted-foreground font-normal">(optional)</span></Label>
+            <Label>
+              Notes{" "}
+              <span className="text-muted-foreground font-normal">
+                (optional)
+              </span>
+            </Label>
             <Textarea
               placeholder="Any relevant details about the appointment..."
               value={form.description}
@@ -195,7 +204,9 @@ export function AddBookingDialog({
               Client
             </p>
             <div className="space-y-1.5">
-              <Label>Full name <span className="text-destructive">*</span></Label>
+              <Label>
+                Full name <span className="text-destructive">*</span>
+              </Label>
               <Input
                 placeholder="Jane Smith"
                 value={form.userName}
@@ -204,7 +215,9 @@ export function AddBookingDialog({
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <Label>Email <span className="text-destructive">*</span></Label>
+                <Label>
+                  Email <span className="text-destructive">*</span>
+                </Label>
                 <Input
                   type="email"
                   placeholder="jane@example.com"
