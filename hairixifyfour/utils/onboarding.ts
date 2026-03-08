@@ -43,11 +43,20 @@ export const signIn = async ({
       password,
     });
     console.log("response", response);
-    if (response.data.success) {
-      localStorage.setItem("auth_token", response.data.token);
+    const data = response.data;
+    if (data.success) {
+      const token = data.token.token;
+      const userId = data.token.user.id;
+      const role = data.token.user.userrole?.[0]?.role?.name;
+
+      // store values
+      localStorage.setItem("auth_token", token);
+      localStorage.setItem("user_id", String(userId));
+      localStorage.setItem("role", role);
+
       return {
         success: true,
-        message: response.data?.message || "Sign In successfully!",
+        message: "Sign in successful",
       };
     } else {
       return {

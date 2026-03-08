@@ -4,14 +4,12 @@ import { motion } from "motion/react";
 export function ProductCard({
   image,
   primary_text,
-  secondary_text,
   address,
   description,
   category,
 }: {
   image: string;
   primary_text: string;
-  secondary_text: string;
   category: string;
   description: string;
   address: string;

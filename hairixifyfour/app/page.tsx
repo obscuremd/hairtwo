@@ -1,3 +1,7 @@
+"use client";
+
+import { HomeSkeleton } from "@/components/screenComponents/Main/skeleton";
+import { UseGen } from "@/context/GeneralContext";
 import Article from "@/screens/HomeScreen/Articles";
 import Hero from "@/screens/HomeScreen/Hero";
 import HomeCard4, {
@@ -7,8 +11,37 @@ import HomeCard4, {
 } from "@/screens/HomeScreen/HomeCard";
 import SearchScreen from "@/screens/HomeScreen/SearchScreen";
 import { Recommended } from "@/screens/HomeScreen/Shops";
+import { GetProviders } from "@/utils/providers";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function Home() {
+  const [loading, setLoading] = useState(true); // start true — avoids flash
+  const { setProviders } = UseGen();
+  // NOTE: refreshAuth is intentionally NOT called here — GeneralContext already
+  // calls it on mount via its own useEffect. Calling it again here would cause
+  // a redundant request on every homepage visit.
+
+  useEffect(() => {
+    async function getProviders() {
+      try {
+        const response = await GetProviders();
+        if (response.success === true) {
+          setProviders(response.data);
+        } else {
+          toast.message(response.message);
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+    getProviders();
+  }, []);
+
+  if (loading) {
+    return <HomeSkeleton />;
+  }
+
   return (
     <div className="min-h-screen max-w-full relative">
       <Hero />
@@ -18,10 +51,8 @@ export default function Home() {
       </div>
 
       {/* Cards with background */}
-      <div className="relative ">
-        {/* background */}
+      <div className="relative">
         <div className="absolute inset-x-0 h-[70%] bottom-0 bg-[#F3FAF4] -z-10" />
-
         <div className="w-full p-5 md:p-[42px] md:space-y-[30px]">
           <HomeCard1 />
           <HomeCard2 />

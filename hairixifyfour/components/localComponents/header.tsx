@@ -4,9 +4,17 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { BriefcaseBusiness, Menu, Search, Store, User, X } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  ChevronDown,
+  LogOut,
+  Menu,
+  Search,
+  Store,
+  User,
+  X,
+} from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-
 import {
   jobsDropdownData,
   marketplaceDropdownData,
@@ -15,15 +23,151 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { AnimatePresence, motion, Variants } from "motion/react";
 import { SearchFilters } from "@/screens/HeaderComponents/SearchFilters";
 import { Dropdown } from "@/screens/HeaderComponents/Dropdown";
-import { Dialog, DialogTrigger } from "../ui/dialog";
-import { DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import LoginDialog from "../screenComponents/Auth/LoginDialog";
 import RegisterDialog from "../screenComponents/Auth/RegisterDialog";
+import { UseGen } from "@/context/GeneralContext";
+import { Skeleton } from "../ui/skeleton";
+import { Avatar, getInitials } from "./InitialsAvater";
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+// ─── Auth loading skeletons ───────────────────────────────────────────────────
+
+function AuthSkeleton({ mobile = false }: { mobile?: boolean }) {
+  if (mobile) {
+    // mimics the border pill that wraps login/signup on mobile
+    return (
+      <div className="border-2 rounded-lg border-[#3ad688]/30 inline-flex items-center gap-2 px-3 py-1.5">
+        <Skeleton className="h-4 w-10 bg-white/10" />
+        <Skeleton className="h-7 w-16 rounded-md bg-[#3ad688]/20" />
+      </div>
+    );
+  }
+  // desktop: mimics the profile trigger button shape
+  return (
+    <div className="flex items-center gap-2 rounded-lg border border-[#3ad688]/30 px-2.5 py-1.5">
+      <Skeleton className="size-8 rounded-full bg-[#3ad688]/20" />
+      <Skeleton className="h-3.5 w-16 hidden sm:block bg-white/10" />
+      <Skeleton className="size-3.5 bg-white/10" />
+    </div>
+  );
+}
+
+// ─── Profile dropdown ─────────────────────────────────────────────────────────
+
+function ProfileMenu() {
+  const { authUser, authProvider, logout } = UseGen();
+  const router = useRouter();
+
+  if (!authUser) return null;
+
+  const name = authUser.full_name || authUser.email;
+  const isProvider = authUser.role === "provider";
+
+  function handleLogout() {
+    logout();
+    router.push("/");
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="flex items-center gap-2 rounded-lg border border-[#3ad688] px-2.5 py-1.5 hover:bg-[#ffffff10] transition-colors">
+          <Avatar name={name} />
+          <span className="text-sm text-white font-medium max-w-[100px] truncate hidden sm:block">
+            {name.split(" ")[0]}
+          </span>
+          <ChevronDown className="size-3.5 text-[#3ad688]" />
+        </button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent align="end" className="w-56 mt-1">
+        <DropdownMenuLabel className="flex flex-col gap-0.5">
+          <span className="font-semibold text-sm">{name}</span>
+          <span className="text-xs text-muted-foreground font-normal truncate">
+            {authUser.email}
+          </span>
+          {isProvider && authProvider && (
+            <span className="text-xs text-[#3ad688] font-medium mt-0.5">
+              {authProvider.business_name}
+            </span>
+          )}
+        </DropdownMenuLabel>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem asChild>
+          <Link href="/profile">
+            <User className="size-3.5 mr-2" />
+            My Profile
+          </Link>
+        </DropdownMenuItem>
+
+        {isProvider && (
+          <DropdownMenuItem asChild>
+            <Link href="/dashboard">
+              <Store className="size-3.5 mr-2" />
+              Provider Dashboard
+            </Link>
+          </DropdownMenuItem>
+        )}
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem
+          className="text-destructive focus:text-destructive"
+          onClick={handleLogout}
+        >
+          <LogOut className="size-3.5 mr-2" />
+          Log out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+// ─── Auth buttons ─────────────────────────────────────────────────────────────
+
+function AuthButtons() {
+  return (
+    <div className="border-2 rounded-lg border-[#3ad688] flex space-x-2">
+      <Dialog>
+        <DialogTrigger>
+          <Button
+            variant="ghost"
+            className="text-white font-medium hover:bg-transparent hover:text-muted-foreground"
+          >
+            Login
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <LoginDialog />
+        </DialogContent>
+      </Dialog>
+      <Dialog>
+        <DialogTrigger>
+          <Button className="text-[#003226] bg-[#3ad688] font-medium">
+            Sign up
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <RegisterDialog />
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+// ─── Header ───────────────────────────────────────────────────────────────────
 
 export default function Header() {
   const isMobile = useIsMobile();
@@ -34,8 +178,8 @@ export default function Header() {
     null,
   );
   const showHeader = pathname?.startsWith("/dashboard");
-
   const hideTimeout = useRef<NodeJS.Timeout | null>(null);
+  const { isAuthenticated, authLoading } = UseGen();
 
   const openCategories = () => {
     if (hideTimeout.current) clearTimeout(hideTimeout.current);
@@ -43,53 +187,33 @@ export default function Header() {
   };
 
   const scheduleClose = () => {
-    hideTimeout.current = setTimeout(() => {
-      setShowCategories(false);
-    }, 2000); // 10 seconds
+    hideTimeout.current = setTimeout(() => setShowCategories(false), 2000);
   };
+
   const shouldShowCategories =
     (isMobile && pathname !== "/" && pathname !== "/auth/register") ||
     showCategories;
 
   const getDropdownData = (): dropdownTypes[] => {
-    if (pathname.startsWith("/find-stylist")) {
-      return stylistDropdownData;
-    }
-
-    if (pathname.startsWith("/marketplace")) {
-      return marketplaceDropdownData;
-    }
-
-    if (pathname.startsWith("/jobs")) {
-      return jobsDropdownData;
-    }
-
+    if (pathname.startsWith("/find-stylist")) return stylistDropdownData;
+    if (pathname.startsWith("/marketplace")) return marketplaceDropdownData;
+    if (pathname.startsWith("/jobs")) return jobsDropdownData;
     return [];
   };
 
   const categoryVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      y: -12,
-      pointerEvents: "none",
-    },
+    hidden: { opacity: 0, y: -12, pointerEvents: "none" },
     visible: {
       opacity: 1,
       y: 0,
       pointerEvents: "auto",
-      transition: {
-        duration: 0.25,
-        ease: "easeOut",
-      },
+      transition: { duration: 0.25, ease: "easeOut" },
     },
     exit: {
       opacity: 0,
       y: -12,
       pointerEvents: "none",
-      transition: {
-        duration: 0.2,
-        ease: "easeIn",
-      },
+      transition: { duration: 0.2, ease: "easeIn" },
     },
   };
 
@@ -99,70 +223,48 @@ export default function Header() {
         <div className="w-full mx-auto flex justify-between items-center font-semibold text-[#1CAB70]">
           {/* Logo */}
           <Link href="/" className="text-xl font-bold md:w-36 w-28">
-            <img src={"/Logo.png"} className="md:w-36 w-28 rounded-xl" />
+            <img src="/Logo.png" className="md:w-36 w-28 rounded-xl" />
           </Link>
+
           {/* Desktop Nav */}
           <div className="hidden md:flex justify-between items-center w-full">
             <div className="space-x-10 flex items-center justify-center w-full">
-              <Button
-                variant={"ghost"}
-                onMouseEnter={() => [openCategories(), setType("stylist")]}
-                onMouseLeave={scheduleClose}
-                className="border border-transparent text-white font-medium hover:bg-[#ffffff15] hover:text-[#3ad688] hover:border-[#3ad688] "
-              >
-                Find Stylist
-              </Button>
-
-              <Button
-                variant={"ghost"}
-                onMouseEnter={() => [openCategories(), setType("marketplace")]}
-                onMouseLeave={scheduleClose}
-                className="border border-transparent text-white font-medium hover:bg-[#ffffff15] hover:text-[#3ad688] hover:border-[#3ad688]"
-              >
-                Marketplace
-              </Button>
-              <Button
-                variant={"ghost"}
-                onMouseEnter={() => [openCategories(), setType("jobs")]}
-                onMouseLeave={scheduleClose}
-                className="border border-transparent text-white font-medium hover:bg-[#ffffff15] hover:text-[#3ad688] hover:border-[#3ad688] "
-              >
-                Job Seekers
-              </Button>
+              {(["stylist", "marketplace", "jobs"] as const).map((t) => (
+                <Button
+                  key={t}
+                  variant="ghost"
+                  onMouseEnter={() => {
+                    openCategories();
+                    setType(t);
+                  }}
+                  onMouseLeave={scheduleClose}
+                  className="border border-transparent text-white font-medium hover:bg-[#ffffff15] hover:text-[#3ad688] hover:border-[#3ad688]"
+                >
+                  {t === "stylist"
+                    ? "Find Stylist"
+                    : t === "marketplace"
+                      ? "Marketplace"
+                      : "Job Seekers"}
+                </Button>
+              ))}
             </div>
 
-            <div className="border-2 rounded-lg border-[#3ad688] flex space-x-2">
-              <Dialog>
-                <DialogTrigger>
-                  <Button
-                    variant={"ghost"}
-                    className="text-white font-medium hover:bg-transparent hover:text-muted-foreground"
-                  >
-                    Login{" "}
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <LoginDialog />
-                </DialogContent>
-              </Dialog>
-              <Dialog>
-                <DialogTrigger>
-                  <Button className="text-[#003226] bg-[#3ad688] font-medium">
-                    Sign up
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <RegisterDialog />
-                </DialogContent>
-              </Dialog>
-            </div>
+            {/* Desktop auth — skeleton while loading */}
+            {authLoading ? (
+              <AuthSkeleton />
+            ) : isAuthenticated ? (
+              <ProfileMenu />
+            ) : (
+              <AuthButtons />
+            )}
           </div>
+
           {/* Mobile Menu Toggle */}
           <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
             <DropdownMenuTrigger className="md:hidden">
               <Button
                 className="bg-[#003226] text-[#3ad688]"
-                variant={"secondary"}
+                variant="secondary"
                 onClick={() => setIsOpen(!isOpen)}
               >
                 {isOpen ? (
@@ -173,60 +275,70 @@ export default function Header() {
               </Button>
             </DropdownMenuTrigger>
 
-            {/* Mobile Nav */}
             <DropdownMenuContent className="md:hidden w-screen bg-[#000000dd] border-0">
-              <div className=" px-4 py-3 flex flex-col gap-2 w-full">
+              <div className="px-4 py-3 flex flex-col gap-2 w-full">
                 <Link href="/find-stylist/barbershop">
                   <Button
-                    variant={"ghost"}
+                    variant="ghost"
                     onClick={() => setIsOpen(false)}
-                    className="text-white w-full  font-medium"
+                    className="text-white w-full font-medium"
                   >
                     Find Stylist
                   </Button>
                 </Link>
                 <Link href="/marketplace/hair-styling-accessories">
                   <Button
-                    variant={"ghost"}
+                    variant="ghost"
                     onClick={() => setIsOpen(false)}
-                    className="text-white w-full  font-medium"
+                    className="text-white w-full font-medium"
                   >
                     Marketplace
                   </Button>
                 </Link>
                 <Link href="/jobs/wigs-and-extensions">
                   <Button
-                    variant={"ghost"}
+                    variant="ghost"
                     onClick={() => setIsOpen(false)}
-                    className="text-white w-full  font-medium"
+                    className="text-white w-full font-medium"
                   >
                     Job Seekers
                   </Button>
                 </Link>
-                <div className="mt-10 border-2 rounded-lg border-[#3ad688] w-fit space-x-2 inline-flex self-center">
-                  <Dialog>
-                    <DialogTrigger>
-                      <Button
-                        variant={"ghost"}
-                        className="text-white font-medium hover:bg-transparent hover:text-muted-foreground"
-                      >
-                        Login{" "}
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <LoginDialog />
-                    </DialogContent>
-                  </Dialog>
-                  <Link href="/auth/register">
-                    <Button className="text-[#003226] bg-[#3ad688] font-medium">
-                      Sign up
-                    </Button>
-                  </Link>
+
+                {/* Mobile auth — skeleton while loading */}
+                <div className="mt-6 self-center">
+                  {authLoading ? (
+                    <AuthSkeleton mobile />
+                  ) : isAuthenticated ? (
+                    <ProfileMenu />
+                  ) : (
+                    <div className="border-2 rounded-lg border-[#3ad688] inline-flex space-x-2">
+                      <Dialog>
+                        <DialogTrigger>
+                          <Button
+                            variant="ghost"
+                            className="text-white font-medium hover:bg-transparent hover:text-muted-foreground"
+                          >
+                            Login
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <LoginDialog />
+                        </DialogContent>
+                      </Dialog>
+                      <Link href="/auth/register">
+                        <Button className="text-[#003226] bg-[#3ad688] font-medium">
+                          Sign up
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+
         <AnimatePresence>
           {shouldShowCategories && (
             <motion.div
@@ -236,7 +348,7 @@ export default function Header() {
               exit="exit"
               onMouseEnter={!isMobile ? openCategories : undefined}
               onMouseLeave={!isMobile ? scheduleClose : undefined}
-              className="hidden md:flex md:absolute md:top-full left-0 md:z-9999 w-full justify-center md:rounded-2xl "
+              className="hidden md:flex md:absolute md:top-full left-0 md:z-9999 w-full justify-center md:rounded-2xl"
             >
               <Dropdown
                 data={
@@ -251,8 +363,8 @@ export default function Header() {
           )}
         </AnimatePresence>
       </header>
+
       {pathname !== "/" && <SearchFilters />}
-      {/* mobile */}
       {isMobile && pathname !== "/" && (
         <div className="flex md:hidden">
           <Dropdown data={getDropdownData()} />
@@ -262,52 +374,60 @@ export default function Header() {
   );
 }
 
+// ─── Bottom Tabs ──────────────────────────────────────────────────────────────
+
 export function BottomTabs() {
-  const router = useRouter();
+  const { isAuthenticated, authUser } = UseGen();
 
   return (
     <nav className="w-full bg-zinc-800 px-5 py-2 flex justify-between">
-      {/* Desktop Nav */}
       <Link href="/find-stylist/aesthetics">
-        <Button
-          variant={"ghost"}
-          className="flex flex-col h-fit text-tertiary-c"
-        >
+        <Button variant="ghost" className="flex flex-col h-fit text-tertiary-c">
           <Search />
           Find Stylist
         </Button>
       </Link>
       <Link href="/marketplace/hair-styling-accessories">
-        <Button
-          variant={"ghost"}
-          className="flex flex-col h-fit text-tertiary-c"
-        >
+        <Button variant="ghost" className="flex flex-col h-fit text-tertiary-c">
           <Store />
           Marketplace
         </Button>
       </Link>
       <Link href="/jobs/wigs-and-extensions">
-        <Button
-          variant={"ghost"}
-          className="flex flex-col h-fit text-tertiary-c"
-        >
-          <BriefcaseBusiness /> Jobs
+        <Button variant="ghost" className="flex flex-col h-fit text-tertiary-c">
+          <BriefcaseBusiness />
+          Jobs
         </Button>
       </Link>
-      <Dialog>
-        <DialogTrigger>
+
+      {isAuthenticated && authUser ? (
+        <Link href="/profile">
           <Button
-            variant={"ghost"}
+            variant="ghost"
             className="flex flex-col h-fit text-tertiary-c"
           >
-            <User />
-            Login
+            <div className="size-6 rounded-full bg-[#3ad688] text-[#003226] text-[9px] font-bold flex items-center justify-center">
+              {getInitials(authUser.full_name || authUser.email)}
+            </div>
+            Profile
           </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <LoginDialog />
-        </DialogContent>
-      </Dialog>
+        </Link>
+      ) : (
+        <Dialog>
+          <DialogTrigger>
+            <Button
+              variant="ghost"
+              className="flex flex-col h-fit text-tertiary-c"
+            >
+              <User />
+              Login
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <LoginDialog />
+          </DialogContent>
+        </Dialog>
+      )}
     </nav>
   );
 }

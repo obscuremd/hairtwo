@@ -1,8 +1,5 @@
 import { ArrowUpRight, CalendarIcon, GithubIcon, LinkIcon } from "lucide-react";
-import Link from "next/link";
-import { Suspense } from "react";
-import { Calendar } from "@/features/calendar/calendar";
-import { CalendarSkeleton } from "@/features/calendar/skeletons/calendar-skeleton";
+import { BookingCalendar } from "@/components/screenComponents/Dashboard/appointment/BookingCalender";
 
 export default function Page() {
   return (
@@ -14,9 +11,7 @@ export default function Page() {
           </div>
           <p className="text-3xl font-semibold tracking-tight">Appointments</p>
         </div>
-        <Suspense fallback={<CalendarSkeleton />}>
-          <Calendar />
-        </Suspense>
+        <BookingCalendar />
       </div>
     </main>
   );

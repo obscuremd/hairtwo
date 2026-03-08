@@ -7,8 +7,10 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { recommendedData } from "../../lib/dummyData";
 import { MarketplaceCard } from "@/components/localComponents/marketplaceCard";
+import { UseGen } from "@/context/GeneralContext";
 
 export function Recommended() {
+  const { providers } = UseGen();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollPos, setScrollPos] = useState(0);
 
@@ -63,9 +65,15 @@ export function Recommended() {
         ref={scrollRef}
         className="flex w-full overflow-hidden gap-6 py-4 scroll-smooth"
       >
-        {shopMedia.map((item, idx) => (
-          <Link key={idx} href={`/product/${idx}`}>
-            <ProductCard {...item} />
+        {providers.map((item, idx) => (
+          <Link key={idx} href={`/product/${item.id}`}>
+            <ProductCard
+              address={`${item.local.name}`}
+              category={item.category.slug}
+              primary_text={item.business_name}
+              description={item.address}
+              image=""
+            />
           </Link>
         ))}
       </div>

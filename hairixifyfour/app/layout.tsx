@@ -4,6 +4,7 @@ import { Open_Sans } from "next/font/google";
 import Header, { BottomTabs } from "@/components/localComponents/header";
 import Footer from "@/components/localComponents/footer";
 import { Toaster } from "sonner";
+import { GeneralProvider } from "@/context/GeneralContext";
 
 const OpenSans = Open_Sans({
   subsets: ["latin"],
@@ -23,13 +24,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${OpenSans.className} antialiased relative`}>
-        <Toaster />
-        <Header />
-        {children}
-        <Footer />
-        <div className="fixed -bottom-1 w-full z-50 md:hidden">
-          <BottomTabs />
-        </div>
+        <GeneralProvider>
+          <Toaster />
+          <Header />
+          {children}
+          <Footer />
+          <div className="fixed -bottom-1 w-full z-50 md:hidden">
+            <BottomTabs />
+          </div>
+        </GeneralProvider>
       </body>
     </html>
   );

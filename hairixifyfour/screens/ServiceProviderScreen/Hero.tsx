@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function Hero() {
+export default function Hero({ provider }: { provider: Provider }) {
   const media = [
     "https://images.unsplash.com/photo-1693755807658-17ce5331aacb?q=80&w=1171&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=2070&auto=format&fit=crop",
@@ -13,7 +13,6 @@ export default function Hero() {
     "https://plus.unsplash.com/premium_photo-1723867490491-10519f8ed969?q=80&w=1170&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1559599101-f09722fb4948?q=80&w=1170&auto=format&fit=crop",
   ];
-
   const HERO_INTERVAL = 4000;
 
   const [index, setIndex] = useState(0);
@@ -90,13 +89,13 @@ export default function Hero() {
         {/* TEXT */}
         <div className="absolute bottom-5 left-5 md:left-10 text-white max-w-[90%]">
           <p className="text-xs uppercase tracking-wide text-white/70">
-            Barber
+            {provider.category.slug}
           </p>
           <h1 className="mt-1 text-xl sm:text-2xl md:text-4xl font-bold leading-tight">
-            Jasmyne Naturalle International
+            {provider.business_name}
           </h1>
           <p className="mt-1 text-xs sm:text-sm text-white/80">
-            1, Raji Oba Bus Stop, Alimosho, Lagos
+            {provider.address} , {provider.local.name}
           </p>
         </div>
       </div>

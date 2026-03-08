@@ -4,14 +4,39 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-export default function About() {
-  const latitude = 6.5244;
-  const longitude = 3.3792;
+export default function About({ provider }: { provider: Provider }) {
+  const locationQuery = provider.address
+    ? `${provider.address}, ${provider.local.name}`
+    : provider.local.name;
 
-  const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-  const mapImage = `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=15&size=600x300&markers=color:red%7C${latitude},${longitude}&key=${apiKey}`;
+  const mapImage = `https://maps.googleapis.com/maps/api/staticmap?center=${encodeURIComponent(
+    locationQuery,
+  )}&zoom=15&size=600x300&markers=color:red%7C${encodeURIComponent(
+    locationQuery,
+  )}&key=${apiKey}`;
+
+  const googleMapsUrl = `https://www.google.com/maps?q=${encodeURIComponent(
+    locationQuery,
+  )}`;
+
+  const dayMap: Record<string, string> = {
+    Mon: "Monday",
+    Tue: "Tuesday",
+    Wed: "Wednesday",
+    Thu: "Thursday",
+    Fri: "Friday",
+    Sat: "Saturday",
+    Sun: "Sunday",
+  };
+
+  function formatTime(time: string) {
+    const [hour, minute] = time.split(":").map(Number);
+    const suffix = hour >= 12 ? "PM" : "AM";
+    const formattedHour = hour % 12 || 12;
+    return `${formattedHour}:${minute.toString().padStart(2, "0")} ${suffix}`;
+  }
 
   return (
     <div className=" p-5 md:pr-[48px] md:py-[68px]">
@@ -40,15 +65,19 @@ export default function About() {
           <p className="text-md font-bold md:text-lg">Contact Info</p>
           <div className="text-sm font-medium text-muted-foreground flex items-center gap-2">
             <Phone size={18} />
-            <p>(+234) 903 432 5561</p>
+            <p>{provider.phone_number}</p>
           </div>
           <div className="text-sm font-medium text-muted-foreground flex items-center gap-2">
             <Mail size={18} />
-            <p>zanimashaun65@gmail.com</p>
+            <p>
+              {provider.first_name} {provider.last_name}
+            </p>
           </div>
           <div className="text-sm font-medium text-muted-foreground flex items-center gap-2">
             <MapPin size={18} />
-            <p>1, Raji Oba Bus Stop, Alimosho, Lagos</p>
+            <p>
+              {provider.address} , {provider.local.name}
+            </p>
           </div>
         </div>
 
@@ -90,20 +119,14 @@ export default function About() {
         <div className="space-y-2">
           <p className="text-md font-bold md:text-lg">Business Hours</p>
           <div className="text-sm font-medium text-muted-foreground grid grid-cols-2 gap-5">
-            <p>Sunday</p>
-            <p>10:00 AM - 04:00 AM</p>
-            <p>Monday</p>
-            <p>10:00 AM - 04:00 AM</p>
-            <p>Tuesday</p>
-            <p>10:00 AM - 04:00 AM</p>
-            <p>Wednessday</p>
-            <p>10:00 AM - 04:00 AM</p>
-            <p>Thursday</p>
-            <p>10:00 AM - 04:00 AM</p>
-            <p>Friday</p>
-            <p>10:00 AM - 04:00 AM</p>
-            <p>Saturday</p>
-            <p>10:00 AM - 04:00 AM</p>
+            {provider.business_hours.map((item, index) => (
+              <>
+                <p key={`day-${index}`}>{dayMap[item.day] || item.day}</p>
+                <p key={`time-${index}`}>
+                  {formatTime(item.start)} - {formatTime(item.end)}
+                </p>
+              </>
+            ))}
           </div>
         </div>
         <div className="space-y-2">

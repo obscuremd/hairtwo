@@ -1,20 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // types/provider.ts
-interface Service {
-  id?: number;
-  title: string;
-  price: string;
-  discount_price?: string;
-  duration: string;
-  description: string;
-  recurrence: number;
-  provider?: number;
-  premium?: number;
-  status?: "active" | "inactive";
-  created_at?: string;
-  updated_at?: string;
-  Images?: Array<string>;
-}
 
 interface BusinessHour {
   day: string;
@@ -41,10 +26,4 @@ interface RegistrationPayload {
   live_at: string;
   services: Service[];
   business_hours: BusinessHour[];
-}
-
-interface ApiResponse<T = any> {
-  success: boolean;
-  message: string;
-  data?: T;
 }

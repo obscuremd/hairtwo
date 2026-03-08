@@ -11,12 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 import {
   Calendar,
-  CreditCard,
   Users,
-  Package,
-  Megaphone,
-  Gift,
-  BarChart3,
   UsersRound,
   BookOpen,
   LogOut,
@@ -24,7 +19,6 @@ import {
   DollarSignIcon,
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import {
   Tooltip,
   TooltipContent,
@@ -32,8 +26,19 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { getInitials } from "./InitialsAvater";
+import { UseGen } from "@/context/GeneralContext";
+import { useRouter } from "next/navigation";
 
 export function AppSidebar() {
+  const router = useRouter();
+
+  const { authUser, isAuthenticated, logout } = UseGen();
+  function handleLogout() {
+    logout();
+    router.push("/");
+  }
+
   return (
     <TooltipProvider delayDuration={0}>
       <Sidebar className="bg-black border-r border-neutral-800 w-64 md:w-16">
@@ -41,22 +46,20 @@ export function AppSidebar() {
           {/* ---------- HEADER ---------- */}
           <SidebarHeader className="flex items-center justify-center md:justify-center px-4 py-6 ">
             <TooltipWrapper label="Account">
-              <Link
-                href={"/dashboard/account"}
-                className="flex items-center gap-3 md:gap-0"
-              >
-                <Image
-                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
-                  alt="User avatar"
-                  width={36}
-                  height={36}
-                  className="rounded-lg"
-                />
-                <div className="md:hidden leading-tight">
-                  <p className="text-sm font-medium text-white">Shadcn</p>
-                  <p className="text-xs text-neutral-500">m@example.com</p>
-                </div>
-              </Link>
+              {isAuthenticated && authUser && (
+                <Link
+                  href={"/dashboard/account"}
+                  className="flex items-center gap-3 md:gap-0"
+                >
+                  <div className="size-8 rounded-full bg-[#3ad688] text-[#003226] text-[9px] font-bold flex items-center justify-center">
+                    {getInitials(authUser.full_name || authUser.email)}
+                  </div>
+                  <div className="md:hidden leading-tight">
+                    <p className="text-sm font-medium text-white">Shadcn</p>
+                    <p className="text-xs text-neutral-500">m@example.com</p>
+                  </div>
+                </Link>
+              )}
             </TooltipWrapper>
           </SidebarHeader>
           <div className="bg-white/30 h-[0.2px] w-[70%] self-center" />
@@ -93,7 +96,13 @@ export function AppSidebar() {
               icon={BookOpen}
               label="Resources"
             />
-            <NavItem href="/logout" icon={LogOut} label="Log out" danger />
+            <NavItem
+              href="/"
+              onClick={handleLogout}
+              icon={LogOut}
+              label="Log out"
+              danger
+            />
           </SidebarFooter>
         </SidebarContent>
       </Sidebar>
@@ -110,14 +119,17 @@ function NavItem({
   icon: Icon,
   label,
   danger,
+  onClick,
 }: {
   href: string;
   icon: React.ElementType;
   label: string;
   danger?: boolean;
+  onClick?: () => void;
 }) {
   const content = (
     <SidebarMenuButton
+      onClick={onClick}
       asChild
       className={cn(
         "h-10 px-3 rounded-lg flex items-center gap-3 transition-colors",
