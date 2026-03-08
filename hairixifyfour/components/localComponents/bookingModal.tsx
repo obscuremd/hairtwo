@@ -341,7 +341,7 @@ export function BookingModal({
             {/* Price receipt */}
             <div className="w-full rounded-lg border bg-muted/30 px-4 py-3 flex justify-between text-sm">
               <span className="text-muted-foreground">Total</span>
-              <span className="font-semibold">${price.toFixed(2)}</span>
+              <span className="font-semibold">₦{price.toFixed(2)}</span>
             </div>
           </div>
         )}
@@ -395,7 +395,7 @@ export function BookingModal({
             <div className="flex justify-between mt-3 text-xs text-muted-foreground">
               <span>{duration} min session</span>
               <span className="font-medium text-foreground">
-                ${price.toFixed(2)}
+                ₦{price.toFixed(2)}
               </span>
             </div>
           )}

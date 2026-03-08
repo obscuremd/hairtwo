@@ -196,13 +196,13 @@ function ServiceList({
                                       : "text-lg font-semibold"
                                   }
                                 >
-                                  {price === 0 ? "Free" : `$${price}`}
+                                  {price === 0 ? "Free" : `₦${price}`}
                                 </p>
                                 {discountedPrice !== undefined && (
                                   <p className="text-lg font-semibold">
                                     {discountedPrice === 0
                                       ? "Free"
-                                      : `$${discountedPrice}`}
+                                      : `₦${discountedPrice}`}
                                   </p>
                                 )}
                               </div>
