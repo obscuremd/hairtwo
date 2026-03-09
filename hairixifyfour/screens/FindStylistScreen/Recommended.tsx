@@ -5,7 +5,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useRef, useState } from "react";
 
-export function Recommended({ category }: { category: string }) {
+export function Recommended({
+  category,
+  providers,
+}: {
+  category: string;
+  providers: Provider[];
+}) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollPos, setScrollPos] = useState(0);
 
@@ -60,9 +66,18 @@ export function Recommended({ category }: { category: string }) {
         ref={scrollRef}
         className="flex w-full overflow-hidden gap-6 py-4 scroll-smooth"
       >
-        {shopMedia.map((item, idx) => (
-          <Link key={idx} href={`/product/${idx}`}>
-            <ProductCard {...item} />
+        {providers.map((item, idx) => (
+          <Link key={idx} href={`/product/${item.id}`}>
+            <ProductCard
+              address={`${item.local.name}`}
+              category={item.category.slug}
+              primary_text={item.business_name}
+              description={item.address}
+              image={
+                `https://api5.project.hairxify.com/${item.user.gallery?.[0]?.image}` ||
+                "https://images.unsplash.com/photo-1667021836621-ef302544b61f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8ZW1wdHklMjBpbWFnZXxlbnwwfHwwfHx8MA%3D%3D"
+              }
+            />
           </Link>
         ))}
       </div>
