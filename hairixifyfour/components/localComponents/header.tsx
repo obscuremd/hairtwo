@@ -62,7 +62,7 @@ function subsToDropdown(subs: SubCat[], basePath: string): dropdownTypes[] {
   return subs.map((s) => ({
     title: s.name,
     description: undefined,
-    icon: <PercentCircle />,
+    icon: <PercentCircle className="w-12 h-12" />,
     href: `${basePath}/${s.slug}`,
   }));
 }
