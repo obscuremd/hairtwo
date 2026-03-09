@@ -153,7 +153,7 @@ export default function RegistrationFlow() {
   const [dataLoading, setDataLoading] = useState(true);
 
   /* Form */
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(3);
   const [submitting, setSubmitting] = useState(false);
 
   const [payload, setPayload] = useState<RegistrationPayload>({
@@ -550,41 +550,51 @@ function BusinessCategory({ setStep, payload, update, categories }: StepProps) {
       title="Choose your business category"
       description="Select the category that best represents the services you offer. This helps clients discover you more easily."
     >
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[30vh] overflow-y-auto">
-        {categories.map((item) => {
-          const isSelected = payload.sub_category === item.id;
-          return (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => update({ sub_category: item.id })}
-              className={`group relative flex items-start gap-4 rounded-xl border p-4 text-left transition-all duration-200 ${
-                isSelected
-                  ? "border-primary-c bg-primary-c/5"
-                  : "border-gray-200 bg-white hover:border-gray-300"
-              }`}
-            >
-              <div
-                className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${isSelected ? "border-primary-c bg-primary-c" : "border-gray-300"}`}
-              >
-                {isSelected && (
-                  <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                )}
-              </div>
-              <div>
-                <p
-                  className={`text-sm font-semibold leading-tight ${isSelected ? "text-secondary-c" : "text-gray-800"}`}
-                >
+      <div className="space-y-4 max-h-[30vh] overflow-y-auto">
+        {/* Main Category Select (does nothing for now) */}
+        <div className="space-y-1">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-400">
+            Category
+          </p>
+
+          <Select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select category" />
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectItem value="provider">Provider</SelectItem>
+              <SelectItem value="vendor">Vendor</SelectItem>
+              <SelectItem value="employer">Employer</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Sub Category Select */}
+        <div className="space-y-1">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-400">
+            Sub Category
+          </p>
+
+          <Select
+            value={payload.sub_category?.toString()}
+            onValueChange={(val) => update({ sub_category: Number(val) })}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select sub category" />
+            </SelectTrigger>
+
+            <SelectContent>
+              {categories.map((item) => (
+                <SelectItem key={item.id} value={item.id.toString()}>
                   {item.name}
-                </p>
-                <p className="text-xs text-gray-400 mt-0.5 capitalize">
-                  {item.slug?.replace(/-/g, " ")}
-                </p>
-              </div>
-            </button>
-          );
-        })}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
+
       <Nav onNext={handleNext} onBack={() => setStep((s) => s - 1)} />
     </StepWrapper>
   );
@@ -835,20 +845,6 @@ function TeamSize({ setStep, payload, update }: StepProps) {
    ============================================================ */
 
 function BusinessHours({ setStep, payload, update }: StepProps) {
-  const to12HourFormat = (time24: string) => {
-    if (!time24) return "";
-
-    const [hourStr, minute] = time24.split(":");
-    let hour = parseInt(hourStr, 10);
-
-    hour = hour % 12;
-    hour = hour === 0 ? 12 : hour; // 0 becomes 12
-
-    const formattedHour = hour.toString().padStart(2, "0");
-
-    return `${formattedHour}:${minute}`;
-  };
-
   const days = [
     { full: "Sunday", short: "Sun" },
     { full: "Monday", short: "Mon" },
@@ -886,8 +882,8 @@ function BusinessHours({ setStep, payload, update }: StepProps) {
       .filter((d) => nextEnabled[d.short])
       .map((d) => ({
         day: d.short,
-        start: to12HourFormat(nextTimes[d.short].start),
-        end: to12HourFormat(nextTimes[d.short].end),
+        start: nextTimes[d.short].start,
+        end: nextTimes[d.short].end,
       }));
     update({ business_hours: hours });
   };
