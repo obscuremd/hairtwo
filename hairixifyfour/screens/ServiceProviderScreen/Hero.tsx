@@ -6,13 +6,19 @@ import { useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Hero({ provider }: { provider: Provider }) {
-  const media = [
-    "https://images.unsplash.com/photo-1693755807658-17ce5331aacb?q=80&w=1171&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=2070&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?q=80&w=1170&auto=format&fit=crop",
-    "https://plus.unsplash.com/premium_photo-1723867490491-10519f8ed969?q=80&w=1170&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1559599101-f09722fb4948?q=80&w=1170&auto=format&fit=crop",
-  ];
+  const BASE_IMAGE_URL = "https://api5.project.hairxify.com";
+
+  const media = useMemo(() => {
+    const galleryImages = provider.user.gallery?.map((g) => g.image) ?? [];
+
+    if (galleryImages.length === 0) {
+      return [
+        "https://images.unsplash.com/photo-1559599101-f09722fb4948?q=80&w=1170&auto=format&fit=crop",
+      ];
+    }
+
+    return galleryImages;
+  }, [provider]);
   const HERO_INTERVAL = 4000;
 
   const [index, setIndex] = useState(0);
@@ -76,7 +82,7 @@ export default function Hero({ provider }: { provider: Provider }) {
             className="absolute inset-0"
           >
             <Image
-              src={media[index]}
+              src={`${BASE_IMAGE_URL}/${media[index]}`}
               alt={`hero-${index}`}
               fill
               className="object-cover"
@@ -140,7 +146,12 @@ export default function Hero({ provider }: { provider: Provider }) {
                     : "opacity-70 hover:opacity-100"
                 }`}
               >
-                <Image src={item} alt="" fill className="object-cover" />
+                <Image
+                  src={`${BASE_IMAGE_URL}/${item}`}
+                  alt=""
+                  fill
+                  className="object-cover"
+                />
               </button>
             ))}
           </motion.div>

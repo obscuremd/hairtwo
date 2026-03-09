@@ -163,11 +163,12 @@ function ProfileMenu() {
 // ─── Auth buttons ─────────────────────────────────────────────────────────────
 
 function AuthButtons() {
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+  const [RegisterDialogOpen, setRegisterDialogOpen] = useState(false);
 
   return (
     <div className="border-2 rounded-lg border-[#3ad688] flex space-x-2">
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <Dialog open={loginDialogOpen} onOpenChange={setLoginDialogOpen}>
         <DialogTrigger>
           <Button
             variant="ghost"
@@ -177,17 +178,17 @@ function AuthButtons() {
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <LoginDialog setDialogOpen={setDialogOpen} />
+          <LoginDialog setDialogOpen={setLoginDialogOpen} />
         </DialogContent>
       </Dialog>
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <Dialog open={RegisterDialogOpen} onOpenChange={setRegisterDialogOpen}>
         <DialogTrigger>
           <Button className="text-[#003226] bg-[#3ad688] font-medium">
             Sign up
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <RegisterDialog setDialogOpen={setDialogOpen} />
+          <RegisterDialog setDialogOpen={setRegisterDialogOpen} />
         </DialogContent>
       </Dialog>
     </div>

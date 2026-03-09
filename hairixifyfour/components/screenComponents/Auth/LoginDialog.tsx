@@ -44,9 +44,7 @@ export default function LoginDialog({
     if (result.success) {
       toast.success(result.message || "Signed in successfully!");
       setDialogOpen(false);
-      setTimeout(() => {
-        router.push("/profile");
-      }, 2000);
+      window.location.reload();
     } else {
       toast.error(result.message || "Sign in failed. Please try again.");
     }
