@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,17 +9,13 @@ import {
   ChevronDown,
   LogOut,
   Menu,
+  PercentCircle,
   Search,
   Store,
   User,
   X,
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import {
-  jobsDropdownData,
-  marketplaceDropdownData,
-  stylistDropdownData,
-} from "@/lib/dummyData";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,13 +34,43 @@ import { UseGen } from "@/context/GeneralContext";
 import { Skeleton } from "../ui/skeleton";
 import { Avatar, getInitials } from "./InitialsAvater";
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+interface SubCat {
+  id: number;
+  name: string;
+  slug: string;
+  icon: string;
+  status: string;
+  cat: number;
+}
+
+interface Cat {
+  id: number;
+  name: string;
+  slug: string; // "provider" | "vendor" | "employer"
+  subs: SubCat[];
+}
+
+const SLUG_TO_PATH: Record<string, string> = {
+  provider: "/find-stylist",
+  vendor: "/marketplace",
+  employer: "/jobs",
+};
+
+function subsToDropdown(subs: SubCat[], basePath: string): dropdownTypes[] {
+  return subs.map((s) => ({
+    title: s.name,
+    description: undefined,
+    icon: <PercentCircle />,
+    href: `${basePath}/${s.slug}`,
+  }));
+}
 
 // ─── Auth loading skeletons ───────────────────────────────────────────────────
 
 function AuthSkeleton({ mobile = false }: { mobile?: boolean }) {
   if (mobile) {
-    // mimics the border pill that wraps login/signup on mobile
     return (
       <div className="border-2 rounded-lg border-[#3ad688]/30 inline-flex items-center gap-2 px-3 py-1.5">
         <Skeleton className="h-4 w-10 bg-white/10" />
@@ -52,7 +78,6 @@ function AuthSkeleton({ mobile = false }: { mobile?: boolean }) {
       </div>
     );
   }
-  // desktop: mimics the profile trigger button shape
   return (
     <div className="flex items-center gap-2 rounded-lg border border-[#3ad688]/30 px-2.5 py-1.5">
       <Skeleton className="size-8 rounded-full bg-[#3ad688]/20" />
@@ -174,16 +199,29 @@ function AuthButtons() {
 export default function Header() {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState();
-
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const pathname = usePathname();
   const [showCategories, setShowCategories] = useState(false);
-  const [type, setType] = useState<"stylist" | "marketplace" | "jobs" | null>(
+  const [type, setType] = useState<"provider" | "vendor" | "employer" | null>(
     null,
   );
   const showHeader = pathname?.startsWith("/dashboard");
   const hideTimeout = useRef<NodeJS.Timeout | null>(null);
   const { isAuthenticated, authLoading } = UseGen();
+
+  // ── Fetch real categories ─────────────────────────────────────────────────
+  const [cats, setCats] = useState<Cat[]>([]);
+
+  useEffect(() => {
+    fetch("/api/cats")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success) setCats(d.cat);
+      })
+      .catch(() => {
+        /* fall back to empty silently */
+      });
+  }, []);
 
   const openCategories = () => {
     if (hideTimeout.current) clearTimeout(hideTimeout.current);
@@ -199,10 +237,19 @@ export default function Header() {
     showCategories;
 
   const getDropdownData = (): dropdownTypes[] => {
-    if (pathname.startsWith("/find-stylist")) return stylistDropdownData;
-    if (pathname.startsWith("/marketplace")) return marketplaceDropdownData;
-    if (pathname.startsWith("/jobs")) return jobsDropdownData;
-    return [];
+    // While hovering a nav button, use the active type
+    const slug =
+      type ??
+      (pathname.startsWith("/find-stylist")
+        ? "provider"
+        : pathname.startsWith("/marketplace")
+          ? "vendor"
+          : pathname.startsWith("/jobs")
+            ? "employer"
+            : null);
+    if (!slug) return [];
+    const cat = cats.find((c) => c.slug === slug);
+    return cat ? subsToDropdown(cat.subs, SLUG_TO_PATH[slug]) : [];
   };
 
   const categoryVariants: Variants = {
@@ -233,7 +280,7 @@ export default function Header() {
           {/* Desktop Nav */}
           <div className="hidden md:flex justify-between items-center w-full">
             <div className="space-x-10 flex items-center justify-center w-full">
-              {(["stylist", "marketplace", "jobs"] as const).map((t) => (
+              {(["provider", "vendor", "employer"] as const).map((t) => (
                 <Button
                   key={t}
                   variant="ghost"
@@ -244,9 +291,9 @@ export default function Header() {
                   onMouseLeave={scheduleClose}
                   className="border border-transparent text-white font-medium hover:bg-[#ffffff15] hover:text-[#3ad688] hover:border-[#3ad688]"
                 >
-                  {t === "stylist"
+                  {t === "provider"
                     ? "Find Stylist"
-                    : t === "marketplace"
+                    : t === "vendor"
                       ? "Marketplace"
                       : "Job Seekers"}
                 </Button>
@@ -281,33 +328,42 @@ export default function Header() {
 
             <DropdownMenuContent className="md:hidden w-screen bg-[#000000dd] border-0">
               <div className="px-4 py-3 flex flex-col gap-2 w-full">
-                <Link href="/find-stylist/barbershop">
-                  <Button
-                    variant="ghost"
-                    onClick={() => setIsOpen(false)}
-                    className="text-white w-full font-medium"
-                  >
-                    Find Stylist
-                  </Button>
-                </Link>
-                <Link href="/marketplace/hair-styling-accessories">
-                  <Button
-                    variant="ghost"
-                    onClick={() => setIsOpen(false)}
-                    className="text-white w-full font-medium"
-                  >
-                    Marketplace
-                  </Button>
-                </Link>
-                <Link href="/jobs/wigs-and-extensions">
-                  <Button
-                    variant="ghost"
-                    onClick={() => setIsOpen(false)}
-                    className="text-white w-full font-medium"
-                  >
-                    Job Seekers
-                  </Button>
-                </Link>
+                {(
+                  [
+                    {
+                      slug: "provider",
+                      label: "Find Stylist",
+                      fallback: "/find-stylist/barbershop",
+                    },
+                    {
+                      slug: "vendor",
+                      label: "Marketplace",
+                      fallback: "/marketplace/hair-styling-accessories",
+                    },
+                    {
+                      slug: "employer",
+                      label: "Job Seekers",
+                      fallback: "/jobs/wigs-and-extensions",
+                    },
+                  ] as const
+                ).map(({ slug, label, fallback }) => {
+                  const cat = cats.find((c) => c.slug === slug);
+                  const href =
+                    cat && cat.subs.length > 0
+                      ? `${SLUG_TO_PATH[slug]}/${cat.subs[0].slug}`
+                      : fallback;
+                  return (
+                    <Link key={slug} href={href}>
+                      <Button
+                        variant="ghost"
+                        onClick={() => setIsOpen(false)}
+                        className="text-white w-full font-medium"
+                      >
+                        {label}
+                      </Button>
+                    </Link>
+                  );
+                })}
 
                 {/* Mobile auth — skeleton while loading */}
                 <div className="mt-6 self-center">
@@ -317,10 +373,7 @@ export default function Header() {
                     <ProfileMenu />
                   ) : (
                     <div className="border-2 rounded-lg border-[#3ad688] inline-flex space-x-2">
-                      <Dialog
-                        open={dialogOpen}
-                        onOpenChange={() => setDialogOpen}
-                      >
+                      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                         <DialogTrigger>
                           <Button
                             variant="ghost"
@@ -330,7 +383,7 @@ export default function Header() {
                           </Button>
                         </DialogTrigger>
                         <DialogContent>
-                          <LoginDialog setDialogOpen={() => setDialogOpen} />
+                          <LoginDialog setDialogOpen={setDialogOpen} />
                         </DialogContent>
                       </Dialog>
                       <Link href="/auth/register">
@@ -357,15 +410,7 @@ export default function Header() {
               onMouseLeave={!isMobile ? scheduleClose : undefined}
               className="hidden md:flex md:absolute md:top-full left-0 md:z-9999 w-full justify-center md:rounded-2xl"
             >
-              <Dropdown
-                data={
-                  type === "stylist"
-                    ? stylistDropdownData
-                    : type === "marketplace"
-                      ? marketplaceDropdownData
-                      : jobsDropdownData
-                }
-              />
+              <Dropdown data={getDropdownData()} />
             </motion.div>
           )}
         </AnimatePresence>

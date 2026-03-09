@@ -8,7 +8,7 @@ import Reviews from "@/screens/FindStylistScreen/Reviews";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
-export default function Page() {
+export default function CategoryPage() {
   const { category } = useParams<{ category: string }>();
 
   const data = CATEGORY_DATA[category as keyof typeof CATEGORY_DATA];

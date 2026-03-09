@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import { ImagePlus, Loader2, Upload, X, CheckCircle2 } from "lucide-react";
-import axios, { AxiosError } from "axios";
 import {
   Dialog,
   DialogContent,
@@ -11,10 +10,8 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { uploadImage } from "@/utils/upload";
 import { getStoredCredentials } from "@/utils/providers";
-
-const BASE_URL = "https://api5.project.hairxify.com/api";
-const ACCESS_KEY = process.env.NEXT_PUBLIC_ACCESS_PASS_KEY ?? "";
 
 interface EditGalleryDialogProps {
   open: boolean;
@@ -70,65 +67,45 @@ export function EditGalleryDialog({
     const { token } = getStoredCredentials();
     setError(null);
 
+    // ── Step 1: Upload the asset via utility function ────────────────────────
+    setUploadState("uploading");
+    const uploadResult = await uploadImage(file, `providers/${providerId}`);
+
+    if (!uploadResult.success || !uploadResult.imagePath) {
+      setError(uploadResult.message);
+      setUploadState("error");
+      return;
+    }
+
+    // ── Step 2: Register the image path in the gallery ───────────────────────
+    setUploadState("posting");
     try {
-      // ── Step 1: Upload asset file ────────────────────────────────────────────
-      setUploadState("uploading");
-
-      const formData = new FormData();
-      formData.append("images[1]", file);
-      formData.append("size", "1");
-      formData.append("path", `services/${providerId}`);
-      formData.append("type[0]", file.type);
-
-      const uploadRes = await axios.post<{ images: Record<string, string> }>(
-        `${BASE_URL}/uploadassets`,
-        formData,
-        {
-          headers: {
-            "ACCESS-PASS-KEY": ACCESS_KEY,
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-            // Do NOT set Content-Type — axios sets it with the correct boundary
-          },
+      const res = await fetch("/api/gallery", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
-
-      // The response is { images: { "1": "images1/services/..." } }
-      const imagePath = uploadRes.data?.images?.["1"];
-      if (!imagePath)
-        throw new Error("Upload succeeded but no image path returned");
-
-      // ── Step 2: Register in gallery ──────────────────────────────────────────
-      setUploadState("posting");
-
-      await axios.post(
-        `${BASE_URL}/gallery`,
-        {
+        body: JSON.stringify({
           type: "provider",
           type_id: providerId,
           type_type: "gallery",
-          image: imagePath,
-        },
-        {
-          headers: {
-            "ACCESS-PASS-KEY": ACCESS_KEY,
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        },
-      );
+          image: uploadResult.imagePath,
+        }),
+      });
+
+      const data: { success: boolean; message?: string } = await res.json();
+
+      if (!res.ok || !data.success) {
+        setError(data.message ?? "Failed to save image to gallery");
+        setUploadState("error");
+        return;
+      }
 
       setUploadState("done");
       onUploaded?.();
-    } catch (err) {
-      const e = err as AxiosError<{ message?: string; error?: string }>;
-      setError(
-        e.response?.data?.message ||
-          e.response?.data?.error ||
-          e.message ||
-          "Upload failed. Please try again.",
-      );
+    } catch {
+      setError("Network error while saving to gallery. Please try again.");
       setUploadState("error");
     }
   }
@@ -160,7 +137,6 @@ export function EditGalleryDialog({
 
         <div className="p-5 space-y-4">
           {uploadState === "done" ? (
-            /* ── Success state ── */
             <div className="flex flex-col items-center gap-4 py-6 text-center">
               <div className="flex size-14 items-center justify-center rounded-full bg-emerald-50">
                 <CheckCircle2 className="size-7 text-emerald-600" />
@@ -177,7 +153,7 @@ export function EditGalleryDialog({
             </div>
           ) : (
             <>
-              {/* ── Drop zone / preview ── */}
+              {/* Drop zone / preview */}
               {preview ? (
                 <div className="relative rounded-xl overflow-hidden border">
                   <img
@@ -188,7 +164,7 @@ export function EditGalleryDialog({
                   <button
                     onClick={clearFile}
                     disabled={isLoading}
-                    className="absolute top-2 right-2 size-7 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80 transition-colors"
+                    className="absolute top-2 right-2 size-7 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80 transition-colors disabled:opacity-50"
                   >
                     <X className="size-3.5" />
                   </button>
@@ -228,7 +204,7 @@ export function EditGalleryDialog({
                 onChange={handleFileChange}
               />
 
-              {/* ── Upload progress label ── */}
+              {/* Progress label */}
               {isLoading && (
                 <p className="text-xs text-muted-foreground text-center">
                   {uploadState === "uploading"
@@ -237,12 +213,12 @@ export function EditGalleryDialog({
                 </p>
               )}
 
-              {/* ── Error ── */}
+              {/* Error */}
               {error && (
                 <p className="text-xs text-destructive text-center">{error}</p>
               )}
 
-              {/* ── Actions ── */}
+              {/* Actions */}
               <div className="flex gap-2 pt-1">
                 <Button
                   variant="outline"

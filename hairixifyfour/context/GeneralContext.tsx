@@ -20,6 +20,8 @@ import {
 interface GeneralProps {
   providers: Provider[];
   setProviders: Dispatch<SetStateAction<Provider[]>>;
+  categories: Category[];
+  setCategories: Dispatch<SetStateAction<Category[]>>;
 
   authUser: AuthUser | null;
   authProvider: Provider | null;
@@ -36,6 +38,7 @@ const GeneralContext = createContext<GeneralProps | undefined>(undefined);
 
 export function GeneralProvider({ children }: PropsWithChildren) {
   const [providers, setProviders] = useState<Provider[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
   const [authProvider, setAuthProvider] = useState<Provider | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
@@ -79,6 +82,8 @@ export function GeneralProvider({ children }: PropsWithChildren) {
       value={{
         providers,
         setProviders,
+        categories,
+        setCategories,
         authUser,
         authProvider,
         isAuthenticated: !!authUser,

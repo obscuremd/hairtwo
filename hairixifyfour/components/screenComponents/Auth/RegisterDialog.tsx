@@ -86,7 +86,7 @@ export default function RegisterDialog({
                 onClick={handleReroute}
                 className=" text-xs font-medium  w-full"
               >
-                Are you a service provider? Set up a business →
+                Sign Up for Business
               </Button>
             </DialogHeader>
 

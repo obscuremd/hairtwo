@@ -153,7 +153,7 @@ export default function RegistrationFlow() {
   const [dataLoading, setDataLoading] = useState(true);
 
   /* Form */
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
 
   const [payload, setPayload] = useState<RegistrationPayload>({
