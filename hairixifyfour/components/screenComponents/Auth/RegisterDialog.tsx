@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   DialogHeader,
@@ -19,7 +19,11 @@ import { Eye, EyeClosed, Mail, User, Lock, Check, Circle } from "iconoir-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function RegisterDialog() {
+export default function RegisterDialog({
+  setDialogOpen,
+}: {
+  setDialogOpen: Dispatch<SetStateAction<boolean>>;
+}) {
   const router = useRouter();
 
   const [step, setStep] = useState<"register" | "otp">("register");
@@ -50,9 +54,15 @@ export default function RegisterDialog() {
     }, 1200);
   };
 
+  const handleReroute = () => {
+    router.push("/auth/register");
+    setDialogOpen(false);
+  };
+
   return (
     <div className="w-full p-1">
       <AnimatePresence mode="wait">
+        {/* ── REGISTER STEP ─────────────────────────────────────── */}
         {/* ── REGISTER STEP ─────────────────────────────────────── */}
         {step === "register" && (
           <motion.div
@@ -62,17 +72,25 @@ export default function RegisterDialog() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
           >
-            <DialogHeader className="mb-6">
+            <DialogHeader className="mb-8">
               <DialogTitle className="text-xl font-bold text-gray-900">
                 Create an account
               </DialogTitle>
-              <DialogDescription className="text-sm text-gray-400 mt-1">
+
+              <DialogDescription className="text-sm text-gray-400 ">
                 Join Hairxify to discover and book top beauty professionals near
                 you.
               </DialogDescription>
+
+              <Button
+                onClick={handleReroute}
+                className=" text-xs font-medium  w-full"
+              >
+                Are you a service provider? Set up a business →
+              </Button>
             </DialogHeader>
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               {/* Name row */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
@@ -87,10 +105,11 @@ export default function RegisterDialog() {
                       onChange={(e) =>
                         setForm({ ...form, firstName: e.target.value })
                       }
-                      className="h-10 pl-9 "
+                      className="h-10 pl-9"
                     />
                   </div>
                 </div>
+
                 <div className="space-y-1.5">
                   <Label className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                     Last name
@@ -142,7 +161,7 @@ export default function RegisterDialog() {
                     onChange={(e) =>
                       setForm({ ...form, password: e.target.value })
                     }
-                    className="h-10 pl-9 pr-10  "
+                    className="h-10 pl-9 pr-10"
                   />
                   <button
                     type="button"
@@ -157,30 +176,11 @@ export default function RegisterDialog() {
                     )}
                   </button>
                 </div>
-                {/* Strength hint */}
-                {form.password.length > 0 && (
-                  <div className="flex gap-1 pt-1">
-                    {[1, 2, 3, 4].map((level) => (
-                      <div
-                        key={level}
-                        className={`h-0.5 flex-1 rounded-full transition-colors duration-300 ${
-                          form.password.length >= level * 2
-                            ? level <= 2
-                              ? "bg-red-400"
-                              : level === 3
-                                ? "bg-yellow-400"
-                                : "bg-primary-c"
-                            : "bg-gray-200"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                )}
               </div>
 
               {/* CTA */}
               <Button
-                className="w-full h-10 rounded-lg bg-primary-c hover:bg-secondary-c text-white font-semibold text-sm border-0 transition-colors mt-2"
+                className="w-full h-11 rounded-lg bg-primary-c hover:bg-secondary-c text-white font-semibold text-sm border-0 transition-colors"
                 onClick={handleRegister}
                 disabled={loading}
               >
@@ -193,24 +193,6 @@ export default function RegisterDialog() {
                   "Create account"
                 )}
               </Button>
-
-              {/* Divider */}
-              <div className="flex items-center gap-3 py-1">
-                <div className="flex-1 h-px bg-gray-100" />
-                <span className="text-[11px] text-gray-400 font-medium">
-                  Are you a service provider?{" "}
-                </span>
-                <div className="flex-1 h-px bg-gray-100" />
-              </div>
-
-              <p className="text-xs text-gray-400 text-center">
-                <Link
-                  href="/auth/register"
-                  className="text-primary-c font-medium hover:text-secondary-c transition-colors underline-offset-2 hover:underline"
-                >
-                  Set up a business
-                </Link>
-              </p>
             </div>
           </motion.div>
         )}

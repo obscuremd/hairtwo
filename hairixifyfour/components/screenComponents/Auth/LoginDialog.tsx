@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   DialogHeader,
@@ -14,7 +14,11 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { signIn } from "@/utils/onboarding";
 
-export default function LoginDialog() {
+export default function LoginDialog({
+  setDialogOpen,
+}: {
+  setDialogOpen: Dispatch<SetStateAction<boolean>>;
+}) {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -39,7 +43,10 @@ export default function LoginDialog() {
 
     if (result.success) {
       toast.success(result.message || "Signed in successfully!");
-      router.push("/profile");
+      setDialogOpen(false);
+      setTimeout(() => {
+        router.push("/profile");
+      }, 2000);
     } else {
       toast.error(result.message || "Sign in failed. Please try again.");
     }

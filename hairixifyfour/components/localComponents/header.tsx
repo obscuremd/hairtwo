@@ -138,9 +138,11 @@ function ProfileMenu() {
 // ─── Auth buttons ─────────────────────────────────────────────────────────────
 
 function AuthButtons() {
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   return (
     <div className="border-2 rounded-lg border-[#3ad688] flex space-x-2">
-      <Dialog>
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger>
           <Button
             variant="ghost"
@@ -150,17 +152,17 @@ function AuthButtons() {
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <LoginDialog />
+          <LoginDialog setDialogOpen={setDialogOpen} />
         </DialogContent>
       </Dialog>
-      <Dialog>
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger>
           <Button className="text-[#003226] bg-[#3ad688] font-medium">
             Sign up
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <RegisterDialog />
+          <RegisterDialog setDialogOpen={setDialogOpen} />
         </DialogContent>
       </Dialog>
     </div>
@@ -172,6 +174,8 @@ function AuthButtons() {
 export default function Header() {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState();
+
   const pathname = usePathname();
   const [showCategories, setShowCategories] = useState(false);
   const [type, setType] = useState<"stylist" | "marketplace" | "jobs" | null>(
@@ -313,7 +317,10 @@ export default function Header() {
                     <ProfileMenu />
                   ) : (
                     <div className="border-2 rounded-lg border-[#3ad688] inline-flex space-x-2">
-                      <Dialog>
+                      <Dialog
+                        open={dialogOpen}
+                        onOpenChange={() => setDialogOpen}
+                      >
                         <DialogTrigger>
                           <Button
                             variant="ghost"
@@ -323,7 +330,7 @@ export default function Header() {
                           </Button>
                         </DialogTrigger>
                         <DialogContent>
-                          <LoginDialog />
+                          <LoginDialog setDialogOpen={() => setDialogOpen} />
                         </DialogContent>
                       </Dialog>
                       <Link href="/auth/register">
@@ -378,6 +385,7 @@ export default function Header() {
 
 export function BottomTabs() {
   const { isAuthenticated, authUser } = UseGen();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
     <nav className="w-full bg-zinc-800 px-5 py-2 flex justify-between">
@@ -413,7 +421,7 @@ export function BottomTabs() {
           </Button>
         </Link>
       ) : (
-        <Dialog>
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger>
             <Button
               variant="ghost"
@@ -424,7 +432,7 @@ export function BottomTabs() {
             </Button>
           </DialogTrigger>
           <DialogContent>
-            <LoginDialog />
+            <LoginDialog setDialogOpen={setDialogOpen} />
           </DialogContent>
         </Dialog>
       )}

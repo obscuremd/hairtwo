@@ -24,6 +24,7 @@ export const onboardProvider = async (
       success: false,
       message:
         axiosError.response?.data?.message ||
+        axiosError.response?.data?.errors ||
         axiosError.response?.data?.error ||
         axiosError.message ||
         "Something went wrong. Please try again.",
