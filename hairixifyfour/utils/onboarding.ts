@@ -9,6 +9,7 @@ export const onboardProvider = async (
 ): Promise<ApiResponse> => {
   try {
     const response = await axios.post("/api/onboarding", payload);
+    console.log("onboarding res:", response);
 
     return {
       success: true,
