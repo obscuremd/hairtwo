@@ -19,8 +19,6 @@ export default function LoginDialog({
 }: {
   setDialogOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  const router = useRouter();
-
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 

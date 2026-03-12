@@ -6,7 +6,7 @@
 //   const result = await uploadImage(file, "services/3");
 //   if (result.success) console.log(result.imagePath);
 
-import { getStoredCredentials } from "@/utils/providers";
+import { getStoredCredentials } from "./user";
 
 interface UploadImageResult {
   success: boolean;
@@ -34,7 +34,6 @@ export async function uploadImage(
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
-        // Do NOT set Content-Type — browser sets it with the correct multipart boundary
       },
       body: formData,
     });

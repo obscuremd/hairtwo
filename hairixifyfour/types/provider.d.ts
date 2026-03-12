@@ -47,9 +47,9 @@ interface User {
   id: number;
   full_name: string;
   email: string;
-  email_verified_at: string | null;
-  status: string;
-  phone_number: string | null;
+  // email_verified_at: string | null;
+  // status: string;
+  // phone_number: string | null;
   gallery: Gallery[];
 
   created_at: string;
@@ -59,14 +59,44 @@ interface AuthUser {
   id: number;
   full_name: string;
   email: string;
-  phone_number: string | null;
-  status: string;
-  role: string; // "provider" | "client" | etc.
+  roles: Array<string>; // "provider" | "client" | etc.
 }
 
+interface AuthProvider {
+  id: number;
+  first_name: string;
+  last_name: string;
+  business_name: string;
+  phone_number: string;
+  address: string;
+
+  state: stateData;
+  local: localData;
+  area: areaData;
+
+  category: Category;
+
+  service_type: number;
+  team_size: number;
+
+  live_at: string;
+  status: string;
+
+  user: User;
+
+  business_hours: BusinessHour[];
+
+  created_at: string;
+  updated_at: string;
+}
+
+interface GetAuthUserResponse {
+  success: boolean;
+  message: string;
+  user?: AuthUser;
+}
 interface GetAuthProviderResponse {
   success: boolean;
   message: string;
-  provider?: Provider;
-  user?: AuthUser;
+  user?: AuthProvider;
 }

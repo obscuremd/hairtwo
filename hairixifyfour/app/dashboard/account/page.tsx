@@ -11,12 +11,14 @@ import {
   Check,
   X,
   User,
+  Maximize2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UseGen } from "@/context/GeneralContext";
 import { EditGalleryDialog } from "@/components/screenComponents/Dashboard/profile/EditGalleryDialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const BASE_IMAGE_URL = "https://api5.project.hairxify.com";
 
@@ -221,72 +223,149 @@ function BusinessInfoSection({ provider }: { provider: Provider }) {
 
 // ─── Gallery ──────────────────────────────────────────────────────────────────
 
-function GallerySection({
+export function GallerySection({
   gallery,
   onEdit,
 }: {
   gallery: Gallery[];
   onEdit: () => void;
 }) {
+  const [activeImage, setActiveImage] = useState<string | null>(null);
+  const [openAll, setOpenAll] = useState(false);
+
   const hasImages = gallery.length > 0;
 
+  const previewImages = gallery.slice(0, 5);
+  const remainingCount = gallery.length - 5;
+
   return (
-    <div className="p-4 border-b-2 border-gray-200">
-      <div className="flex items-center justify-between mb-3">
+    <div className="p-4 border-b-2 border-gray-200 space-y-3">
+      {/* Header */}
+      <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold text-[#003225]">Gallery</h2>
+
         <Button
           size="sm"
           variant="outline"
           onClick={onEdit}
-          className="border-[#003225] text-[#003225] hover:bg-[#003225] hover:text-white h-7 text-xs"
+          className="border-[#003225] text-[#003225] hover:bg-[#003225] hover:text-white h-8 text-xs"
         >
-          <Edit className="w-3 h-3 mr-1" /> Add Photo
+          <Edit className="w-3 h-3 mr-1" />
+          Add Photo
         </Button>
       </div>
 
+      {/* Empty */}
       {!hasImages ? (
         <div
           onClick={onEdit}
-          className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gray-200 h-36 cursor-pointer hover:border-[#3ad688]/40 transition-colors"
+          className="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-200 h-32 cursor-pointer hover:border-[#3ad688]/40 transition"
         >
           <p className="text-sm text-gray-400">No photos yet</p>
           <p className="text-xs text-gray-300">
-            Click &quot;Add Photo&quot; to get started
+            Click &quot;Add Photo&quot; to upload
           </p>
         </div>
       ) : (
-        <div className="flex flex-col md:flex-row gap-2">
-          {/* First two as large banners */}
-          {gallery.slice(0, 2).map((img, i) => (
-            <div
-              key={img.id}
-              className="flex-1 h-36 overflow-hidden rounded-sm"
-            >
-              <img
-                src={`${BASE_IMAGE_URL}/${img.image}`}
-                alt={`Gallery ${i + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ))}
-          {/* Rest as grid */}
-          {gallery.length > 2 && (
-            <div className="grid grid-cols-2 gap-2">
-              {gallery.slice(2, 6).map((img, i) => (
+        <>
+          {/* Facebook style grid */}
+          <div className="grid grid-cols-3 grid-rows-2 gap-2 h-52 overflow-hidden rounded-md">
+            {previewImages.map((img, index) => {
+              const imageUrl = `${BASE_IMAGE_URL}/${img.image}`;
+
+              return (
                 <div
                   key={img.id}
-                  className="h-[68px] overflow-hidden rounded-sm"
+                  onClick={() => setActiveImage(imageUrl)}
+                  className={`
+                    relative cursor-pointer overflow-hidden group
+                    ${index === 0 ? "col-span-2 row-span-2" : ""}
+                  `}
                 >
                   <img
-                    src={`${BASE_IMAGE_URL}/${img.image}`}
-                    alt={`Gallery ${i + 3}`}
-                    className="w-full h-full object-cover"
+                    src={imageUrl}
+                    alt="Gallery"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
+
+                  {/* overlay */}
+                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                    <Maximize2 className="w-5 h-5 text-white" />
+                  </div>
+
+                  {/* view more */}
+                  {index === 4 && remainingCount > 0 && (
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpenAll(true);
+                      }}
+                      className="absolute inset-0 bg-black/60 flex items-center justify-center text-white text-sm font-semibold"
+                    >
+                      +{remainingCount} more
+                    </div>
+                  )}
                 </div>
-              ))}
+              );
+            })}
+          </div>
+
+          {/* View all button */}
+          {gallery.length > 5 && (
+            <div className="flex justify-center pt-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setOpenAll(true)}
+                className="text-xs text-[#003225]"
+              >
+                View all photos
+              </Button>
             </div>
           )}
-        </div>
+
+          {/* Single image preview */}
+          <Dialog
+            open={!!activeImage}
+            onOpenChange={() => setActiveImage(null)}
+          >
+            <DialogContent className="max-w-3xl p-0 overflow-hidden">
+              {activeImage && (
+                <img
+                  src={activeImage}
+                  alt="Preview"
+                  className="w-full h-full object-contain"
+                />
+              )}
+            </DialogContent>
+          </Dialog>
+
+          {/* All images dialog */}
+          <Dialog open={openAll} onOpenChange={setOpenAll}>
+            <DialogContent className="max-w-4xl">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                {gallery.map((img) => {
+                  const url = `${BASE_IMAGE_URL}/${img.image}`;
+                  return (
+                    <div
+                      key={img.id}
+                      className="aspect-square overflow-hidden rounded-md cursor-pointer"
+                      onClick={() => {
+                        setActiveImage(url);
+                        setOpenAll(false);
+                      }}
+                    >
+                      <img
+                        src={url}
+                        className="w-full h-full object-cover hover:scale-105 transition"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </DialogContent>
+          </Dialog>
+        </>
       )}
     </div>
   );

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { uploadImage } from "@/utils/upload";
-import { getStoredCredentials } from "@/utils/providers";
+import { getStoredCredentials } from "@/utils/user";
 
 interface EditGalleryDialogProps {
   open: boolean;
@@ -87,8 +87,6 @@ export function EditGalleryDialog({
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          type: "provider",
-          type_id: providerId,
           type_type: "gallery",
           image: uploadResult.imagePath,
         }),

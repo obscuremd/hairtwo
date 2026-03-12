@@ -55,8 +55,7 @@ function InfoRow({
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function ProfilePage() {
-  const { authUser, authProvider, isAuthenticated, authLoading, logout } =
-    UseGen();
+  const { authUser, isAuthenticated, authLoading, logout } = UseGen();
   const router = useRouter();
 
   function handleLogout() {
@@ -93,7 +92,7 @@ export default function ProfilePage() {
     return null;
   }
 
-  const isProvider = authUser.role === "provider";
+  const isProvider = authUser.roles.includes("provider");
   const name = authUser.full_name || authUser.email;
   const initials = getInitials(name);
 
@@ -117,15 +116,6 @@ export default function ProfilePage() {
               <Shield className="size-3" />
               {isProvider ? "Provider" : "Client"}
             </span>
-            <span
-              className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                authUser.status === "active"
-                  ? "bg-emerald-50 text-emerald-700"
-                  : "bg-muted text-muted-foreground"
-              }`}
-            >
-              {authUser.status}
-            </span>
           </div>
         </div>
       </div>
@@ -137,96 +127,20 @@ export default function ProfilePage() {
         </p>
         <div className="space-y-4">
           <InfoRow icon={Mail} label="Email" value={authUser.email} />
-          <InfoRow icon={Phone} label="Phone" value={authUser.phone_number} />
         </div>
       </div>
 
       {/* ── Provider section ── */}
-      {isProvider && authProvider && (
-        <>
-          <Separator />
-          <div className="space-y-4">
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              Business
-            </p>
-            <div className="space-y-4">
-              <InfoRow
-                icon={Building2}
-                label="Business name"
-                value={authProvider.business_name}
-              />
-              <InfoRow
-                icon={MapPin}
-                label="Address"
-                value={[
-                  authProvider.address,
-                  authProvider.area?.name,
-                  authProvider.local?.name,
-                  authProvider.state?.name,
-                ]
-                  .filter(Boolean)
-                  .join(", ")}
-              />
-              <InfoRow
-                icon={Users}
-                label="Team size"
-                value={`${authProvider.team_size} members`}
-              />
-              <InfoRow
-                icon={Calendar}
-                label="Live since"
-                value={
-                  authProvider.live_at
-                    ? new Date(authProvider.live_at).toLocaleDateString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        },
-                      )
-                    : null
-                }
-              />
-              {authProvider.business_hours?.length > 0 && (
-                <div className="flex items-start gap-3">
-                  <div className="size-8 rounded-lg bg-muted flex items-center justify-center shrink-0 mt-0.5">
-                    <Clock className="size-4 text-muted-foreground" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-1.5">
-                      Business hours
-                    </p>
-                    <div className="space-y-1">
-                      {authProvider.business_hours.map((h) => (
-                        <div
-                          key={h.day}
-                          className="flex items-center gap-3 text-sm"
-                        >
-                          <span className="w-8 font-medium text-foreground">
-                            {h.day}
-                          </span>
-                          <span className="text-muted-foreground">
-                            {h.start} – {h.end}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
 
-          {/* Dashboard link */}
-          <Button
-            className="w-full bg-secondary-c gap-2"
-            onClick={() => router.push("/dashboard")}
-          >
-            <ExternalLink className="size-4" />
-            Go to Provider Dashboard
-          </Button>
-        </>
+      {/* Dashboard link */}
+      {isProvider && (
+        <Button
+          className="w-full bg-secondary-c gap-2"
+          onClick={() => router.push("/dashboard/account")}
+        >
+          <ExternalLink className="size-4" />
+          Go to Provider Dashboard
+        </Button>
       )}
 
       <Separator />

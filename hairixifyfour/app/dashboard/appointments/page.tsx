@@ -1,4 +1,4 @@
-import { ArrowUpRight, CalendarIcon, GithubIcon, LinkIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { BookingCalendar } from "@/components/screenComponents/Dashboard/appointment/BookingCalender";
 
 export default function Page() {

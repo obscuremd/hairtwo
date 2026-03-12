@@ -49,7 +49,7 @@ export default function CheckoutPage() {
     if (!providerId) return;
     setTransactionsLoading(true);
     setTransactionsError(null);
-    const result = await GetBookedSlots(providerId, new Date());
+    const result = await GetBookedSlots(new Date());
     if (result.success && result.bookings) {
       setBookings(
         [...result.bookings].sort(

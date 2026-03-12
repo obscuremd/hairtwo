@@ -1,24 +1,22 @@
 import axios from "axios";
 import { NextResponse } from "next/server";
 
-const API_URL = "https://api5.project.hairxify.com/api/providers";
+const API_URL = "https://api5.project.hairxify.com/api/me";
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const userId = searchParams.get("userId");
   const token = request.headers.get("Authorization");
 
-  if (!userId || !token) {
+  if (!token) {
     return NextResponse.json(
-      { success: false, message: "Missing userId or token" },
+      { success: false, message: "Missing token" },
       { status: 400 },
     );
   }
 
   try {
-    const response = await axios.get(`${API_URL}/${userId}`, {
+    const response = await axios.get(API_URL, {
       headers: {
-        Authorization: token, // "Bearer <token>"
+        Authorization: token,
         "ACCESS-PASS-KEY": process.env.ACCESS_PASS_KEY!,
         Accept: "application/json",
       },

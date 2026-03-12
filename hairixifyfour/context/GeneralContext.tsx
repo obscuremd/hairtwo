@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  clearCredentials,
-  GetAuthProvider,
-  isLoggedIn,
-} from "@/utils/providers";
+import { clearCredentials, GetAuthUser, isLoggedIn } from "@/utils/user";
 import {
   createContext,
   PropsWithChildren,
@@ -24,7 +20,8 @@ interface GeneralProps {
   setCategories: Dispatch<SetStateAction<Category[]>>;
 
   authUser: AuthUser | null;
-  authProvider: Provider | null;
+  authProvider: AuthProvider | null;
+  setAuthProvider: Dispatch<SetStateAction<AuthProvider | null>>;
   isAuthenticated: boolean;
   authLoading: boolean;
 
@@ -40,32 +37,27 @@ export function GeneralProvider({ children }: PropsWithChildren) {
   const [providers, setProviders] = useState<Provider[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
-  const [authProvider, setAuthProvider] = useState<Provider | null>(null);
+  const [authProvider, setAuthProvider] = useState<AuthProvider | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
 
   async function refreshAuth() {
     if (!isLoggedIn()) {
       setAuthUser(null);
-      setAuthProvider(null);
       setAuthLoading(false);
       return;
     }
 
     setAuthLoading(true);
-    const result = await GetAuthProvider();
+    const result = await GetAuthUser();
 
     if (result.success) {
       setAuthUser(result.user ?? null);
-      setAuthProvider(result.provider ?? null);
     } else {
       setAuthUser(null);
-      setAuthProvider(null);
     }
     setAuthLoading(false);
   }
 
-  // ← This was the missing piece — call refreshAuth on mount so the header
-  //   knows auth state without depending on the homepage to trigger it
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     refreshAuth();
@@ -86,6 +78,7 @@ export function GeneralProvider({ children }: PropsWithChildren) {
         setCategories,
         authUser,
         authProvider,
+        setAuthProvider,
         isAuthenticated: !!authUser,
         authLoading,
         refreshAuth,

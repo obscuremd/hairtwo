@@ -94,9 +94,10 @@ function ProfileMenu() {
   const router = useRouter();
 
   if (!authUser) return null;
+  console.log("profile user", authUser);
 
-  const name = authUser.full_name || authUser.email;
-  const isProvider = authUser.role === "provider";
+  const name = authUser.full_name || authUser.email || "user";
+  const isProvider = authUser?.roles?.includes("provider");
 
   function handleLogout() {
     logout();
@@ -461,7 +462,7 @@ export function BottomTabs() {
             className="flex flex-col h-fit text-tertiary-c"
           >
             <div className="size-6 rounded-full bg-[#3ad688] text-[#003226] text-[9px] font-bold flex items-center justify-center">
-              {getInitials(authUser.full_name || authUser.email)}
+              {getInitials(authUser.full_name || authUser.email || "user")}
             </div>
             Profile
           </Button>

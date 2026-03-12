@@ -2,9 +2,13 @@
 // types/provider.ts
 
 interface BusinessHour {
+  id?: number;
   day: string;
   start: string;
   end: string;
+  provider?: number;
+  created_at?: string;
+  updated_at?: string;
 }
 
 interface RegistrationPayload {

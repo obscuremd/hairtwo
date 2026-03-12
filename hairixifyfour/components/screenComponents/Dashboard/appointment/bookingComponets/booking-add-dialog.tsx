@@ -140,7 +140,7 @@ export function AddBookingDialog({
   useEffect(() => {
     if (!providerId || !date) return;
     async function fetch() {
-      const result = await GetBookedSlots(providerId, date ?? new Date());
+      const result = await GetBookedSlots(date ?? new Date());
       if (result.success && result.data) setExistingBookings(result.data);
     }
     fetch();

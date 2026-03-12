@@ -28,7 +28,6 @@ import { BookingDayViewDialog } from "./bookingComponets/booking-day-view-dialog
 import { BookingDetailDialog } from "./bookingComponets/booking-detail-dialog";
 import { AddBookingDialog } from "./bookingComponets/booking-add-dialog";
 import { GetBookedSlots } from "@/utils/booking";
-import { UseGen } from "@/context/GeneralContext";
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const STATUS_ORDER: BookingStatus[] = [
@@ -56,9 +55,6 @@ function CalendarSkeleton() {
 }
 
 export function BookingCalendar() {
-  const { authProvider } = UseGen();
-  const providerId = String(authProvider?.id ?? "");
-
   const [currentDate, setCurrentDate] = useState(new Date());
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const [loading, setLoading] = useState(true);
@@ -71,10 +67,11 @@ export function BookingCalendar() {
   const [addOpen, setAddOpen] = useState(false);
 
   const fetchBookings = useCallback(async () => {
-    if (!providerId) return;
     setLoading(true);
     setError(null);
-    const result = await GetBookedSlots(providerId, currentDate);
+    // GetBookedSlots now takes only the month — provider identity comes from the auth token
+    const result = await GetBookedSlots(currentDate);
+    console.log("fetching:::::", result);
     if (result.success && result.bookings) {
       setBookings(result.bookings);
     } else {
@@ -82,9 +79,10 @@ export function BookingCalendar() {
       toast.error(result.message);
     }
     setLoading(false);
-  }, [providerId, currentDate]);
+  }, [currentDate]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchBookings();
   }, [fetchBookings]);
 
@@ -246,7 +244,6 @@ export function BookingCalendar() {
         }}
       />
 
-      {/* AddBookingDialog handles its own refresh — no onAdd needed */}
       <AddBookingDialog open={addOpen} onOpenChange={setAddOpen} />
     </>
   );

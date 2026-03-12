@@ -69,9 +69,7 @@ export default function About({ provider }: { provider: Provider }) {
           </div>
           <div className="text-sm font-medium text-muted-foreground flex items-center gap-2">
             <Mail size={18} />
-            <p>
-              {provider.first_name} {provider.last_name}
-            </p>
+            <p>{provider.user.email}</p>
           </div>
           <div className="text-sm font-medium text-muted-foreground flex items-center gap-2">
             <MapPin size={18} />
