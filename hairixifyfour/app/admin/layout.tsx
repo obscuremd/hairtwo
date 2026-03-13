@@ -1,5 +1,5 @@
 "use client";
-import { AppSidebar } from "@/components/screenComponents/Dashboard/AppSidebar";
+import { AppSidebar } from "@/components/screenComponents/Admin/AppSidebar";
 import { DashboardSkeleton } from "@/components/screenComponents/Dashboard/skeleton";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { UseGen } from "@/context/GeneralContext";
@@ -13,30 +13,30 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { setAuthProvider } = UseGen();
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  // const { setAuthProvider } = UseGen();
+  // const [loading, setLoading] = useState(false);
+  // const router = useRouter();
 
-  async function validateProvider() {
-    try {
-      const response = await GetAuthProvider();
-      if (response.success && response.user) {
-        setAuthProvider(response.user);
-      } else {
-        toast.message("Unauthorized");
-        router.push("/");
-      }
-    } finally {
-      setLoading(false);
-    }
-  }
-  useEffect(() => {
-    validateProvider();
-  }, []);
+  // async function validateProvider() {
+  //   try {
+  //     const response = await GetAuthProvider();
+  //     if (response.success && response.user) {
+  //       setAuthProvider(response.user);
+  //     } else {
+  //       toast.message("Unauthorized");
+  //       router.push("/");
+  //     }
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
+  // useEffect(() => {
+  //   validateProvider();
+  // }, []);
 
-  if (loading) {
-    return <DashboardSkeleton />;
-  }
+  // if (loading) {
+  //   return <DashboardSkeleton />;
+  // }
 
   return (
     <SidebarProvider className="relative w-full flex ">

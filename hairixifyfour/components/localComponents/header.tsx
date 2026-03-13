@@ -53,7 +53,7 @@ interface Cat {
 }
 
 const SLUG_TO_PATH: Record<string, string> = {
-  provider: "/find-stylist",
+  provider: "/stylists/find-stylist",
   vendor: "/marketplace",
   employer: "/jobs",
 };
@@ -207,7 +207,8 @@ export default function Header() {
   const [type, setType] = useState<"provider" | "vendor" | "employer" | null>(
     null,
   );
-  const showHeader = pathname?.startsWith("/dashboard");
+  const showHeader =
+    pathname?.startsWith("/dashboard") || pathname?.startsWith("/admin");
   const hideTimeout = useRef<NodeJS.Timeout | null>(null);
   const { isAuthenticated, authLoading } = UseGen();
 
@@ -242,7 +243,7 @@ export default function Header() {
     // While hovering a nav button, use the active type
     const slug =
       type ??
-      (pathname.startsWith("/find-stylist")
+      (pathname.startsWith("/stylists")
         ? "provider"
         : pathname.startsWith("/marketplace")
           ? "vendor"
@@ -335,7 +336,7 @@ export default function Header() {
                     {
                       slug: "provider",
                       label: "Find Stylist",
-                      fallback: "/find-stylist/barbershop",
+                      fallback: "/stylists/find-stylist/barbershop",
                     },
                     {
                       slug: "vendor",

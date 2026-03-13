@@ -26,9 +26,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { getInitials } from "./InitialsAvater";
 import { UseGen } from "@/context/GeneralContext";
 import { useRouter } from "next/navigation";
+import { getInitials } from "@/components/localComponents/InitialsAvater";
 
 export function AppSidebar() {
   const router = useRouter();
@@ -68,22 +68,16 @@ export function AppSidebar() {
           <div className="flex-1 flex items-center justify-center">
             <SidebarMenu className="flex flex-col gap-2 px-2">
               <NavItem href="/dashboard/" icon={Home} label="Home" />
-              <NavItem
-                href="/dashboard/appointments"
-                icon={Calendar}
-                label="Appointments"
-              />
-              <NavItem
-                href="/dashboard/transactions"
-                icon={DollarSignIcon}
-                label="Transactions"
-              />
-              <NavItem href="/dashboard/clients" icon={Users} label="Clients" />
 
               <NavItem
-                href="/dashboard/staff"
+                href="/admin/users"
                 icon={UsersRound}
-                label="Staff Management"
+                label="User Management"
+              />
+              <NavItem
+                href="/admin/interface"
+                icon={UsersRound}
+                label="User Interface"
               />
             </SidebarMenu>
           </div>

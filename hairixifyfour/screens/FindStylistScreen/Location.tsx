@@ -18,7 +18,7 @@ export default function Location({ category }: { category: string }) {
           <Link
             className="w-full"
             key={idx}
-            href={`/find-stylist/${category}/${data}`}
+            href={`/stylists/find-stylist/${category}/${data}`}
           >
             <button className="w-full bg-white py-4 px-4 rounded-lg border-2 hover:border-primary-c hover:text-primary-c text-sm md:text-md font-medium transition text-start">
               {category} in {data}
