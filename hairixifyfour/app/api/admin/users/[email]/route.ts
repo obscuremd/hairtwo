@@ -22,10 +22,10 @@ const ACCESS_KEY = process.env.ACCESS_PASS_KEY ?? "";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { email: string } },
+  context: { params: Promise<{ email: string }> },
 ) {
   const authHeader = request.headers.get("authorization") ?? "";
-  const email = decodeURIComponent(params.email);
+  const { email } = await context.params;
 
   try {
     const res = await fetch(`${API_BASE}/${encodeURIComponent(email)}`, {
@@ -60,10 +60,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { email: string } },
+  context: { params: Promise<{ email: string }> },
 ) {
   const authHeader = request.headers.get("authorization") ?? "";
-  const email = decodeURIComponent(params.email);
+  const { email } = await context.params;
 
   try {
     const body = await request.json();
