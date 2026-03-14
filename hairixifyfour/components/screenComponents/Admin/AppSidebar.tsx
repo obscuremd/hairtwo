@@ -17,6 +17,7 @@ import {
   LogOut,
   Home,
   DollarSignIcon,
+  LayoutTemplate,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -75,9 +76,9 @@ export function AppSidebar() {
                 label="User Management"
               />
               <NavItem
-                href="/admin/interface"
-                icon={UsersRound}
-                label="User Interface"
+                href="/admin/site-editor"
+                icon={LayoutTemplate}
+                label="Site Editor"
               />
             </SidebarMenu>
           </div>
