@@ -4,7 +4,16 @@
 // components/screenComponents/Admin/user/role-views/ProviderRoleView.tsx
 // ─────────────────────────────────────────────
 
-import { CheckCircle, ShieldOff, Star } from "lucide-react";
+import {
+  Briefcase,
+  CheckCircle,
+  Clock,
+  MapPin,
+  Phone,
+  ShieldOff,
+  Star,
+  Users,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { InfoCard } from "../InfoCard";
@@ -24,6 +33,14 @@ const SERVICE_STATUS_STYLES: Record<ServiceStatus, string> = {
   paused: "bg-amber-50 text-amber-700 border-amber-200",
   inactive: "bg-gray-100 text-gray-500 border-gray-200",
 };
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 
 export function ProviderRoleView({ user, onAction }: ProviderRoleViewProps) {
   const p = user.provider;
@@ -55,29 +72,25 @@ export function ProviderRoleView({ user, onAction }: ProviderRoleViewProps) {
 
   return (
     <div className="space-y-4">
-      {/* Overview */}
+      {/* ── Provider overview ─────────────────── */}
       <InfoCard
         title="Provider Profile"
-        subtitle={p.category}
+        subtitle="From provider record"
         action={BlockBtn}
       >
-        <div className="flex items-start gap-5">
-          <div className="flex-1 min-w-0">
-            <p className="font-semibold text-t-primary">{p.businessName}</p>
-            <p className="text-sm text-t-secondary mt-1.5 leading-relaxed">
-              {p.bio}
-            </p>
-          </div>
-          <div className="flex flex-col items-end gap-2 shrink-0">
-            <div className="flex items-center gap-1.5 text-amber-500">
-              <Star size={14} className="fill-amber-400" />
-              <span className="font-semibold text-sm text-t-primary">
-                {p.rating}
-              </span>
+        <div className="space-y-4">
+          {/* Business name + status */}
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div>
+              <p className="font-semibold text-t-primary text-base">
+                {p.businessName}
+              </p>
+              {p.bio && (
+                <p className="text-sm text-t-secondary mt-1 leading-relaxed">
+                  {p.bio}
+                </p>
+              )}
             </div>
-            <p className="text-[11px] text-t-secondary">
-              {p.totalReviews} reviews
-            </p>
             <Badge
               variant="outline"
               className={
@@ -86,67 +99,151 @@ export function ProviderRoleView({ user, onAction }: ProviderRoleViewProps) {
                   : "bg-amber-50 text-amber-700 border-amber-200 text-[11px]"
               }
             >
-              {p.verified ? "Verified" : "Unverified"}
+              {p.verified ? "Provider Active" : "Provider Inactive"}
             </Badge>
+          </div>
+
+          {/* Provider detail grid — real API fields */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-3 border-t border-gray-100">
+            <MetaField
+              icon={<Phone size={13} />}
+              label="Business Phone"
+              value={p.phone || "—"}
+            />
+            <MetaField
+              icon={<MapPin size={13} />}
+              label="Address"
+              value={p.address || "—"}
+            />
+            <MetaField
+              icon={<Users size={13} />}
+              label="Team Size"
+              value={String(p.teamSize)}
+            />
+            <MetaField
+              icon={<Briefcase size={13} />}
+              label="Service Type"
+              value={String(p.serviceType)}
+            />
+            <MetaField
+              icon={<Clock size={13} />}
+              label="Live Since"
+              value={formatDate(p.liveAt)}
+            />
+            <MetaField
+              icon={<Star size={13} />}
+              label="Category ID"
+              value={p.category}
+            />
           </div>
         </div>
       </InfoCard>
 
-      {/* Services */}
-      <InfoCard title="Services" subtitle={`${p.services.length} listed`}>
-        <div className="space-y-2">
-          {p.services.map((service) => (
-            <div
-              key={service.id}
-              className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-gray-50 border border-gray-100"
-            >
-              <div>
-                <p className="text-sm text-t-primary font-medium">
-                  {service.name}
-                </p>
-                <p className="text-xs text-t-secondary mt-0.5">
-                  {service.duration}
-                </p>
+      {/* ── Services — not yet in API ─────────── */}
+      <InfoCard
+        title="Services"
+        subtitle={
+          p.services.length > 0
+            ? `${p.services.length} listed`
+            : "Not yet available from API"
+        }
+      >
+        {p.services.length > 0 ? (
+          <div className="space-y-2">
+            {p.services.map((service) => (
+              <div
+                key={service.id}
+                className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-gray-50 border border-gray-100"
+              >
+                <div>
+                  <p className="text-sm text-t-primary font-medium">
+                    {service.name}
+                  </p>
+                  <p className="text-xs text-t-secondary mt-0.5">
+                    {service.duration}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-semibold text-t-primary">
+                    ${service.price}
+                  </span>
+                  <Badge
+                    variant="outline"
+                    className={`text-[11px] capitalize ${
+                      SERVICE_STATUS_STYLES[service.status]
+                    }`}
+                  >
+                    {service.status.charAt(0).toUpperCase() +
+                      service.status.slice(1)}
+                  </Badge>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-semibold text-t-primary">
-                  ${service.price}
-                </span>
-                <Badge
-                  variant="outline"
-                  className={`text-[11px] capitalize ${SERVICE_STATUS_STYLES[service.status]}`}
-                >
-                  {service.status.charAt(0).toUpperCase() +
-                    service.status.slice(1)}
-                </Badge>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-gray-400 text-center py-6">
+            Services data will appear here once the provider services endpoint
+            is available.
+          </p>
+        )}
       </InfoCard>
 
-      {/* Business Hours */}
-      <InfoCard title="Business Hours">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {p.businessHours.map((bh) => (
-            <div
-              key={bh.day}
-              className="flex items-center justify-between py-2 px-3 rounded-lg bg-gray-50 border border-gray-100"
-            >
-              <span className="text-sm text-t-secondary w-24 shrink-0">
-                {bh.day}
-              </span>
-              {bh.available ? (
-                <span className="text-sm text-t-primary font-medium">
-                  {bh.open} – {bh.close}
+      {/* ── Business Hours — not yet in API ──── */}
+      <InfoCard
+        title="Business Hours"
+        subtitle={
+          p.businessHours.length > 0 ? undefined : "Not yet available from API"
+        }
+      >
+        {p.businessHours.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {p.businessHours.map((bh) => (
+              <div
+                key={bh.day}
+                className="flex items-center justify-between py-2 px-3 rounded-lg bg-gray-50 border border-gray-100"
+              >
+                <span className="text-sm text-t-secondary w-24 shrink-0">
+                  {bh.day}
                 </span>
-              ) : (
-                <span className="text-sm text-gray-400 italic">Closed</span>
-              )}
-            </div>
-          ))}
-        </div>
+                {bh.available ? (
+                  <span className="text-sm text-t-primary font-medium">
+                    {bh.open} – {bh.close}
+                  </span>
+                ) : (
+                  <span className="text-sm text-gray-400 italic">Closed</span>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-gray-400 text-center py-6">
+            Business hours data will appear here once the business hours
+            endpoint is available.
+          </p>
+        )}
       </InfoCard>
+    </div>
+  );
+}
+
+// ─── Small meta field ─────────────────────────
+
+function MetaField({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div>
+      <div className="flex items-center gap-1.5 text-[11px] text-t-secondary mb-1">
+        {icon}
+        {label}
+      </div>
+      <p className="text-sm text-t-primary font-medium truncate">{value}</p>
     </div>
   );
 }

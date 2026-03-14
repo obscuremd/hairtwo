@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RoleBadge } from "./RoleBadge";
 import { UserRowMenu } from "./UserRowMenu";
-import { User, UserRole } from "./types";
+import { STATUS_STYLES, STATUS_DOT, User, UserRole } from "./types";
 
 interface UsersTableProps {
   users: User[];
@@ -20,12 +20,6 @@ interface UsersTableProps {
   ) => void;
 }
 
-const STATUS_STYLES: Record<string, string> = {
-  active: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  suspended: "bg-rose-50 text-rose-700 border-rose-200",
-  pending: "bg-sky-50 text-sky-700 border-sky-200",
-};
-
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("en-US", {
     month: "short",
@@ -33,6 +27,14 @@ function formatDate(dateStr: string) {
     year: "numeric",
   });
 }
+
+// Human-readable status labels including "inactive" from the API
+const STATUS_LABELS: Record<string, string> = {
+  active: "Active",
+  inactive: "Inactive",
+  suspended: "Suspended",
+  pending: "Pending",
+};
 
 export function UsersTable({ users, onAction }: UsersTableProps) {
   const router = useRouter();
@@ -51,16 +53,14 @@ export function UsersTable({ users, onAction }: UsersTableProps) {
         <table className="w-full min-w-[700px]">
           <thead>
             <tr className="border-b border-gray-100 bg-gray-50/60">
-              {["User", "Roles", "Status", "Location", "Last Active", ""].map(
-                (col) => (
-                  <th
-                    key={col}
-                    className="px-5 py-3 text-left text-[11px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap"
-                  >
-                    {col}
-                  </th>
-                ),
-              )}
+              {["User", "Roles", "Status", "Joined", ""].map((col) => (
+                <th
+                  key={col}
+                  className="px-5 py-3 text-left text-[11px] font-semibold text-gray-400 uppercase tracking-widest whitespace-nowrap"
+                >
+                  {col}
+                </th>
+              ))}
             </tr>
           </thead>
 
@@ -95,13 +95,17 @@ export function UsersTable({ users, onAction }: UsersTableProps) {
                 {/* Roles */}
                 <td className="px-5 py-3.5">
                   <div className="flex flex-wrap gap-1.5">
-                    {user.roles.map((role) => (
-                      <RoleBadge
-                        key={role}
-                        role={role}
-                        blocked={user.blockedRoles.includes(role)}
-                      />
-                    ))}
+                    {user.roles.length > 0 ? (
+                      user.roles.map((role) => (
+                        <RoleBadge
+                          key={role}
+                          role={role}
+                          blocked={user.blockedRoles.includes(role)}
+                        />
+                      ))
+                    ) : (
+                      <span className="text-xs text-gray-400">—</span>
+                    )}
                   </div>
                 </td>
 
@@ -109,29 +113,22 @@ export function UsersTable({ users, onAction }: UsersTableProps) {
                 <td className="px-5 py-3.5">
                   <Badge
                     variant="outline"
-                    className={`text-[11px] capitalize font-medium ${STATUS_STYLES[user.status] ?? ""}`}
+                    className={`text-[11px] capitalize font-medium ${
+                      STATUS_STYLES[user.status] ?? STATUS_STYLES.inactive
+                    }`}
                   >
                     <span
                       className={`mr-1.5 inline-block w-1.5 h-1.5 rounded-full ${
-                        user.status === "active"
-                          ? "bg-emerald-500"
-                          : user.status === "suspended"
-                            ? "bg-rose-500"
-                            : "bg-sky-500"
+                        STATUS_DOT[user.status] ?? STATUS_DOT.inactive
                       }`}
                     />
-                    {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
+                    {STATUS_LABELS[user.status] ?? user.status}
                   </Badge>
                 </td>
 
-                {/* Location */}
+                {/* Joined */}
                 <td className="px-5 py-3.5 text-sm text-t-secondary whitespace-nowrap">
-                  {user.location}
-                </td>
-
-                {/* Last active */}
-                <td className="px-5 py-3.5 text-sm text-t-secondary whitespace-nowrap">
-                  {formatDate(user.lastActive)}
+                  {formatDate(user.joinedAt)}
                 </td>
 
                 {/* Actions */}
