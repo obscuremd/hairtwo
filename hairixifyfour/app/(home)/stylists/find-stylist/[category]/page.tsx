@@ -1,21 +1,41 @@
 "use client";
 
 import { Cat } from "@/app/api/cats/route";
+import { HomeSkeleton } from "@/components/screenComponents/Main/skeleton";
 import { UseGen } from "@/context/GeneralContext";
 import { CATEGORY_DATA } from "@/lib/dummyData";
 import Blog from "@/screens/FindStylistScreen/Blog";
 import Location from "@/screens/FindStylistScreen/Location";
 import { Recommended } from "@/screens/FindStylistScreen/Recommended";
 import Reviews from "@/screens/FindStylistScreen/Reviews";
+import { GetProviders } from "@/utils/providers";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 export default function CategoryPage() {
   const { category } = useParams<{ category: string }>();
-  const { providers } = UseGen();
+  const { providers, setProviders } = UseGen();
+  const [loading, setLoading] = useState(true); // start true — avoids flash
 
   const [cats, setCats] = useState<Cat[]>([]);
+
+  useEffect(() => {
+    async function getProviders() {
+      try {
+        const response = await GetProviders();
+        if (response.success === true) {
+          setProviders(response.data);
+        } else {
+          toast.message(response.message);
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+    getProviders();
+  }, []);
 
   useEffect(() => {
     fetch("/api/cats")
@@ -35,6 +55,10 @@ export default function CategoryPage() {
     }
     return null;
   }, [cats, category]);
+
+  if (loading) {
+    return <HomeSkeleton />;
+  }
 
   return (
     <section className="p-5 md:p-[68px] space-y-[68px] md:space-y-[68px]">
