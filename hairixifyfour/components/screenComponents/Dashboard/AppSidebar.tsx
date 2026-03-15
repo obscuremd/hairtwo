@@ -76,7 +76,7 @@ export function AppSidebar() {
               <NavItem
                 href="/dashboard/transactions"
                 icon={DollarSignIcon}
-                label="Transactions"
+                label="Services"
               />
               <NavItem href="/dashboard/clients" icon={Users} label="Clients" />
 
