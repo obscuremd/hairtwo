@@ -1,5 +1,6 @@
 "use client";
 
+import { Cat } from "@/app/api/cats/route";
 import { UseGen } from "@/context/GeneralContext";
 import { CATEGORY_DATA } from "@/lib/dummyData";
 import Blog from "@/screens/FindStylistScreen/Blog";
@@ -8,19 +9,32 @@ import { Recommended } from "@/screens/FindStylistScreen/Recommended";
 import Reviews from "@/screens/FindStylistScreen/Reviews";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function CategoryPage() {
   const { category } = useParams<{ category: string }>();
   const { providers } = UseGen();
 
-  // const filteredProviders = useMemo(() => {
-  //   if (!providers) return [];
+  const [cats, setCats] = useState<Cat[]>([]);
 
-  //   return providers.filter(
-  //     (p) => p.category?.name?.toLowerCase() === category.toLowerCase(),
-  //   );
-  // }, [providers, category]);
+  useEffect(() => {
+    fetch("/api/cats")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success) setCats(d.cat);
+      })
+      .catch(() => {
+        /* fall back to empty silently */
+      });
+  }, []);
+
+  const subCategory = useMemo(() => {
+    for (const cat of cats) {
+      const sub = cat.subs?.find((s) => s.slug === category);
+      if (sub) return sub;
+    }
+    return null;
+  }, [cats, category]);
 
   return (
     <section className="p-5 md:p-[68px] space-y-[68px] md:space-y-[68px]">
@@ -28,7 +42,7 @@ export default function CategoryPage() {
         {/* TEXT */}
         <div className="space-y-6">
           <h1 className="text-3xl md:text-5xl font-bold capitalize leading-tight">
-            {category} Near You
+            {subCategory?.name} Near You
           </h1>
 
           <p className="text-muted-foreground text-lg leading-relaxed max-w-xl">
@@ -57,10 +71,10 @@ export default function CategoryPage() {
           <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent" />
         </div>
       </div>
-      <Recommended providers={providers} category={category} />
-      <Location category={category} />
-      <Reviews category={category} />
-      <Blog category={category} />
+      <Recommended providers={providers} category={subCategory?.name || ""} />
+      <Location category={subCategory?.name || ""} />
+      <Reviews category={subCategory?.name || ""} />
+      <Blog category={subCategory?.name || ""} />
     </section>
   );
 }

@@ -12,6 +12,8 @@ export interface SubCat {
   id: number;
   name: string;
   slug: string;
+  description: string;
+  image: string;
   icon: string;
   status: string;
   cat: number;

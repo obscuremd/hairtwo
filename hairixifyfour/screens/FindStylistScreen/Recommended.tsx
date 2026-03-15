@@ -67,7 +67,7 @@ export function Recommended({
         className="flex w-full overflow-hidden gap-6 py-4 scroll-smooth"
       >
         {providers.map((item, idx) => (
-          <Link key={idx} href={`/product/${item.id}`}>
+          <Link key={idx} href={`/stylists/product/${item.id}`}>
             <ProductCard
               address={`${item.local.name}`}
               category={item.category.slug}
