@@ -43,6 +43,7 @@ export async function GetAdminUsers(): Promise<GetAdminUsersResult> {
     );
 
     const raw = response.data?.users;
+    console.log("raw users", response.data);
 
     if (!Array.isArray(raw)) {
       return { success: false, message: "Unexpected response format" };

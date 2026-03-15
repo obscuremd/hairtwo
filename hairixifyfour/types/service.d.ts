@@ -22,5 +22,16 @@ interface Service {
   status?: "active" | "inactive";
   created_at?: string;
   updated_at?: string;
-  images?: Array<string>;
+  images?: Array<Image>;
+}
+
+interface Image {
+  id: number;
+  name: string;
+  image: string;
+  user: number;
+  images_type: string;
+  images_id: 5;
+  created_at: string;
+  updated_at: string;
 }

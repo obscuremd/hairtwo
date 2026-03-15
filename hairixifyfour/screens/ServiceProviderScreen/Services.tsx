@@ -166,7 +166,7 @@ function ServiceList({
                                   {service.images!.map((src, i) => (
                                     <motion.img
                                       key={i}
-                                      src={src}
+                                      src={`https://api5.project.hairxify.com/${src.image}`}
                                       alt=""
                                       className="h-[40px] w-[40px] rounded-md object-cover cursor-pointer"
                                       whileHover={{ scale: 1.08 }}
