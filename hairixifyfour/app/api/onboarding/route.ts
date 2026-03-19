@@ -1,25 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
+import { apiCall } from "@/utils/apiCall";
+import { API_ENDPOINTS } from "../endpoints";
 
-const BASE_URL = "https://api5.project.hairxify.com/api/provider/new/onboard";
 
 export async function POST(request: NextRequest) {
   try {
-    // ✅ Get body from frontend
     const body = await request.json();
 
-    // ✅ Forward to external API
-    const res = await fetch(BASE_URL, {
+    const result = await apiCall(API_ENDPOINTS.POST_ONBOARDING, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "ACCESS-PASS-KEY": process.env.ACCESS_PASS_KEY!,
-      },
-      body: JSON.stringify(body),
+      body,
     });
 
-    const data = await res.json();
-
-    return NextResponse.json(data, { status: res.status });
+    return NextResponse.json(result.data, { status: result.status });
   } catch (error) {
     return NextResponse.json(
       { success: false, message: "Onboarding failed" },
