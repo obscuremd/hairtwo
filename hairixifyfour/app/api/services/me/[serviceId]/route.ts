@@ -54,3 +54,39 @@ export async function PUT(request: NextRequest, context: RouteContext) {
     );
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  const { id } = params;
+  const authHeader = request.headers.get("authorization") ?? "";
+
+  try {
+    const res = await fetch(`${API_BASE}/${id}`, {
+      method: "DELETE",
+      headers: {
+        "ACCESS-PASS-KEY": ACCESS_KEY,
+        Authorization: authHeader,
+        Accept: "application/json",
+      },
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      return NextResponse.json(
+        { success: false, message: data?.message ?? "Delete failed" },
+        { status: res.status },
+      );
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error(`[me/provider/service/${id}]`, err);
+    return NextResponse.json(
+      { success: false, message: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}

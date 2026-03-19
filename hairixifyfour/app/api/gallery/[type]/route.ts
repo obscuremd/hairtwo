@@ -1,16 +1,24 @@
-// app/api/gallery/route.ts
+// app/api/gallery/[type]/route.ts
+// Posts an image to the gallery for either "user" or "provider" (or any future type).
+// Usage: POST /api/gallery/user   body: { type_type: "profile", image: "path..." }
+//        POST /api/gallery/provider  body: { type_id: number, type_type: "gallery", image: "path..." }
 
 import { NextRequest, NextResponse } from "next/server";
 
-const EXTERNAL_URL = "https://api5.project.hairxify.com/api/gallery/provider";
+const BASE_URL = "https://api5.project.hairxify.com/api/gallery";
 const ACCESS_KEY = process.env.ACCESS_PASS_KEY ?? "";
 
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const authHeader = req.headers.get("authorization") ?? "";
+export async function POST(
+  request: NextRequest,
+  context: { params: Promise<{ type: string }> },
+) {
+  const { type } = await context.params; // "user" | "provider" | anything else
+  const authHeader = request.headers.get("authorization") ?? "";
 
-    const res = await fetch(EXTERNAL_URL, {
+  try {
+    const body = await request.json();
+
+    const res = await fetch(`${BASE_URL}/${type}`, {
       method: "POST",
       headers: {
         "ACCESS-PASS-KEY": ACCESS_KEY,
@@ -35,7 +43,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, data });
   } catch (err) {
-    console.error("[gallery]", err);
+    console.error(`[gallery/${type}]`, err);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },

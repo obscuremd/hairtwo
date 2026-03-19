@@ -17,7 +17,6 @@ interface EditGalleryDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   providerId: number;
-  /** Called after a successful upload so the parent can refresh */
   onUploaded?: () => void;
 }
 
@@ -67,33 +66,32 @@ export function EditGalleryDialog({
     const { token } = getStoredCredentials();
     setError(null);
 
-    // ── Step 1: Upload the asset via utility function ────────────────────────
+    // Step 1: upload asset
     setUploadState("uploading");
     const uploadResult = await uploadImage(file, `providers/${providerId}`);
-
     if (!uploadResult.success || !uploadResult.imagePath) {
       setError(uploadResult.message);
       setUploadState("error");
       return;
     }
 
-    // ── Step 2: Register the image path in the gallery ───────────────────────
+    // Step 2: register in provider gallery — POST /api/gallery/provider
     setUploadState("posting");
     try {
-      const res = await fetch("/api/gallery", {
+      const res = await fetch("/api/gallery/provider", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
+          type_id: providerId,
           type_type: "gallery",
           image: uploadResult.imagePath,
         }),
       });
 
       const data: { success: boolean; message?: string } = await res.json();
-
       if (!res.ok || !data.success) {
         setError(data.message ?? "Failed to save image to gallery");
         setUploadState("error");
@@ -142,7 +140,7 @@ export function EditGalleryDialog({
               <div className="space-y-0.5">
                 <p className="text-sm font-semibold">Photo Added!</p>
                 <p className="text-xs text-muted-foreground">
-                  Your gallery has been updated successfully.
+                  Your gallery has been updated.
                 </p>
               </div>
               <Button className="w-full" onClick={handleClose}>
@@ -151,7 +149,6 @@ export function EditGalleryDialog({
             </div>
           ) : (
             <>
-              {/* Drop zone / preview */}
               {preview ? (
                 <div className="relative rounded-xl overflow-hidden border">
                   <img
@@ -202,7 +199,6 @@ export function EditGalleryDialog({
                 onChange={handleFileChange}
               />
 
-              {/* Progress label */}
               {isLoading && (
                 <p className="text-xs text-muted-foreground text-center">
                   {uploadState === "uploading"
@@ -210,13 +206,10 @@ export function EditGalleryDialog({
                     : "Saving to gallery…"}
                 </p>
               )}
-
-              {/* Error */}
               {error && (
                 <p className="text-xs text-destructive text-center">{error}</p>
               )}
 
-              {/* Actions */}
               <div className="flex gap-2 pt-1">
                 <Button
                   variant="outline"

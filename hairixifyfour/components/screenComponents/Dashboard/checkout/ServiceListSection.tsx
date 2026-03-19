@@ -1,16 +1,25 @@
 "use client";
 
-// ─────────────────────────────────────────────
 // components/screenComponents/Dashboard/checkout/ServiceListSection.tsx
-// ─────────────────────────────────────────────
 
 import { useState } from "react";
-import { Clock, ImageOff, Pencil, Plus, Star, Zap } from "lucide-react";
+import {
+  Clock,
+  ImageOff,
+  Loader2,
+  Pencil,
+  Plus,
+  Star,
+  Trash2,
+  Zap,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AddServiceDialog } from "./AddServiceDialog";
 import { EditServiceSheet } from "./EditServiceSheet";
 import { cn } from "@/lib/utils";
+import { getStoredCredentials } from "@/utils/user";
+import { toast } from "sonner";
 
 const BASE_IMAGE_URL = "https://api5.project.hairxify.com";
 
@@ -37,8 +46,31 @@ export function ServiceListSection({
 }: ServiceListSectionProps) {
   const [addOpen, setAddOpen] = useState(false);
   const [editService, setEditService] = useState<Service | null>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const { token } = getStoredCredentials();
 
   const activeCount = data.filter((s) => s.status === "active").length;
+
+  async function handleDelete(serviceId: number) {
+    if (!serviceId) return;
+    setDeletingId(serviceId);
+    try {
+      const res = await fetch(`/api/services/me/${serviceId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const result = await res.json();
+      if (!res.ok || !result.success) {
+        toast.error(result.message ?? "Delete failed");
+      } else {
+        toast.success("Service deleted");
+        onRefresh();
+      }
+    } catch {
+      toast.error("Network error. Please try again.");
+    }
+    setDeletingId(null);
+  }
 
   return (
     <>
@@ -62,7 +94,7 @@ export function ServiceListSection({
         </Button>
       </div>
 
-      {/* Service list */}
+      {/* List */}
       {data.length === 0 ? (
         <div className="py-14 flex flex-col items-center gap-3 text-center">
           <div className="size-12 rounded-full bg-gray-100 flex items-center justify-center">
@@ -92,12 +124,13 @@ export function ServiceListSection({
               key={service.id ?? i}
               service={service}
               onEdit={() => setEditService(service)}
+              onDelete={() => service.id && handleDelete(service.id)}
+              isDeleting={deletingId === service.id}
             />
           ))}
         </div>
       )}
 
-      {/* Add dialog */}
       <AddServiceDialog
         open={addOpen}
         onOpenChange={setAddOpen}
@@ -107,7 +140,6 @@ export function ServiceListSection({
         }}
       />
 
-      {/* Edit sheet */}
       {editService && (
         <EditServiceSheet
           open
@@ -122,21 +154,23 @@ export function ServiceListSection({
   );
 }
 
-// ─── Individual service row ───────────────────
+// ─── Individual service row ────────────────────────────────────────────────────
 
 function ServiceRow({
   service,
   onEdit,
+  onDelete,
+  isDeleting,
 }: {
   service: Service;
   onEdit: () => void;
+  onDelete: () => void;
+  isDeleting: boolean;
 }) {
   const isActive = service.status === "active";
   const isPremium = service.premium === 1;
   const hasDiscount =
     service.discount_price != null && service.discount_price !== "";
-
-  // First image for the thumbnail
   const firstImage = service.images?.[0] ?? null;
 
   return (
@@ -150,7 +184,6 @@ function ServiceRow({
             alt={service.title}
             className="w-full h-full object-cover"
             onError={(e) => {
-              // Swap to fallback icon on broken URL
               (e.target as HTMLImageElement).style.display = "none";
               (
                 e.target as HTMLImageElement
@@ -166,7 +199,7 @@ function ServiceRow({
         />
       </div>
 
-      {/* Left — info */}
+      {/* Info */}
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2 flex-wrap">
           <p className="text-sm font-semibold text-t-primary truncate">
@@ -196,22 +229,18 @@ function ServiceRow({
             {isActive ? "Active" : "Inactive"}
           </Badge>
         </div>
-
         <p className="text-xs text-t-secondary mt-0.5 line-clamp-1">
           {service.description}
         </p>
-
-        <div className="flex items-center gap-3 mt-1">
-          <span className="flex items-center gap-1 text-xs text-t-secondary">
-            <Clock className="size-3 text-gray-400" />
-            {service.duration} min
-          </span>
-        </div>
+        <span className="flex items-center gap-1 text-xs text-t-secondary mt-1">
+          <Clock className="size-3 text-gray-400" />
+          {service.duration} min
+        </span>
       </div>
 
-      {/* Right — price + edit */}
-      <div className="flex items-center gap-3 shrink-0">
-        <div className="text-right">
+      {/* Price + actions */}
+      <div className="flex items-center gap-1.5 shrink-0">
+        <div className="text-right mr-1">
           <p className="text-sm font-bold text-t-primary">
             {formatPrice(hasDiscount ? service.discount_price! : service.price)}
           </p>
@@ -222,6 +251,7 @@ function ServiceRow({
           )}
         </div>
 
+        {/* Edit */}
         <Button
           variant="ghost"
           size="sm"
@@ -230,6 +260,22 @@ function ServiceRow({
           aria-label={`Edit ${service.title}`}
         >
           <Pencil className="size-3.5" />
+        </Button>
+
+        {/* Delete */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onDelete}
+          disabled={isDeleting}
+          className="h-8 w-8 p-0 text-gray-400 hover:text-rose-500 hover:bg-rose-50 opacity-0 group-hover:opacity-100 transition-opacity"
+          aria-label={`Delete ${service.title}`}
+        >
+          {isDeleting ? (
+            <Loader2 className="size-3.5 animate-spin" />
+          ) : (
+            <Trash2 className="size-3.5" />
+          )}
         </Button>
       </div>
     </div>

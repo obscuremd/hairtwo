@@ -1,33 +1,31 @@
 // app/profile/page.tsx
 "use client";
 
+import { useRef, useState } from "react";
 import { UseGen } from "@/context/GeneralContext";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
-  Building2,
-  Calendar,
-  Clock,
   ExternalLink,
   LogOut,
+  Loader2,
   Mail,
-  MapPin,
-  Phone,
+  Edit,
   Shield,
-  Users,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
+import { uploadImage } from "@/utils/upload";
+import { getStoredCredentials } from "@/utils/user";
+import { toast } from "sonner";
 
-// ─── Avatar ───────────────────────────────────────────────────────────────────
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/);
   if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
   return name.slice(0, 2).toUpperCase();
 }
-
-// ─── Info row ─────────────────────────────────────────────────────────────────
 
 function InfoRow({
   icon: Icon,
@@ -52,10 +50,113 @@ function InfoRow({
   );
 }
 
+// ─── Avatar upload ─────────────────────────────────────────────────────────────
+// Wraps the initials circle. Clicking it opens a file picker, uploads the image
+// via uploadImage() then registers it via POST /api/gallery/user.
+
+function AvatarUpload({
+  name,
+  avatarUrl,
+  onUploaded,
+}: {
+  name: string;
+  avatarUrl: string | null;
+  onUploaded: () => void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const { token } = getStoredCredentials();
+  const initials = getInitials(name);
+
+  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+
+    // Step 1: upload the file asset
+    const uploadResult = await uploadImage(file, "users/profile");
+    if (!uploadResult.success || !uploadResult.imagePath) {
+      toast.error(uploadResult.message);
+      setUploading(false);
+      return;
+    }
+
+    // Step 2: register it as the user profile image
+    try {
+      const res = await fetch("/api/gallery/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          type_type: "profile",
+          image: uploadResult.imagePath,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        toast.error(data.message ?? "Failed to update profile photo");
+      } else {
+        toast.success("Profile photo updated");
+        onUploaded();
+      }
+    } catch {
+      toast.error("Network error. Please try again.");
+    }
+
+    setUploading(false);
+    if (inputRef.current) inputRef.current.value = "";
+  }
+
+  return (
+    <div
+      className="relative shrink-0 group cursor-pointer"
+      onClick={() => !uploading && inputRef.current?.click()}
+    >
+      {avatarUrl ? (
+        <img
+          src={avatarUrl}
+          alt={name}
+          className="size-20 rounded-full object-cover border-2 border-[#3ad688]"
+        />
+      ) : (
+        <div className="size-20 rounded-full bg-[#3ad688] text-[#003226] text-2xl font-bold flex items-center justify-center shrink-0">
+          {initials}
+        </div>
+      )}
+
+      {/* Hover overlay */}
+      <div className="absolute inset-0 rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+        {uploading ? (
+          <Loader2 className="size-5 text-white animate-spin" />
+        ) : (
+          <Edit className="size-4 text-white" />
+        )}
+      </div>
+
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleFile}
+      />
+    </div>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function ProfilePage() {
-  const { authUser, isAuthenticated, authLoading, logout } = UseGen();
+  const {
+    authUser,
+    authProvider,
+    isAuthenticated,
+    authLoading,
+    logout,
+    refreshAuth,
+  } = UseGen();
   const router = useRouter();
 
   function handleLogout() {
@@ -93,16 +194,25 @@ export default function ProfilePage() {
   }
 
   const isProvider = authUser.roles.includes("provider");
+
   const name = authUser.full_name || authUser.email;
-  const initials = getInitials(name);
+
+  // Use first gallery image as avatar if available
+  const BASE_URL = "https://api5.project.hairxify.com";
+  const galleryImages = (authProvider?.user?.gallery ?? []) as Gallery[];
+  const avatarUrl = galleryImages[0]
+    ? `${BASE_URL}/${galleryImages[0].image}`
+    : null;
 
   return (
     <div className="max-w-lg mx-auto px-5 py-12 space-y-8">
       {/* ── Hero ── */}
       <div className="flex items-center gap-5">
-        <div className="size-20 rounded-full bg-[#3ad688] text-[#003226] text-2xl font-bold flex items-center justify-center shrink-0">
-          {initials}
-        </div>
+        <AvatarUpload
+          name={name}
+          avatarUrl={avatarUrl}
+          onUploaded={refreshAuth}
+        />
         <div className="space-y-1">
           <h1 className="text-xl font-semibold">{name}</h1>
           <div className="flex items-center gap-2">
@@ -117,6 +227,9 @@ export default function ProfilePage() {
               {isProvider ? "Provider" : "Client"}
             </span>
           </div>
+          <p className="text-[11px] text-muted-foreground">
+            Tap photo to change
+          </p>
         </div>
       </div>
 
@@ -130,9 +243,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* ── Provider section ── */}
-
-      {/* Dashboard link */}
+      {/* ── Provider dashboard link ── */}
       {isProvider && (
         <Button
           className="w-full bg-secondary-c gap-2"

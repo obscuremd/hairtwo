@@ -40,6 +40,7 @@ export default function CheckoutPage() {
     setServicesLoading(true);
     setServicesError(null);
     const result = await GetMyProviderServices();
+    console.log("services res", result);
     if (result.success && result.groups) {
       setGroups(result.groups);
     } else {
