@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { apiCall } from "@/utils/apiCall";
+import { API_ENDPOINTS } from "../../endpoints";
 
-const API_URL = "https://api5.project.hairxify.com/api/providersfe/";
+
 
 export async function GET() {
-  const result = await apiCall(API_URL);
+  const result = await apiCall(API_ENDPOINTS.GET_PROVIDERS);
 
   if (!result.ok) {
     return NextResponse.json(

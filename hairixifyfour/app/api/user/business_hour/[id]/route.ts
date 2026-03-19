@@ -1,13 +1,7 @@
-// app/api/user/business_hour/[id]/route.ts
-// Updates the start/end times of a single business hour entry.
-// Usage: PUT /api/me/provider/business_hour/4
-// Body: { start: "09:00", end: "17:00" }
-
 import { NextRequest, NextResponse } from "next/server";
 import { apiCall } from "@/utils/apiCall";
+import { API_ENDPOINTS } from "@/app/api/endpoints";
 
-const BASE_URL =
-  "https://api5.project.hairxify.com/api/me/provider/business_hour";
 
 export async function PUT(
   request: NextRequest,
@@ -19,7 +13,7 @@ export async function PUT(
   try {
     const body = await request.json();
 
-    const result = await apiCall(`${BASE_URL}/${id}`, {
+    const result = await apiCall(`${API_ENDPOINTS.GET_BUSINESS_HOUR}/${id}`, {
       method: "PUT",
       body,
       headers: {

@@ -1,11 +1,7 @@
-// app/api/booking/route.ts
-// Authenticated booking — backend reads client details from the token.
-// Body: { service, booking_start, booking_date }
-
 import { NextRequest, NextResponse } from "next/server";
 import { apiCall } from "@/utils/apiCall";
+import { API_ENDPOINTS } from "../endpoints";
 
-const API_URL = "https://api5.project.hairxify.com/api/booking";
 
 export async function POST(request: NextRequest) {
   const authHeader = request.headers.get("authorization") ?? "";
@@ -13,7 +9,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const result = await apiCall(API_URL, {
+    const result = await apiCall(API_ENDPOINTS.POST_BOOKING, {
       method: "POST",
       body,
       headers: {

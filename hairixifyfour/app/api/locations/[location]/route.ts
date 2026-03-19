@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { apiCall } from "@/utils/apiCall";
-
-const BASE_URL = "https://api5.project.hairxify.com/api/location";
+import { API_ENDPOINTS } from "../../endpoints";
 
 const ALLOWED_LOCATIONS = ["state", "local", "area"];
 
@@ -19,7 +18,7 @@ export async function GET(
     );
   }
 
-  const result = await apiCall(`${BASE_URL}/${location}`);
+  const result = await apiCall(`${API_ENDPOINTS.GET_LOCATION}/${location}`);
 
   if (!result.ok) {
     return NextResponse.json(

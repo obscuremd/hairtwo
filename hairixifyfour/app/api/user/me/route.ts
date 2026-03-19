@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { apiCall } from "@/utils/apiCall";
-
-const API_URL = "https://api5.project.hairxify.com/api/me";
+import { API_ENDPOINTS } from "../../endpoints";
 
 export async function GET(request: Request) {
   const token = request.headers.get("Authorization");
@@ -13,7 +12,7 @@ export async function GET(request: Request) {
     );
   }
 
-  const result = await apiCall(API_URL, {
+  const result = await apiCall(API_ENDPOINTS.GET_ME, {
     headers: {
       Authorization: token,
     },
