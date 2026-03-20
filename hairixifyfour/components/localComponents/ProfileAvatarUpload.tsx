@@ -24,7 +24,11 @@ function getInitials(name: string): string {
 
 async function resizeImage(file: File, maxDimension: number): Promise<File> {
   const bitmap = await createImageBitmap(file);
-  const ratio = Math.min(maxDimension / bitmap.width, maxDimension / bitmap.height, 1);
+  const ratio = Math.min(
+    maxDimension / bitmap.width,
+    maxDimension / bitmap.height,
+    1,
+  );
   const width = Math.round(bitmap.width * ratio);
   const height = Math.round(bitmap.height * ratio);
 
@@ -54,7 +58,9 @@ export function ProfileAvatarUpload({
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [avatarUrlState, setAvatarUrlState] = useState<string | null>(avatarUrl);
+  const [avatarUrlState, setAvatarUrlState] = useState<string | null>(
+    avatarUrl,
+  );
   const [uploading, setUploading] = useState(false);
   const [justUploaded, setJustUploaded] = useState(false);
   const [resizeDimension, setResizeDimension] = useState(512);
@@ -92,7 +98,10 @@ export function ProfileAvatarUpload({
 
     try {
       const resizedFile = await resizeImage(selectedFile, resizeDimension);
-      const pathHint = uploadType === "provider" ? `providers/${providerId ?? "me"}` : "users/profile";
+      const pathHint =
+        uploadType === "provider"
+          ? `providers/${providerId ?? "me"}`
+          : "users/profile";
       const uploadResult = await uploadImage(resizedFile, pathHint);
       if (!uploadResult.success || !uploadResult.imagePath) {
         toast.error(uploadResult.message);
@@ -124,7 +133,8 @@ export function ProfileAvatarUpload({
       });
 
       const data = await res.json();
-      if (!res.ok || !data.success) {
+      console.log("upload response:", data);
+      if (!res.ok || !data.success || data.errors) {
         toast.error(data.message ?? "Failed to update profile photo");
         setUploading(false);
         return;
@@ -185,7 +195,12 @@ export function ProfileAvatarUpload({
       {selectedFile && (
         <div className="space-y-2 w-64">
           <div className="flex gap-2">
-            <Button size="sm" variant="outline" onClick={resetSelection} disabled={uploading}>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={resetSelection}
+              disabled={uploading}
+            >
               Cancel
             </Button>
             <Button size="sm" onClick={handleUpload} disabled={uploading}>

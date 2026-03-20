@@ -23,6 +23,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { UseGen } from "@/context/GeneralContext";
 import { ProfileAvatarUpload } from "@/components/localComponents/ProfileAvatarUpload";
 import { EditGalleryDialog } from "@/components/screenComponents/Dashboard/profile/EditGalleryDialog";
+import { EditProviderSheet } from "@/components/screenComponents/Dashboard/profile/EditProviderSheet";
 import { getStoredCredentials } from "@/utils/user";
 import { toast } from "sonner";
 
@@ -43,14 +44,19 @@ const DAY_LABELS: Record<string, string> = {
 export default function ProviderProfilePage() {
   const { authProvider, authUser, authLoading, refreshAuth } = UseGen();
   const [galleryOpen, setGalleryOpen] = useState(false);
+  const [editSheetOpen, setEditSheetOpen] = useState(false);
   const [avatarImage, setAvatarImage] = useState<string | null>(null);
-  const [existingProfileId, setExistingProfileId] = useState<number | null>(null);
+  const [existingProfileId, setExistingProfileId] = useState<number | null>(
+    null,
+  );
 
   useEffect(() => {
     if (!authProvider) return;
     const gallery: Gallery[] = authProvider.user.gallery ?? [];
     const profileImage = gallery.find((item) => item.type === "profile");
-    setAvatarImage(profileImage ? `${BASE_IMAGE_URL}/${profileImage.image}` : null);
+    setAvatarImage(
+      profileImage ? `${BASE_IMAGE_URL}/${profileImage.image}` : null,
+    );
     setExistingProfileId(profileImage?.id ?? null);
   }, [authProvider]);
 
@@ -70,9 +76,7 @@ export default function ProviderProfilePage() {
 
   function handleProviderAvatarUploaded(newUrl: string, newId?: number | null) {
     setAvatarImage(newUrl);
-    if (newId != null) {
-      setExistingProfileId(newId);
-    }
+    if (newId != null) setExistingProfileId(newId);
     refreshAuth();
   }
 
@@ -85,7 +89,7 @@ export default function ProviderProfilePage() {
         <p className="text-3xl font-semibold tracking-tight">Profile</p>
       </div>
 
-      {/* Profile header — avatar upload for provider */}
+      {/* Profile header */}
       <div className="flex items-start gap-4 p-4 border-b border-gray-200 bg-white">
         <ProfileAvatarUpload
           name={`${authProvider.first_name} ${authProvider.last_name}`}
@@ -111,13 +115,7 @@ export default function ProviderProfilePage() {
             </p>
           )}
         </div>
-        <Button
-          size="sm"
-          variant="outline"
-          className="border-[#003225] text-[#003225] hover:bg-[#003225] hover:text-white h-8 text-xs shrink-0"
-        >
-          <Edit className="w-3 h-3 mr-1" /> Edit
-        </Button>
+        {/* Edit button removed from header — lives on Business Info section */}
       </div>
 
       {/* Mobile tabs */}
@@ -135,7 +133,10 @@ export default function ProviderProfilePage() {
             ))}
           </TabsList>
           <TabsContent value="business" className="mt-4">
-            <BusinessInfoSection provider={authProvider} />
+            <BusinessInfoSection
+              provider={authProvider}
+              onEdit={() => setEditSheetOpen(true)}
+            />
           </TabsContent>
           <TabsContent value="gallery" className="mt-4">
             <GallerySection
@@ -160,13 +161,17 @@ export default function ProviderProfilePage() {
           onEdit={() => setGalleryOpen(true)}
           onDeleted={refreshAuth}
         />
-        <BusinessInfoSection provider={authProvider} />
+        <BusinessInfoSection
+          provider={authProvider}
+          onEdit={() => setEditSheetOpen(true)}
+        />
         <AvailabilitySection
           businessHours={businessHours}
           onUpdated={refreshAuth}
         />
       </div>
 
+      {/* Gallery upload dialog */}
       <EditGalleryDialog
         open={galleryOpen}
         onOpenChange={setGalleryOpen}
@@ -176,13 +181,30 @@ export default function ProviderProfilePage() {
           refreshAuth();
         }}
       />
+
+      {/* Business info edit sheet */}
+      <EditProviderSheet
+        open={editSheetOpen}
+        onOpenChange={setEditSheetOpen}
+        provider={authProvider}
+        onUpdated={() => {
+          setEditSheetOpen(false);
+          refreshAuth();
+        }}
+      />
     </div>
   );
 }
 
 // ─── Business Info ────────────────────────────────────────────────────────────
 
-function BusinessInfoSection({ provider }: { provider: Provider }) {
+function BusinessInfoSection({
+  provider,
+  onEdit,
+}: {
+  provider: Provider;
+  onEdit: () => void;
+}) {
   return (
     <div className="p-4 border-b-2 border-gray-200 space-y-4">
       <div className="flex items-center justify-between">
@@ -190,6 +212,7 @@ function BusinessInfoSection({ provider }: { provider: Provider }) {
         <Button
           size="sm"
           variant="outline"
+          onClick={onEdit}
           className="border-[#003225] text-[#003225] hover:bg-[#003225] hover:text-white h-7 text-xs"
         >
           <Edit className="w-3 h-3 mr-1" /> Edit
@@ -424,31 +447,25 @@ function AvailabilitySection({
   onUpdated: () => void;
 }) {
   const openDays = new Map(businessHours.map((h) => [h.day, h]));
-
   return (
     <div className="p-4">
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-lg font-semibold text-[#003225]">Availability</h2>
       </div>
       <div className="space-y-2">
-        {DAY_ORDER.map((short) => {
-          const hours = openDays.get(short);
-          return (
-            <DayRow
-              key={short}
-              short={short}
-              hours={hours}
-              isOpen={!!hours}
-              onUpdated={onUpdated}
-            />
-          );
-        })}
+        {DAY_ORDER.map((short) => (
+          <DayRow
+            key={short}
+            short={short}
+            hours={openDays.get(short)}
+            isOpen={!!openDays.get(short)}
+            onUpdated={onUpdated}
+          />
+        ))}
       </div>
     </div>
   );
 }
-
-// ─── Day row with inline 24h time editor ─────────────────────────────────────
 
 function DayRow({
   short,
@@ -462,7 +479,6 @@ function DayRow({
   onUpdated: () => void;
 }) {
   const [editing, setEditing] = useState(false);
-  // Stored as "HH:mm" (24h) — the HTML time input natively works in 24h
   const [start, setStart] = useState(hours?.start ?? "");
   const [end, setEnd] = useState(hours?.end ?? "");
   const [saving, setSaving] = useState(false);
@@ -472,17 +488,15 @@ function DayRow({
     if (!hours?.id) return;
     setSaving(true);
     try {
-      const res = await fetch(`/api/user/business_hour/${hours.id}`, {
+      const res = await fetch(`/api/me/provider/business_hour/${hours.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        // Send exactly what the backend expects: "HH:mm" 24h strings
         body: JSON.stringify({ start, end }),
       });
       const data = await res.json();
-      console.log("hours res", data);
       if (!res.ok || !data.success) {
         toast.error(data.message ?? "Update failed");
       } else {
@@ -511,12 +525,10 @@ function DayRow({
             <X className="w-3.5 h-3.5 text-gray-400" />
           )}
         </div>
-
         {isOpen && !editing && (
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1 text-xs text-gray-600">
               <Clock className="w-3 h-3" />
-              {/* Display exactly as stored — already 24h from the API */}
               <span>
                 {hours?.start} – {hours?.end}
               </span>
@@ -539,11 +551,6 @@ function DayRow({
 
       {isOpen && editing && (
         <div className="mt-2 flex items-center gap-2 flex-wrap">
-          {/*
-            type="time" renders a 24h clock natively on most browsers.
-            The value is always in "HH:mm" format which is exactly what
-            the backend expects — no conversion needed.
-          */}
           <Input
             type="time"
             value={start}
