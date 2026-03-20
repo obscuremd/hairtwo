@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Check,
   Clock,
@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { UseGen } from "@/context/GeneralContext";
+import { ProfileAvatarUpload } from "@/components/localComponents/ProfileAvatarUpload";
 import { EditGalleryDialog } from "@/components/screenComponents/Dashboard/profile/EditGalleryDialog";
 import { getStoredCredentials } from "@/utils/user";
 import { toast } from "sonner";
@@ -42,6 +43,16 @@ const DAY_LABELS: Record<string, string> = {
 export default function ProviderProfilePage() {
   const { authProvider, authUser, authLoading, refreshAuth } = UseGen();
   const [galleryOpen, setGalleryOpen] = useState(false);
+  const [avatarImage, setAvatarImage] = useState<string | null>(null);
+  const [existingProfileId, setExistingProfileId] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!authProvider) return;
+    const gallery: Gallery[] = authProvider.user.gallery ?? [];
+    const profileImage = gallery.find((item) => item.type === "profile");
+    setAvatarImage(profileImage ? `${BASE_IMAGE_URL}/${profileImage.image}` : null);
+    setExistingProfileId(profileImage?.id ?? null);
+  }, [authProvider]);
 
   if (authLoading) return <ProfileSkeleton />;
   if (!authProvider) {
@@ -55,11 +66,15 @@ export default function ProviderProfilePage() {
   const gallery: Gallery[] = authProvider.user.gallery ?? [];
   const initials =
     authProvider.first_name.charAt(0) + authProvider.last_name.charAt(0);
-  // Use first gallery image as the header avatar
-  const avatarImage = gallery[0]
-    ? `${BASE_IMAGE_URL}/${gallery[0].image}`
-    : null;
   const businessHours: BusinessHour[] = authProvider.business_hours ?? [];
+
+  function handleProviderAvatarUploaded(newUrl: string, newId?: number | null) {
+    setAvatarImage(newUrl);
+    if (newId != null) {
+      setExistingProfileId(newId);
+    }
+    refreshAuth();
+  }
 
   return (
     <div className="mx-auto space-y-4">
@@ -70,21 +85,16 @@ export default function ProviderProfilePage() {
         <p className="text-3xl font-semibold tracking-tight">Profile</p>
       </div>
 
-      {/* Profile header — static avatar, no upload here */}
+      {/* Profile header — avatar upload for provider */}
       <div className="flex items-start gap-4 p-4 border-b border-gray-200 bg-white">
-        {avatarImage ? (
-          <img
-            src={avatarImage}
-            alt={authProvider.business_name}
-            className="w-20 h-20 rounded-lg object-cover border border-gray-200 shrink-0"
-          />
-        ) : (
-          <div className="w-20 h-20 rounded-lg border border-gray-200 bg-[#003225]/10 flex items-center justify-center shrink-0">
-            <span className="text-2xl font-bold text-[#003225]">
-              {initials}
-            </span>
-          </div>
-        )}
+        <ProfileAvatarUpload
+          name={`${authProvider.first_name} ${authProvider.last_name}`}
+          avatarUrl={avatarImage}
+          existingProfileId={existingProfileId}
+          uploadType="provider"
+          providerId={authProvider.id}
+          onUploaded={handleProviderAvatarUploaded}
+        />
         <div className="flex-1 min-w-0">
           <h1 className="text-xl font-bold text-[#003225] mb-0.5 truncate">
             {authProvider.business_name}
