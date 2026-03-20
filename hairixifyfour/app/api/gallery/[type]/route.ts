@@ -50,3 +50,46 @@ export async function POST(
     );
   }
 }
+
+export async function PUT(
+  request: NextRequest,
+  context: { params: Promise<{ type: string }> },
+) {
+  const { type } = await context.params; // "user" | "provider" | anything else
+  const authHeader = request.headers.get("authorization") ?? "";
+
+  try {
+    const body = await request.json();
+
+    const res = await fetch(`${BASE_URL}/${type}`, {
+      method: "PUT",
+      headers: {
+        "ACCESS-PASS-KEY": ACCESS_KEY,
+        Authorization: authHeader,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: data?.message ?? data?.error ?? "Gallery update failed",
+        },
+        { status: res.status },
+      );
+    }
+
+    return NextResponse.json({ success: true, data });
+  } catch (err) {
+    console.error(`[gallery/${type}] PUT`, err);
+    return NextResponse.json(
+      { success: false, message: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}
