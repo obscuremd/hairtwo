@@ -6,6 +6,7 @@ import { Edit, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { getStoredCredentials } from "@/utils/user";
 import { uploadImage } from "@/utils/upload";
+import { updateImage } from "@/utils/update";
 
 export interface ProfileAvatarUploadProps {
   name: string;
@@ -24,27 +25,34 @@ function getInitials(name: string): string {
 
 async function resizeImage(file: File, maxDimension: number): Promise<File> {
   const bitmap = await createImageBitmap(file);
+
   const ratio = Math.min(
     maxDimension / bitmap.width,
     maxDimension / bitmap.height,
     1,
   );
+
   const width = Math.round(bitmap.width * ratio);
   const height = Math.round(bitmap.height * ratio);
 
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
+
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("Failed to get canvas context");
+
   ctx.drawImage(bitmap, 0, 0, width, height);
 
   const blob = await new Promise<Blob | null>((resolve) =>
     canvas.toBlob(resolve, file.type || "image/jpeg", 0.92),
   );
+
   if (!blob) throw new Error("Image resize failed");
 
-  return new File([blob], file.name, { type: file.type || "image/jpeg" });
+  return new File([blob], file.name, {
+    type: file.type || "image/jpeg",
+  });
 }
 
 export function ProfileAvatarUpload({
@@ -56,14 +64,17 @@ export function ProfileAvatarUpload({
   onUploaded,
 }: ProfileAvatarUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [avatarUrlState, setAvatarUrlState] = useState<string | null>(
     avatarUrl,
   );
+
   const [uploading, setUploading] = useState(false);
   const [justUploaded, setJustUploaded] = useState(false);
   const [resizeDimension, setResizeDimension] = useState(512);
+
   const { token } = getStoredCredentials();
   const initials = getInitials(name);
 
@@ -73,14 +84,16 @@ export function ProfileAvatarUpload({
     setAvatarUrlState(avatarUrl);
   }, [avatarUrl]);
 
-  async function onFileSelected(e: React.ChangeEvent<HTMLInputElement>) {
+  // ─── File select ─────────────────────────────────────────────
+  function onFileSelected(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
 
     const localUrl = URL.createObjectURL(file);
+
     setSelectedFile(file);
     setPreviewUrl(localUrl);
-    setAvatarUrlState(localUrl); // Optimistic preview
+    setAvatarUrlState(localUrl); // optimistic preview
     if (inputRef.current) inputRef.current.value = "";
   }
 
@@ -89,36 +102,50 @@ export function ProfileAvatarUpload({
     setPreviewUrl(null);
     setJustUploaded(false);
     setResizeDimension(512);
-    setAvatarUrlState(avatarUrl);
   }
 
+  // ─── Upload handler ──────────────────────────────────────────
   async function handleUpload() {
     if (!selectedFile) return;
+
     setUploading(true);
 
     try {
-      const resizedFile = await resizeImage(selectedFile, resizeDimension);
+      const resizedFile = await resizeImage(
+        selectedFile,
+        resizeDimension,
+      );
+
       const pathHint =
         uploadType === "provider"
           ? `providers/${providerId ?? "me"}`
           : "users/profile";
-      const uploadResult = await uploadImage(resizedFile, pathHint);
+
+      const hasExistingProfile = existingProfileId != null;
+
+      // 🔥 Choose correct upload method
+      const uploadResult = hasExistingProfile
+        ? await updateImage(resizedFile, pathHint)
+        : await uploadImage(resizedFile, pathHint);
+
       if (!uploadResult.success || !uploadResult.imagePath) {
-        toast.error(uploadResult.message);
-        setUploading(false);
+        toast.error(uploadResult.message || "Upload failed");
         return;
       }
 
-      const hasExistingProfile = existingProfileId != null;
+      // ─── Save to DB ───────────────────────────────────────
       const method = hasExistingProfile ? "PUT" : "POST";
       const endpoint = `/api/gallery/${uploadType}`;
+
       const payload: Record<string, unknown> = {
         type_type: "profile",
         image: uploadResult.imagePath,
       };
+
       if (uploadType === "provider") {
         payload.type_id = providerId ?? undefined;
       }
+
       if (hasExistingProfile) {
         payload.id = existingProfileId;
       }
@@ -133,19 +160,29 @@ export function ProfileAvatarUpload({
       });
 
       const data = await res.json();
-      console.log("upload response:", data);
+
       if (!res.ok || !data.success || data.errors) {
         toast.error(data.message ?? "Failed to update profile photo");
-        setUploading(false);
         return;
       }
 
       const finalUrl = `https://api5.project.hairxify.com/${uploadResult.imagePath}`;
+
+      // ─── UI update ───────────────────────────────────────
       setAvatarUrlState(finalUrl);
       setJustUploaded(true);
+
       setTimeout(() => setJustUploaded(false), 600);
-      toast.success("Profile photo updated");
+
+      toast.success(
+        hasExistingProfile
+          ? "Profile photo updated"
+          : "Profile photo uploaded",
+      );
+
+      // notify parent (important for persistence)
       onUploaded?.(finalUrl, existingProfileId ?? null);
+
       resetSelection();
     } catch (error) {
       console.error(error);
@@ -155,6 +192,7 @@ export function ProfileAvatarUpload({
     }
   }
 
+  // ─── UI ─────────────────────────────────────────────────────
   return (
     <div className="space-y-2">
       <div
@@ -170,7 +208,7 @@ export function ProfileAvatarUpload({
             }`}
           />
         ) : (
-          <div className="size-20 rounded-full bg-[#3ad688] text-[#003226] text-2xl font-bold flex items-center justify-center shrink-0">
+          <div className="size-20 rounded-full bg-[#3ad688] text-[#003226] text-2xl font-bold flex items-center justify-center">
             {initials}
           </div>
         )}
@@ -203,7 +241,12 @@ export function ProfileAvatarUpload({
             >
               Cancel
             </Button>
-            <Button size="sm" onClick={handleUpload} disabled={uploading}>
+
+            <Button
+              size="sm"
+              onClick={handleUpload}
+              disabled={uploading}
+            >
               {uploading ? "Uploading…" : "Upload"}
             </Button>
           </div>
