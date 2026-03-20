@@ -34,6 +34,7 @@ export async function GetAuthUser(): Promise<GetAuthUserResponse> {
     });
 
     const data = response.data.data;
+    // console.log("api user", response.data);
 
     if (response.data.success) {
       return {
@@ -44,6 +45,7 @@ export async function GetAuthUser(): Promise<GetAuthUserResponse> {
           full_name: data.full_name,
           email: data.email,
           roles: data.roles,
+          profile: data.profile,
         },
       };
     }

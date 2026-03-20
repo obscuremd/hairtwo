@@ -5,12 +5,7 @@ import { useEffect, useState } from "react";
 import { UseGen } from "@/context/GeneralContext";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import {
-  ExternalLink,
-  LogOut,
-  Mail,
-  Shield,
-} from "lucide-react";
+import { ExternalLink, LogOut, Mail, Shield } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getStoredCredentials } from "@/utils/user";
@@ -64,19 +59,42 @@ export default function ProfilePage() {
   }
 
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [existingProfileId, setExistingProfileId] = useState<number | null>(null);
-  const BASE_URL = "https://api5.project.hairxify.com";
+  const [existingProfileId, setExistingProfileId] = useState<number | null>(
+    null,
+  );
 
   useEffect(() => {
     async function loadAvatar() {
+      const BASE_URL = "https://api5.project.hairxify.com";
+
+      // ── Provider (unchanged, just safer) ──
       if (authProvider && authUser?.roles.includes("provider")) {
-        const gallery = (authProvider.user.gallery ?? []) as Gallery[];
-        const profilePhoto = gallery.find((item) => item.type === "profile");
+        const gallery = (authProvider.user?.gallery ?? []) as Gallery[];
+
+        const profilePhoto = gallery.find(
+          (item) => item.type === "profile" && item.image?.trim() !== "",
+        );
+
         setAvatarUrl(profilePhoto ? `${BASE_URL}/${profilePhoto.image}` : null);
         setExistingProfileId(profilePhoto?.id ?? null);
         return;
       }
 
+      // ── Try using authUser.profile first (NEW) ──
+      if (authUser?.profile) {
+        const profiles = Object.values(authUser.profile || {});
+        const profilePhoto = profiles.find(
+          (item) => item.image && item.image.trim() !== "",
+        );
+
+        if (profilePhoto) {
+          setAvatarUrl(`${BASE_URL}/${profilePhoto.image}`);
+          setExistingProfileId(profilePhoto.id);
+          return; // ✅ avoid unnecessary fetch
+        }
+      }
+
+      // ── Fallback: fetch from API (existing logic, slightly cleaned) ──
       const { token } = getStoredCredentials();
       if (!token) {
         setAvatarUrl(null);
@@ -88,16 +106,22 @@ export default function ProfilePage() {
         const res = await fetch("/api/user/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
+
         if (!res.ok) return;
+
         const body = await res.json();
         const me = body.data?.user ?? body.data ?? body;
+
         const gallery = (me.gallery ?? me.user?.gallery ?? []) as Gallery[];
-        const profilePhoto = gallery.find((item) => item.type === "profile");
+
+        const profilePhoto = gallery.find(
+          (item) => item.type === "profile" && item.image?.trim() !== "",
+        );
 
         setAvatarUrl(profilePhoto ? `${BASE_URL}/${profilePhoto.image}` : null);
         setExistingProfileId(profilePhoto?.id ?? null);
       } catch {
-        // fallback
+        // silent fail
       }
     }
 

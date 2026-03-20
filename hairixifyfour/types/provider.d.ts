@@ -60,6 +60,7 @@ interface AuthUser {
   full_name: string;
   email: string;
   roles: Array<string>; // "provider" | "client" | etc.
+  profile: Gallery[];
 }
 
 interface AuthProvider {

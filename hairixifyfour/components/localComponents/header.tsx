@@ -33,6 +33,7 @@ import RegisterDialog from "../screenComponents/Auth/RegisterDialog";
 import { UseGen } from "@/context/GeneralContext";
 import { Skeleton } from "../ui/skeleton";
 import { Avatar, getInitials } from "./InitialsAvater";
+import Image from "next/image";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -99,6 +100,12 @@ function ProfileMenu() {
   const name = authUser.full_name || authUser.email || "user";
   const isProvider = authUser?.roles?.includes("provider");
 
+  const formattedUser = {
+    ...authUser,
+    profile: Object.values(authUser.profile),
+  };
+  const profileImage = formattedUser?.profile?.[0]?.image;
+
   function handleLogout() {
     logout();
     router.push("/");
@@ -108,7 +115,17 @@ function ProfileMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-2 rounded-lg border border-[#3ad688] px-2.5 py-1.5 hover:bg-[#ffffff10] transition-colors">
-          <Avatar name={name} />
+          {profileImage ? (
+            <Image
+              src={`https://api5.project.hairxify.com/${profileImage}`}
+              width={32}
+              height={32}
+              alt={formattedUser.full_name}
+              className="size-8 rounded-full object-cover shrink-0"
+            />
+          ) : (
+            <Avatar name={formattedUser.full_name} size="sm" />
+          )}
           <span className="text-sm text-white font-medium max-w-[100px] truncate hidden sm:block">
             {name.split(" ")[0]}
           </span>
