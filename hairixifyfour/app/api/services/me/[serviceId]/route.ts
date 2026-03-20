@@ -55,15 +55,13 @@ export async function PUT(request: NextRequest, context: RouteContext) {
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } },
-) {
-  const { id } = params;
+export async function DELETE(request: NextRequest, context: RouteContext) {
+  const { serviceId } = await context.params;
+
   const authHeader = request.headers.get("authorization") ?? "";
 
   try {
-    const res = await fetch(`${API_BASE}/${id}`, {
+    const res = await fetch(`${API_BASE}/${serviceId}`, {
       method: "DELETE",
       headers: {
         "ACCESS-PASS-KEY": ACCESS_KEY,
@@ -83,7 +81,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error(`[me/provider/service/${id}]`, err);
+    console.error(`[me/provider/service/${serviceId}]`, err);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 },
