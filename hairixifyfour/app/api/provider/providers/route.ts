@@ -1,23 +1,18 @@
-import axios from "axios";
 import { NextResponse } from "next/server";
+import { apiCall } from "@/utils/apiCall";
+import { API_ENDPOINTS } from "../../endpoints";
 
-const API_URL = "https://api5.project.hairxify.com/api/providersfe/";
+
 
 export async function GET() {
-  try {
-    const response = await axios.get(API_URL, {
-      headers: {
-        "ACCESS-PASS-KEY": process.env.ACCESS_PASS_KEY!,
-        Accept: "application/json",
-      },
-    });
+  const result = await apiCall(API_ENDPOINTS.GET_PROVIDERS);
 
-    return NextResponse.json(response.data, { status: 200 });
-  } catch (error) {
-    console.log(error);
+  if (!result.ok) {
     return NextResponse.json(
-      { success: false, message: "Failed to fetch locations" },
-      { status: 500 },
+      { success: false, message: "Failed to fetch providers" },
+      { status: result.status },
     );
   }
+
+  return NextResponse.json(result.data, { status: 200 });
 }

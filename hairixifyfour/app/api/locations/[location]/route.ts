@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const BASE_URL = "https://api5.project.hairxify.com/api/location";
+import { apiCall } from "@/utils/apiCall";
+import { API_ENDPOINTS } from "../../endpoints";
 
 const ALLOWED_LOCATIONS = ["state", "local", "area"];
 
@@ -8,7 +8,7 @@ export async function GET(
   request: NextRequest,
   context: { params: Promise<{ location: string }> },
 ) {
-  const { location } = await context.params; // ✅ NEW (Next 15)
+  const { location } = await context.params;
 
   // ✅ Prevent random endpoint abuse
   if (!ALLOWED_LOCATIONS.includes(location)) {
@@ -18,22 +18,14 @@ export async function GET(
     );
   }
 
-  try {
-    const res = await fetch(`${BASE_URL}/${location}`, {
-      headers: {
-        "ACCESS-PASS-KEY": process.env.ACCESS_PASS_KEY!,
-        Accept: "application/json",
-      },
-      cache: "no-store", // optional (avoids caching)
-    });
+  const result = await apiCall(`${API_ENDPOINTS.GET_LOCATION}/${location}`);
 
-    const data = await res.json();
-
-    return NextResponse.json(data, { status: res.status });
-  } catch (error) {
+  if (!result.ok) {
     return NextResponse.json(
       { success: false, message: "Failed to fetch locations" },
-      { status: 500 },
+      { status: result.status },
     );
   }
+
+  return NextResponse.json(result.data, { status: 200 });
 }

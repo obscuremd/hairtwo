@@ -1,7 +1,6 @@
-import axios from "axios";
 import { NextResponse } from "next/server";
-
-const API_URL = "https://api5.project.hairxify.com/api/me";
+import { apiCall } from "@/utils/apiCall";
+import { API_ENDPOINTS } from "../../endpoints";
 
 export async function GET(request: Request) {
   const token = request.headers.get("Authorization");
@@ -13,21 +12,18 @@ export async function GET(request: Request) {
     );
   }
 
-  try {
-    const response = await axios.get(API_URL, {
-      headers: {
-        Authorization: token,
-        "ACCESS-PASS-KEY": process.env.ACCESS_PASS_KEY!,
-        Accept: "application/json",
-      },
-    });
+  const result = await apiCall(API_ENDPOINTS.GET_ME, {
+    headers: {
+      Authorization: token,
+    },
+  });
 
-    return NextResponse.json(response.data, { status: 200 });
-  } catch (error) {
-    console.log(error);
+  if (!result.ok) {
     return NextResponse.json(
       { success: false, message: "Failed to fetch authenticated provider" },
-      { status: 500 },
+      { status: result.status },
     );
   }
+
+  return NextResponse.json(result.data, { status: 200 });
 }
