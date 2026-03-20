@@ -35,7 +35,6 @@ import { Skeleton } from "../ui/skeleton";
 import { Avatar, getInitials } from "./InitialsAvater";
 import Image from "next/image";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
 
 interface SubCat {
   id: number;

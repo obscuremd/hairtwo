@@ -26,6 +26,8 @@ import { EditGalleryDialog } from "@/components/screenComponents/Dashboard/profi
 import { EditProviderSheet } from "@/components/screenComponents/Dashboard/profile/EditProviderSheet";
 import { getStoredCredentials } from "@/utils/user";
 import { toast } from "sonner";
+import Image from "next/image";
+import { Avatar } from "@/components/localComponents/InitialsAvater";
 
 const BASE_IMAGE_URL = "https://api5.project.hairxify.com";
 const DAY_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -79,6 +81,17 @@ export default function ProviderProfilePage() {
     if (newId != null) setExistingProfileId(newId);
     refreshAuth();
   }
+   if (!authUser) return null;
+  console.log("profile user", authUser);
+
+  const name = authUser.full_name || authUser.email || "user";
+  const isProvider = authUser?.roles?.includes("provider");
+
+  const formattedUser = {
+    ...authUser,
+    profile: Object.values(authUser.profile),
+  };
+  const profileImage = formattedUser?.profile?.[0]?.image;
 
   return (
     <div className="mx-auto space-y-4">
@@ -91,14 +104,29 @@ export default function ProviderProfilePage() {
 
       {/* Profile header */}
       <div className="flex items-start gap-4 p-4 border-b border-gray-200 bg-white">
-        <ProfileAvatarUpload
+        {/* <ProfileAvatarUpload
           name={`${authProvider.first_name} ${authProvider.last_name}`}
           avatarUrl={avatarImage}
           existingProfileId={existingProfileId}
           uploadType="provider"
           providerId={authProvider.id}
           onUploaded={handleProviderAvatarUploaded}
+        /> */}
+            {profileImage ? (
+        <Image
+          src={`https://api5.project.hairxify.com/${profileImage}`}
+          width={64}
+          height={64}
+          alt={formattedUser.full_name}
+          className="w-16 h-16 rounded-full object-cover shrink-0"
         />
+      ) : (
+        <Avatar
+          name={formattedUser.full_name}
+          size="md"
+        />
+      )}
+                  <span/>
         <div className="flex-1 min-w-0">
           <h1 className="text-xl font-bold text-[#003225] mb-0.5 truncate">
             {authProvider.business_name}
